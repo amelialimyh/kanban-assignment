@@ -14,7 +14,6 @@
     "nodemon": "^2.0.15",
     "pug": "^3.0.2"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/amelialimyh/kanban-assignment.git"
@@ -22,5 +21,6 @@
   "bugs": {
     "url": "https://github.com/amelialimyh/kanban-assignment/issues"
   },
-  "homepage": "https://github.com/amelialimyh/kanban-assignment#readme"
+  "homepage": "https://github.com/amelialimyh/kanban-assignment#readme",
+  "devDependencies": {}
 }
