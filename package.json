@@ -1,0 +1,26 @@
+{
+  "name": "login",
+  "version": "1.0.0",
+  "description": "An example app to learn about open redirect vulnerability",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Me",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.2",
+    "express": "^4.17.3",
+    "express-session": "^1.17.2",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.15",
+    "pug": "^3.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amelialimyh/kanban-assignment.git"
+  },
+  "bugs": {
+    "url": "https://github.com/amelialimyh/kanban-assignment/issues"
+  },
+  "homepage": "https://github.com/amelialimyh/kanban-assignment#readme",
+  "devDependencies": {}
+}
