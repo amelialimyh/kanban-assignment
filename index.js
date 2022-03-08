@@ -61,25 +61,25 @@ app.get('/', (req, res) => {
   res.render('index', {isLoggedIn: req.session.isLoggedIn});
 });
 
-// app.get('/balance', (req, res) => {
-//   if (req.session.isLoggedIn === true) {
-//     res.send('Your account balance is $1234.52');
-//   } else {
-//     res.redirect('/login?redirect_url=/balance');
-//   }
-// });
+app.get('/balance', (req, res) => {
+  if (req.session.isLoggedIn === true) {
+    res.send('Your account balance is $1234.52');
+  } else {
+    res.redirect('/login?redirect_url=/balance');
+  }
+});
 
-// app.get('/account', (req, res) => {
-//   if (req.session.isLoggedIn === true) {
-//     res.send('Your account number is ACL9D42294');
-//   } else {
-//     res.redirect('/login?redirect_url=/account');
-//   }
-// });
+app.get('/account', (req, res) => {
+  if (req.session.isLoggedIn === true) {
+    res.send('Your account number is ACL9D42294');
+  } else {
+    res.redirect('/login?redirect_url=/account');
+  }
+});
 
-// app.get('/contact', (req, res) => {
-//   res.send('Our address : 321 Main Street, Beverly Hills.');
-// });
+app.get('/contact', (req, res) => {
+  res.send('Our address : 321 Main Street, Beverly Hills.');
+});
 
 const port = process.env.PORT
 app.listen(port, 
