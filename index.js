@@ -1,13 +1,36 @@
-const express = require('express');
+const express = require("express");
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const mysql = require("mysql");
+const bcrypt = require("bcrypt");
+require('./dbServer');
+require('./createUser');
+require('./authenticate');
+require("dotenv").config();
+
 const app = express();
-const port = 3000;
 
 // Inititalize the app and add middleware
 app.set('view engine', 'pug'); // Setup the pug
 app.use(bodyParser.urlencoded({extended: true})); // Setup the body parser to handle form submits
 app.use(session({secret: 'super-secret'})); // Session setup
+
+const DB_HOST = process.env.DB_HOST
+const DB_USER = process.env.DB_USER
+const DB_PASSWORD = process.env.DB_PASSWORD
+const DB_EMAIL = process.env.DB_EMAIL
+const DB_DATABASE = process.env.DB_DATABASE
+const DB_PORT = process.env.DB_PORT
+
+const db = mysql.createPool({
+  connectionLimit: 100,
+  host: DB_HOST,
+  user: DB_USER,
+  password: DB_PASSWORD,
+  email: DB_EMAIL,
+  database: DB_DATABASE,
+  port: DB_PORT
+});
 
 /** Handle login display and form submit */
 app.get('/login', (req, res) => {
@@ -58,7 +81,6 @@ app.get('/contact', (req, res) => {
   res.send('Our address : 321 Main Street, Beverly Hills.');
 });
 
-/** App listening on port */
-app.listen(port, () => {
-  console.log(`MyBank app listening at http://localhost:${port}`);
-});
+const port = process.env.PORT
+app.listen(port, 
+() => console.log(`Server Started on port ${port}...`));
