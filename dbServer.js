@@ -22,3 +22,5 @@ const db = mysql.createPool({
    database: DB_DATABASE,
    port: DB_PORT
 });
+
+module.exports = db;
