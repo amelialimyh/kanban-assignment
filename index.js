@@ -22,7 +22,7 @@ const DB_EMAIL = process.env.DB_EMAIL
 const DB_DATABASE = process.env.DB_DATABASE
 const DB_PORT = process.env.DB_PORT
 
-const db = mysql.createPool({
+let db = mysql.createPool({
   connectionLimit: 100,
   host: DB_HOST,
   user: DB_USER,
@@ -31,6 +31,14 @@ const db = mysql.createPool({
   database: DB_DATABASE,
   port: DB_PORT
 });
+
+db.getConnection( (error) => {
+  if(error) {
+    console.log(error);
+  } else {
+    console.log("MySQL connected...");
+  }
+})
 
 /** Handle login display and form submit */
 app.get('/login', (req, res) => {
@@ -42,7 +50,15 @@ app.get('/login', (req, res) => {
 
 app.post('/login', (req, res) => {
   const {username, password} = req.body;
-  if (username === 'bob' && password === '1234') {
+  if (username && password) {
+    // var sql = "SELECT * FROM accounts WHERE username = ?";
+    // db.query(sql, [username], function(error, results, fields) {
+    //   if (error) throw error;
+    //   if(results.length > 0 ) {
+    //     var validPwd = bcrypt.compareSync(password, results[0].password);
+    //     console.log(validPwd);   
+    //   }
+    // })
     req.session.isLoggedIn = true;
     res.redirect(req.query.redirect_url ? req.query.redirect_url : '/');
   } else {
@@ -80,6 +96,7 @@ app.get('/account', (req, res) => {
 app.get('/contact', (req, res) => {
   res.send('Our address : 321 Main Street, Beverly Hills.');
 });
+
 
 const port = process.env.PORT
 app.listen(port, 
