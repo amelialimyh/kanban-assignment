@@ -6,6 +6,10 @@
 body {
     background-color: #435165;
 }
+.container-fluid {
+    display: flex;
+    flex-direction: column;
+}
 .login {
     width: 400px;
     background-color: #ffffff;
