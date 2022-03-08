@@ -1,10 +1,12 @@
 html
   head 
-    title="MyBank"
+    title="Task Management"
     link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet")
+    link(rel="stylesheet", href="/style.css")
   body 
     div(class="container")
-      h2(class="pb-2 border-bottom")="MyBank Login"
+      h1(class="pb-2")="Task Management"
+      h3(class="pb-2")="Login"
       if error 
         p(class="alert alert-danger")=error
 
@@ -18,4 +20,7 @@ html
         div(class="col-auto")
           button(type="submit" class="btn btn-primary mb-3")="Login"
         
-        a(href='/') Reset Password
+        a(href='/')="Back to homepage"
+
+    script(src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous")
+    script(src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous") 
