@@ -14,8 +14,6 @@ const app = express();
 app.set('view engine', 'pug'); // Setup the pug
 app.use(bodyParser.urlencoded({extended: true})); // Setup the body parser to handle form submits
 app.use(session({secret: 'super-secret'})); // Session setup
-// app.use(express.static(path.join(__dirname, 'static')));
-
 
 const DB_HOST = process.env.DB_HOST
 const DB_USER = process.env.DB_USER
