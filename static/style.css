@@ -9,6 +9,10 @@ body {
     background-color: #435165;
     font-family: 'Montserrat', sans-serif;
 }
+#header {
+    text-decoration: none;
+    font-size: 35px;
+}
 .login {
     width: 400px;
     background-color: #ffffff;
