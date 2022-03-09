@@ -25,10 +25,24 @@ a {
     color: rgb(146, 142, 142);
     text-decoration: none;
 }
-a#register-link {
+#login-link:hover {
+    color: rgb(104, 101, 101);
+}
+#register-link {
     font-size: 18px;
     color: rgb(221, 151, 134);
     text-decoration: none;
+}
+a#register-link:hover {
+    color: rgb(175, 101, 83);
+}
+a#logout-link {
+    font-size: 18px;
+    color: rgb(221, 151, 134);
+    text-decoration: none;
+}
+a#logout-link:hover {
+    color: rgb(163, 83, 62);
 }
 #login-btn {
     border: none;
