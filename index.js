@@ -10,13 +10,6 @@ require("dotenv").config();
 
 const app = express();
 
-// Inititalize the app and add middleware
-app.set('view engine', 'pug'); // Setup the pug
-app.use(bodyParser.urlencoded({extended: true})); // Setup the body parser to handle form submits
-app.use(session({secret: 'super-secret'})); // Session setup
-// app.use(express.static(path.join(__dirname, 'static')));
-
-
 const DB_HOST = process.env.DB_HOST
 const DB_USER = process.env.DB_USER
 const DB_PASSWORD = process.env.DB_PASSWORD
@@ -41,6 +34,24 @@ db.getConnection( (error) => {
     console.log("MySQL connected...");
   }
 })
+
+// Inititalize the app and add middleware
+app.set('view engine', 'pug'); // Setup the pug
+app.use(bodyParser.urlencoded({extended: true})); // Setup the body parser to handle form submits
+app.use(session({secret: 'super-secret'})); // Session setup
+
+// const publicDirectory = path.join(__dirname, './public');
+// app.use(express.static(publicDirectory));
+
+// Parse URL-encoded bodies (sent by PUG forms) <-- make sure that you can grab the data in any form
+app.use(express.urlencoded({ extended: false }));
+
+// Parse JSON bodies (as sent by API clients) <-- the values that you grab from the form comes in JSON
+app.use(express.json());
+
+// Define routes
+app.use('/', require('./routes/pages'));
+app.use('/auth', require('./routes/auth'));
 
 /** Handle login display and form submit */
 app.get('/login', (req, res) => {
