@@ -40,6 +40,11 @@ db.getConnection( (error) => {
   }
 })
 
+// Create user account
+app.get('/register', (req, res) => {
+  res.render('register');
+});
+
 /** Handle login display and form submit */
 app.get('/login', (req, res) => {
   if (req.session.isLoggedIn === true) {
