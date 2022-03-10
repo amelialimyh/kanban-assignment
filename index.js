@@ -13,7 +13,7 @@ const app = express();
 // destructure DB variables
 const { DB_HOST, DB_USER, DB_PASSWORD, DB_EMAIL, DB_DATABASE, DB_PORT} = process.env;
 
-let db = mysql.createPool({
+const db = mysql.createPool({
   connectionLimit: 100,
   host: DB_HOST,
   user: DB_USER,
@@ -35,9 +35,7 @@ db.getConnection( (error) => {
 app.set('view engine', 'pug'); // Setup the pug
 app.use(bodyParser.urlencoded({extended: true})); // Setup the body parser to handle form submits
 app.use(session({secret: 'super-secret'})); // Session setup
-
-// const publicDirectory = path.join(__dirname, './public');
-// app.use(express.static(publicDirectory));
+app.set('views', __dirname + '/views');
 
 // Parse URL-encoded bodies (sent by PUG forms) <-- make sure that you can grab the data in any form
 app.use(express.urlencoded({ extended: false }));
@@ -47,6 +45,7 @@ app.use(express.json());
 
 // Define routes
 app.use('/', require('./routes/pages'));
+app.use('/register', require('./routes/pages'));
 app.use('/auth', require('./routes/auth'));
 
 /** Handle login display and form submit */
