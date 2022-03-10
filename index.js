@@ -47,63 +47,11 @@ app.use(express.json());
 app.use('/', require('./routes/pages'));
 app.use('/register', require('./routes/pages'));
 app.use('/auth', require('./routes/auth'));
-
-/** Handle login display and form submit */
-app.get('/login', (req, res) => {
-  if (req.session.isLoggedIn === true) {
-    return res.redirect('/');
-  }
-  res.render('login', {error: false});
-});
-
-app.post('/login', (req, res) => {
-  const {username, password} = req.body;
-  if (username && password) {
-    // var sql = "SELECT * FROM accounts WHERE username = ?";
-    // db.query(sql, [username], function(error, results, fields) {
-    //   if (error) throw error;
-    //   if(results.length > 0 ) {
-    //     var validPwd = bcrypt.compareSync(password, results[0].password);
-    //     console.log(validPwd);   
-    //   }
-    // })
-    req.session.isLoggedIn = true;
-    res.redirect(req.query.redirect_url ? req.query.redirect_url : '/');
-  } else {
-    res.render('login', {error: 'Username or password is incorrect'});
-  }
-});
-
-/** Handle logout function */
-app.get('/logout', (req, res) => {
-  req.session.isLoggedIn = false;
-  res.redirect('/');
-});
-
-/** Simulated bank functionality */
-app.get('/', (req, res) => {
-  res.render('index', {isLoggedIn: req.session.isLoggedIn});
-});
-
-app.get('/balance', (req, res) => {
-  if (req.session.isLoggedIn === true) {
-    res.send('Your account balance is $1234.52');
-  } else {
-    res.redirect('/login?redirect_url=/balance');
-  }
-});
-
-app.get('/account', (req, res) => {
-  if (req.session.isLoggedIn === true) {
-    res.send('Your account number is ACL9D42294');
-  } else {
-    res.redirect('/login?redirect_url=/account');
-  }
-});
-
-app.get('/contact', (req, res) => {
-  res.send('Our address : 321 Main Street, Beverly Hills.');
-});
+app.use('/login', require('./routes/pages'));
+app.use('/logout', require('./routes/pages'));
+app.use('/balance', require('./routes/pages'));
+app.use('/account', require('./routes/pages'));
+app.use('/contact', require('./routes/pages'));
 
 const port = process.env.PORT
 app.listen(port, 
