@@ -35,5 +35,5 @@ exports.register = (req, res) => {
             });
         }
     })
-    res.render('login');
+    res.send("Form submitted");
 }
