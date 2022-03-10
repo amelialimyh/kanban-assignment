@@ -7,12 +7,7 @@ const app = express();
 
 app.use(express.json())
 
-const DB_HOST = process.env.DB_HOST
-const DB_USER = process.env.DB_USER
-const DB_PASSWORD = process.env.DB_PASSWORD
-const DB_EMAIL = process.env.DB_EMAIL
-const DB_DATABASE = process.env.DB_DATABASE
-const DB_PORT = process.env.DB_PORT
+const { DB_HOST, DB_USER, DB_PASSWORD, DB_EMAIL, DB_DATABASE, DB_PORT} = process.env;
 
 const db = mysql.createPool({
   connectionLimit: 100,
@@ -30,10 +25,10 @@ app.post("/createUser", async (req,res) => {
     const hashedPassword = await bcrypt.hash(req.body.password,10);
     db.getConnection( async (err, connection) => {
         if (err) throw (err)
-        const sqlSearch = "SELECT * FROM userTable WHERE user = ?"
+        const sqlSearch = "SELECT * FROM accounts WHERE user = ?"
         const search_query = mysql.format(sqlSearch,[user])
-        const sqlInsert = "INSERT INTO userTable VALUES (0,?,?)"
-        const insert_query = mysql.format(sqlInsert,[user, hashedPassword])
+        const sqlInsert = "INSERT INTO accounts VALUES (0,?,?)"
+        const insert_query = mysql.format(sqlInsert,[user, hashedPassword, email])
         // ? will be replaced by values
         // ?? will be replaced by string
         await connection.query (search_query, async (err, result) => {
