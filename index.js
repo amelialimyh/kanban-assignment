@@ -45,13 +45,7 @@ app.use(express.json());
 
 // Define routes
 app.use('/', require('./routes/pages'));
-app.use('/register', require('./routes/pages'));
 app.use('/auth', require('./routes/auth'));
-app.use('/login', require('./routes/pages'));
-app.use('/logout', require('./routes/pages'));
-app.use('/balance', require('./routes/pages'));
-app.use('/account', require('./routes/pages'));
-app.use('/contact', require('./routes/pages'));
 
 const port = process.env.PORT
 app.listen(port, 

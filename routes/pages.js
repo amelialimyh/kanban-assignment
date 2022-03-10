@@ -38,6 +38,11 @@ router.post('/login', (req, res) => {
   }
 });
 
+// Reset password
+router.get('/resetpassword', (req, res) => {
+  res.render('resetpassword');
+});
+
 /** Handle logout function */
 router.get('/logout', (req, res) => {
   req.session.isLoggedIn = false;
