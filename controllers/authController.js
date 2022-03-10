@@ -1,4 +1,6 @@
 const mysql = require('mysql');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 const { DB_HOST, DB_USER, DB_PASSWORD, DB_EMAIL, DB_DATABASE, DB_PORT} = process.env;
 
@@ -19,7 +21,7 @@ exports.register = (req, res) => {
     const { name, email, password, passwordConfirm } = req.body;
 
     // query the database
-    db.query('SELECT email FROM accounts WHERE email = ?', [email], (error, results) => {
+    db.query('SELECT email FROM accounts WHERE email = ?', [email], async (error, results) => {
         if(error) {
             console.log(error);
         }
@@ -34,6 +36,20 @@ exports.register = (req, res) => {
                 message: 'Passwords do not match'
             });
         }
-    })
-    res.send("Form submitted");
+
+        let hashedPassword = await bcrypt.hash(password, 8);
+        console.log(hashedPassword);
+
+        // add new user into accounts table
+        db.query('INSERT INTO accounts SET ?', {name: name, email: email, password: hashedPassword }, (error, results) => {
+            if(error) {
+                console.log(error);
+            } else {
+                res.render('register', {
+                    message: 'User registered'
+                });
+            }
+        });
+    });
+    
 }
