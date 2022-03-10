@@ -44,11 +44,11 @@ a#logout-link {
 a#logout-link:hover {
     color: rgb(163, 83, 62);
 }
-#login-btn {
+.btn-primary {
     border: none;
     background-color: rgb(228, 135, 135);
 }
-#login-btn:hover {
+.btn-primary:hover {
     background-color: rgb(173, 99, 99);
 }
 .login {
