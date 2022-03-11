@@ -1,4 +1,5 @@
 const express = require('express');
+const db = require('../dbServer');
 const router = express.Router();
 
 // Homepage
@@ -20,22 +21,29 @@ router.get('/login', (req, res) => {
   res.render('login', {error: false});
 });
 
+// validate user login
 router.post('/login', (req, res) => {
+  console.log(req.body);
+
+  // capture the username and password that the user input in form
   const {username, password} = req.body;
-  if (username && password) {
-    // var sql = "SELECT * FROM accounts WHERE username = ?";
-    // db.query(sql, [username], function(error, results, fields) {
-    //   if (error) throw error;
-    //   if(results.length > 0 ) {
-    //     var validPwd = bcrypt.compareSync(password, results[0].password);
-    //     console.log(validPwd);   
-    //   }
-    // })
-    req.session.isLoggedIn = true;
-    res.redirect(req.query.redirect_url ? req.query.redirect_url : '/');
-  } else {
-    res.render('login', {error: 'Username or password is incorrect'});
-  }
+
+  // check if user exists and if the username and password are correct
+  db.query (
+    "SELECT * FROM accounts WHERE name = ? AND password = ?",
+    [username, password],
+    (err, result) => {
+      // if result exists, allow user to login
+      if (result.length > 0 ) {
+        res.render('index', {isLoggedIn: req.session.isLoggedIn});
+      }
+      // return the error message to user
+      else {
+        res.render('login', {
+          message: 'Username or password is incorrect'});
+      } 
+    }
+  )
 });
 
 // Reset password
