@@ -34,8 +34,6 @@ router.post('/login', (req, res) => {
   db.query (sql,[username], (err, result) => {
     if(err) throw err;
     
-    console.log(result);
-
     if (bcrypt.compareSync(password, result[0].password)){
       req.session.isLoggedIn = true;
       res.redirect('/');
