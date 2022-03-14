@@ -14,25 +14,21 @@ const db = mysql.createPool({
   port: DB_PORT
 });
 
-exports.register = (req, res) => {
+// reset password
+exports.reset = (req, res) => {
     console.log(req.body);
 
     // destructure new_user form variables
-    const { name, email, password, passwordConfirm } = req.body;
+    const { name, password, passwordConfirm } = req.body;
 
     // query the database
-    db.query('SELECT email FROM accounts WHERE email = ?', [email], async (error, results) => {
+    db.query('SELECT name FROM accounts WHERE name = ?', [name], async (error, result) => {
         if(error) {
             console.log(error);
         }
 
-        if(results.length > 0 ) {
-            res.render('register', {
-                message: 'That email is already in use'
-            });
-        } 
-        else if ( password !== passwordConfirm ) {
-            res.render('register', {
+        if( password !== passwordConfirm ) {
+            res.render('resetpassword', {
                 message: 'Passwords do not match'
             });
         }
@@ -41,14 +37,14 @@ exports.register = (req, res) => {
         console.log(hashedPassword);
 
         // add new user into accounts table
-        db.query('INSERT INTO accounts SET ?', {name: name, email: email, password: hashedPassword }, (error, results) => {
+        db.query('UPDATE accounts SET password = ? WHERE name = ?', [ hashedPassword, name], (error, result) => {
             if(error) {
                 console.log(error);
             } else {
-                res.render('register', {
-                    message: 'User registered'
+                res.render('resetpassword', {
+                    message: 'Password has been updated'
                 });
             }
         });
-    });
+    });    
 }
