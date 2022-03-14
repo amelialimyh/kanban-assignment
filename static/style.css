@@ -44,6 +44,14 @@ a#logout-link {
 a#logout-link:hover {
     color: rgb(163, 83, 62);
 }
+a#change-email-link {
+    font-size: 18px;
+    color: rgb(151, 146, 145);
+    text-decoration: none;
+}
+a#change-email-link:hover {
+    color: rgb(124, 122, 121);
+}
 .btn-primary {
     border: none;
     background-color: rgb(228, 135, 135);
