@@ -1,6 +1,8 @@
 const express = require('express');
 const db = require('../dbServer');
 const router = express.Router();
+const bcrypt = require('bcryptjs');
+const mysql = require('mysql');
 
 // Homepage
 // Simulated bank functionality
@@ -28,22 +30,22 @@ router.post('/login', (req, res) => {
   // capture the username and password that the user input in form
   const {username, password} = req.body;
 
-  // check if user exists and if the username and password are correct
-  db.query (
-    "SELECT * FROM accounts WHERE name = ? AND password = ?",
-    [username, password],
-    (err, result) => {
-      // if result exists, allow user to login
-      if (result.length > 0 ) {
-        res.render('index', {isLoggedIn: req.session.isLoggedIn});
-      }
-      // return the error message to user
-      else {
-        res.render('login', {
-          message: 'Username or password is incorrect'});
-      } 
+  var sql = "SELECT * FROM accounts WHERE name = ?;";
+  db.query (sql,[username], (err, result) => {
+    if(err) throw err;
+    
+    console.log(result);
+
+    if (bcrypt.compareSync(password, result[0].password)){
+      req.session.isLoggedIn = true;
+      res.redirect('/');
+    } 
+    else {
+      res.render('Login', {
+        message: 'Incorrect username or password'
+      });
     }
-  )
+  })
 });
 
 // Reset password
