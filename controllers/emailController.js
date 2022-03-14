@@ -14,12 +14,12 @@ const db = mysql.createPool({
   port: DB_PORT
 });
 
-// reset password
+// change email
 exports.changeEmail = (req, res) => {
     console.log(req.body);
 
     // destructure new_user form variables
-    const { name, password, passwordConfirm } = req.body;
+    const { name, email, emailConfirm } = req.body;
 
     // query the database
     db.query('SELECT name FROM accounts WHERE name = ?', [name], async (error, result) => {
@@ -27,24 +27,23 @@ exports.changeEmail = (req, res) => {
             console.log(error);
         }
 
-        if( password !== passwordConfirm ) {
-            res.render('resetpassword', {
-                message: 'Passwords do not match'
+        if( email !== emailConfirm ) {
+            res.render('updateemail', {
+                message: 'Email address did not match'
             });
         }
-
-        let hashedPassword = await bcrypt.hash(password, 10);
-        console.log(hashedPassword);
-
-        // add new user into accounts table
-        db.query('UPDATE accounts SET password = ? WHERE name = ?', [ hashedPassword, name], (error, result) => {
-            if(error) {
-                console.log(error);
-            } else {
-                res.render('resetpassword', {
-                    message: 'Password has been updated'
-                });
-            }
-        });
+        
+        else {
+            // update email in accounts table
+            db.query('UPDATE accounts SET email = ? WHERE name = ?', [ email, name], (error, result) => {
+                if(error) {
+                    console.log(error);
+                } else {
+                    res.render('updateemail', {
+                        message: 'Email has been updated'
+                    });
+                }
+            });
+        }
     });    
 }
