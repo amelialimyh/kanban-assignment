@@ -54,41 +54,36 @@ exports.register = (req, res) => {
 }
 
 // reset password
-// exports.reset = (req, res) => {
-//     console.log(req.body);
+exports.reset = (req, res) => {
+    console.log(req.body);
 
-//     // destructure new_user form variables
-//     const { name, email, password, passwordConfirm } = req.body;
+    // destructure new_user form variables
+    const { name, password, passwordConfirm } = req.body;
 
-//     // query the database
-//     db.query('SELECT email FROM accounts WHERE email = ?', [email], async (error, results) => {
-//         if(error) {
-//             console.log(error);
-//         }
+    // query the database
+    db.query('SELECT name FROM accounts WHERE name = ?', [name], async (error, result) => {
+        if(error) {
+            console.log(error);
+        }
 
-//         if(results.length > 0 ) {
-//             res.render('register', {
-//                 message: 'That email is already in use'
-//             });
-//         } 
-//         else if ( password !== passwordConfirm ) {
-//             res.render('register', {
-//                 message: 'Passwords do not match'
-//             });
-//         }
+        if( password !== passwordConfirm ) {
+            res.render('resetpassword', {
+                message: 'Passwords do not match'
+            });
+        }
 
-//         let hashedPassword = await bcrypt.hash(password, 8);
-//         console.log(hashedPassword);
+        let hashedPassword = await bcrypt.hash(password, 10);
+        console.log(hashedPassword);
 
-//         // add new user into accounts table
-//         db.query('INSERT INTO accounts SET ?', {name: name, email: email, password: hashedPassword }, (error, results) => {
-//             if(error) {
-//                 console.log(error);
-//             } else {
-//                 res.render('register', {
-//                     message: 'User registered'
-//                 });
-//             }
-//         });
-//     });    
+        // add new user into accounts table
+        db.query('UPDATE accounts SET password = ? WHERE name = ?', [ hashedPassword, name], (error, result) => {
+            if(error) {
+                console.log(error);
+            } else {
+                res.render('resetpassword', {
+                    message: 'Password has been updated'
+                });
+            }
+        });
+    });    
 }
