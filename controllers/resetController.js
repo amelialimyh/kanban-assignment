@@ -18,7 +18,7 @@ const db = mysql.createPool({
 exports.reset = (req, res) => {
     console.log(req.body);
 
-    // destructure new_user form variables
+    // destructure reset password form variables
     const { name, password, passwordConfirm } = req.body;
 
     // query the database
@@ -36,7 +36,7 @@ exports.reset = (req, res) => {
         let hashedPassword = await bcrypt.hash(password, 10);
         console.log(hashedPassword);
 
-        // add new user into accounts table
+        // update new password in accounts table
         db.query('UPDATE accounts SET password = ? WHERE name = ?', [ hashedPassword, name], (error, result) => {
             if(error) {
                 console.log(error);

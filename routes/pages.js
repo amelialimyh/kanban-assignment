@@ -51,6 +51,11 @@ router.get('/resetpassword', (req, res) => {
   res.render('resetpassword');
 });
 
+// Change email
+router.get('/updateemail', (req, res) => {
+  res.render('updateemail');
+});
+
 /** Handle logout function */
 router.get('/logout', (req, res) => {
   req.session.isLoggedIn = false;
