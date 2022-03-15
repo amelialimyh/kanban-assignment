@@ -31,7 +31,7 @@ a#logout-link {
     font-size: 18px;
     color: rgb(221, 151, 134);
     text-decoration: none;
-    margin-top: 10px;
+    margin-top: 15px !important;
 }
 a#logout-link:hover {
     color: rgb(163, 83, 62);
@@ -48,7 +48,7 @@ a#logout-link:hover {
     border: none;
     font-size: 18px;
     color: rgb(141, 141, 141);
-    margin-top: 10px;
+    margin-right: 15px;
 }
 .login {
     width: 400px;
@@ -109,7 +109,7 @@ nav {
 ul {
     float: right;
     list-style: none;
-    margin: 0;
+    margin-top: 15px;
     padding: 0;
 }
 .navbar-content {
@@ -119,22 +119,14 @@ ul {
     display: inline-block;
     width: 100px;
     padding: 10px 20px;
-    /* float: right; */
-}
-.navbar-content:hover {
-    background: #000;
 }
 nav ul li {
     float: left;
 }
-nav ul:after {
-  display: block;
-  content: '';
-  clear: both;
-}
 nav ul ul {
   position: absolute;
   visibility: hidden;
+  margin-top: 5px;
 }  
 nav ul li:hover ul {
   visibility: visible;
