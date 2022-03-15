@@ -8,13 +8,21 @@ html
   body 
     nav 
       div(class="container")
-        a#header(href="/" class="pb-2")="Task Management"
-        if isLoggedIn
-          small 
-            a#logout-link(href="/logout" class="float-right mt-3")="Logout"
-            a#reset-password-link(href="/resetpassword" class="float-right mt-3 mr-3")="Reset Password"
-            a#change-email-link(href="/updateemail" class="float-right m-3")="Change Email"
-            a#register-link(href="/register" class="float-right mt-3")="Register Account"
+        a#header(href="/" class="float-left pb-2")="Task Management"
+        if isLoggedIn 
+            ul 
+              li
+                a#logout-link(href="/logout")="Logout"
+            ul
+              li 
+                button(href="#" class="user-management-btn")="User Management"
+                ul 
+                  li 
+                    a#navbar-content(href="/resetpassword" class="m-2")="Reset Password"
+                  li 
+                    a#navbar-content(href="/updateemail" class="m-2")="Change Email"
+                  li 
+                    a#navbar-content(href="/register" class="m-2")="Register Account"
         else
           small 
             a#login-link(href="/login" class="float-right mt-3")="Login" 
