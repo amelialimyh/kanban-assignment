@@ -2,8 +2,6 @@
 
 * {
     box-sizing: border-box;
-    /* font-family: -apple-system, BlinkMacSystemFont, "segoe ui", roboto, oxygen, ubuntu, cantarell, "fira sans", "droid sans", "helvetica neue", Arial, sans-serif; */
-    /* font-size: 16px; */
 }
 body {
     font-family: 'Montserrat', sans-serif;
@@ -24,47 +22,33 @@ a {
     font-size: 18px;
     color: rgb(221, 151, 134);
     text-decoration: none;
+    margin: 20px;
 }
 #login-link:hover {
     color: rgb(175, 101, 83);
-}
-#register-link {
-    font-size: 18px;
-    color: rgb(151, 146, 145);
-    text-decoration: none;
-}
-a#register-link:hover {
-    color: rgb(124, 122, 121);
 }
 a#logout-link {
     font-size: 18px;
     color: rgb(221, 151, 134);
     text-decoration: none;
+    margin-top: 10px;
 }
 a#logout-link:hover {
     color: rgb(163, 83, 62);
 }
-a#change-email-link {
-    font-size: 18px;
-    color: rgb(151, 146, 145);
-    text-decoration: none;
-}
-a#change-email-link:hover {
-    color: rgb(124, 122, 121);
-}
-a#reset-password-link {
-    font-size: 18px;
-    color: rgb(151, 146, 145);
-    text-decoration: none;
-}
-a#reset-password-link:hover {
-    color: rgb(124, 122, 121);
 .btn-primary {
     border: none;
     background-color: rgb(228, 135, 135);
 }
 .btn-primary:hover {
     background-color: rgb(173, 99, 99);
+}
+.user-management-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: rgb(141, 141, 141);
+    margin-top: 10px;
 }
 .login {
     width: 400px;
@@ -118,4 +102,48 @@ a#reset-password-link:hover {
 }
 #register-header {
     font-size: 28px;
+}
+nav {
+  background: none;
+}
+ul {
+    float: right;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.navbar-content {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    text-decoration: none;
+    display: inline-block;
+    width: 100px;
+    padding: 10px 20px;
+    /* float: right; */
+}
+.navbar-content:hover {
+    background: #000;
+}
+nav ul li {
+    float: left;
+}
+nav ul:after {
+  display: block;
+  content: '';
+  clear: both;
+}
+nav ul ul {
+  position: absolute;
+  visibility: hidden;
+}  
+nav ul li:hover ul {
+  visibility: visible;
+}  
+nav ul ul li {
+  position: relative;
+}  
+nav ul ul ul {
+  position: absolute;
+  top: 0;
+  left: 100%;
 }
