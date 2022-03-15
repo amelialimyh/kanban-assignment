@@ -62,24 +62,4 @@ router.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
-router.get('/balance', (req, res) => {
-  if (req.session.isLoggedIn === true) {
-    res.send('Your account balance is $1234.52');
-  } else {
-    res.redirect('/login?redirect_url=/balance');
-  }
-});
-
-router.get('/account', (req, res) => {
-  if (req.session.isLoggedIn === true) {
-    res.send('Your account number is ACL9D42294');
-  } else {
-    res.redirect('/login?redirect_url=/account');
-  }
-});
-
-router.get('/contact', (req, res) => {
-  res.send('Our address : 321 Main Street, Beverly Hills.');
-});
-
 module.exports = router;
