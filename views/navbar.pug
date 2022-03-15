@@ -12,6 +12,7 @@ html
         if isLoggedIn
           small 
             a#logout-link(href="/logout" class="float-right mt-3")="Logout"
+            a#reset-password-link(href="/resetpassword" class="float-right mt-3 mr-3")="Reset Password"
             a#change-email-link(href="/updateemail" class="float-right m-3")="Change Email"
             a#register-link(href="/register" class="float-right mt-3")="Register Account"
         else

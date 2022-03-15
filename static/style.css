@@ -22,19 +22,19 @@ a {
 }
 #login-link {
     font-size: 18px;
-    color: rgb(146, 142, 142);
-    text-decoration: none;
-}
-#login-link:hover {
-    color: rgb(104, 101, 101);
-}
-#register-link {
-    font-size: 18px;
     color: rgb(221, 151, 134);
     text-decoration: none;
 }
-a#register-link:hover {
+#login-link:hover {
     color: rgb(175, 101, 83);
+}
+#register-link {
+    font-size: 18px;
+    color: rgb(151, 146, 145);
+    text-decoration: none;
+}
+a#register-link:hover {
+    color: rgb(124, 122, 121);
 }
 a#logout-link {
     font-size: 18px;
@@ -52,6 +52,13 @@ a#change-email-link {
 a#change-email-link:hover {
     color: rgb(124, 122, 121);
 }
+a#reset-password-link {
+    font-size: 18px;
+    color: rgb(151, 146, 145);
+    text-decoration: none;
+}
+a#reset-password-link:hover {
+    color: rgb(124, 122, 121);
 .btn-primary {
     border: none;
     background-color: rgb(228, 135, 135);
