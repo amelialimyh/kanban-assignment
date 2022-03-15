@@ -31,7 +31,6 @@ a#logout-link {
     font-size: 18px;
     color: rgb(221, 151, 134);
     text-decoration: none;
-    margin-top: 15px !important;
 }
 a#logout-link:hover {
     color: rgb(163, 83, 62);
@@ -89,7 +88,7 @@ a#logout-link:hover {
     width: 100%;
     padding: 15px;
    margin-top: 20px;
-    background-color: #3274d6;
+    background-color: rgb(228, 135, 135);
     border: 0;
     cursor: pointer;
     font-weight: bold;
@@ -97,7 +96,7 @@ a#logout-link:hover {
     transition: background-color 0.2s;
 }
 .login form input[type="submit"]:hover {
-  background-color: #2868c7;
+  background-color: rgb(206, 80, 80);
     transition: background-color 0.2s;
 }
 #register-header {
@@ -105,11 +104,12 @@ a#logout-link:hover {
 }
 nav {
   background: none;
+  z-index: auto;
+  margin-top: 15px;
 }
 ul {
     float: right;
     list-style: none;
-    margin-top: 15px;
     padding: 0;
 }
 .navbar-content {
@@ -126,10 +126,10 @@ nav ul li {
 nav ul ul {
   position: absolute;
   visibility: hidden;
-  margin-top: 5px;
 }  
 nav ul li:hover ul {
   visibility: visible;
+  display: block;
 }  
 nav ul ul li {
   position: relative;
