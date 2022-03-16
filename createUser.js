@@ -21,14 +21,14 @@ const db = mysql.createPool({
 
 //CREATE USER
 app.post("/createUser", async (req,res) => {
-    const user = req.body.name;
+    const { name, email, role } = req.body;
     const hashedPassword = await bcrypt.hash(req.body.password,10);
     db.getConnection( async (err, connection) => {
         if (err) throw (err)
-        const sqlSearch = "SELECT * FROM accounts WHERE user = ?"
-        const search_query = mysql.format(sqlSearch,[user])
-        const sqlInsert = "INSERT INTO accounts VALUES (0,?,?,?,?)"
-        const insert_query = mysql.format(sqlInsert,[user, hashedPassword, email, role])
+        const sqlSearch = "SELECT * FROM accounts WHERE name = ?"
+        const search_query = mysql.format(sqlSearch,[name])
+        const sqlInsert = "INSERT INTO accounts VALUES (?,?,?,?, 1)"
+        const insert_query = mysql.format(sqlInsert,[name, hashedPassword, email, role])
         // ? will be replaced by values
         // ?? will be replaced by string
         await connection.query (search_query, async (err, result) => {

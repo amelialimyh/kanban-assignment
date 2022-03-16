@@ -18,7 +18,7 @@ exports.register = (req, res) => {
     console.log(req.body);
 
     // destructure new_user form variables
-    const { name, email, password, passwordConfirm } = req.body;
+    const { name, email, password, passwordConfirm, role } = req.body;
 
     // query the database
     db.query('SELECT email FROM accounts WHERE email = ?', [email], async (error, results) => {
@@ -41,7 +41,7 @@ exports.register = (req, res) => {
         console.log(hashedPassword);
 
         // add new user into accounts table
-        db.query('INSERT INTO accounts SET ?', {name: name, email: email, password: hashedPassword }, (error, results) => {
+        db.query('INSERT INTO accounts SET ?', {name: name, email: email, password: hashedPassword, role: role, status: 1 }, (error, results) => {
             if(error) {
                 console.log(error);
             } else {

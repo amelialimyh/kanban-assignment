@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const mysql = require("mysql");
 const bcrypt = require("bcrypt");
 require('./dbServer');
-require('./createUser');
+// require('./createUser');
 require('./authenticate');
 require("dotenv").config();
 
