@@ -1,10 +1,9 @@
 const mysql = require('mysql');
 
-const authCreate = (permissions) => {
-    var = "SELECT "
+const authCreate = (role, name) => {
+    var sql = "SELECT * FROM accounts WHERE roles = ? AND name = ?"
     return (req, res, next) => {
-        const userRole = req.body.role
-        if (permissions.includes(userRole)) {
+        if (permissions.includes(role)) {
             next();
         } else {
             return res.status(401).json("You don't have permission!");
