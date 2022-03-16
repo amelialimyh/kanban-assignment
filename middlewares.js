@@ -1,4 +1,7 @@
+const mysql = require('mysql');
+
 const authCreate = (permissions) => {
+    var = "SELECT "
     return (req, res, next) => {
         const userRole = req.body.role
         if (permissions.includes(userRole)) {

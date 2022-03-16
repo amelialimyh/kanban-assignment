@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
 });
 
 // Create user account form
-router.get('/register', (req, res) => {
+router.get('/register', authCreate("admin"), (req, res) => {
     res.render('register');
   });
 
