@@ -21,14 +21,14 @@ exports.register = (req, res) => {
     const { name, email, password, passwordConfirm, role } = req.body;
 
     // query the database
-    db.query('SELECT email FROM accounts WHERE email = ?', [email], async (error, results) => {
+    db.query('SELECT name FROM accounts WHERE name = ?', [name], async (error, results) => {
         if(error) {
             console.log(error);
         }
 
         if(results.length > 0 ) {
             res.render('register', {
-                message: 'That email is already in use'
+                message: 'That name is already in use'
             });
         } 
         else if ( password !== passwordConfirm ) {
