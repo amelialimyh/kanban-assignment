@@ -27,8 +27,8 @@ app.post("/createUser", async (req,res) => {
         if (err) throw (err)
         const sqlSearch = "SELECT * FROM accounts WHERE user = ?"
         const search_query = mysql.format(sqlSearch,[user])
-        const sqlInsert = "INSERT INTO accounts VALUES (0,?,?)"
-        const insert_query = mysql.format(sqlInsert,[user, hashedPassword, email])
+        const sqlInsert = "INSERT INTO accounts VALUES (0,?,?,?,?)"
+        const insert_query = mysql.format(sqlInsert,[user, hashedPassword, email, role])
         // ? will be replaced by values
         // ?? will be replaced by string
         await connection.query (search_query, async (err, result) => {
