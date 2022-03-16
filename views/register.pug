@@ -13,10 +13,18 @@ html
         div(class="card-body")
           form(action="/auth/register" method="POST")
             div(class="form-group")
-              input(type="text" class="form-control" name="name" placeholder="username")
+              input(type="text" class="form-control" name="name" placeholder="Username")
             
             div(class="form-group")
-              input(type="email" class="form-control" name="email" placeholder="email")
+              input(type="email" class="form-control" name="email" placeholder="Email")
+            
+            div(class="form-group")
+              h5 Role
+              div(class="d-inline-flex mt-3")
+                input(type="radio" class="role mt-1 mr-1" id="basic" name="role" value="Basic")
+                p Basic
+                input(type="radio" class="role mt-1 ml-3 mr-1" id="admin" name="role" value="Admin")
+                p Admin
             
             div(class="form-group")
               input(type="password" class="form-control" name="password" placeholder="Password")
