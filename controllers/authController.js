@@ -1,5 +1,4 @@
 const mysql = require('mysql');
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 const { DB_HOST, DB_USER, DB_PASSWORD, DB_EMAIL, DB_DATABASE, DB_PORT} = process.env;

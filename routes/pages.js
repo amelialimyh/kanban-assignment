@@ -3,7 +3,7 @@ const db = require('../dbServer');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const mysql = require('mysql');
-const { authCreate, authDisable, authReset } = require('../middlewares');
+const jwt = require('jsonwebtoken');
 
 // Homepage
 // Simulated bank functionality
@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
 });
 
 // Create user account form
-router.get('/register', authCreate("admin", "name"), (req, res) => {
+router.get('/register', (req, res) => {
     res.render('register');
   });
 
