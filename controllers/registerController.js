@@ -13,7 +13,7 @@ const db = mysql.createPool({
     port: DB_PORT
 });
 
-exports.register = (req, res) => {
+module.exports.register = (req, res) => {
     console.log(req.body);
 
     // destructure new_user form variables

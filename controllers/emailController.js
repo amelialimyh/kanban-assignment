@@ -1,6 +1,4 @@
 const mysql = require('mysql');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
 
 const { DB_HOST, DB_USER, DB_PASSWORD, DB_EMAIL, DB_DATABASE, DB_PORT} = process.env;
 
@@ -15,14 +13,14 @@ const db = mysql.createPool({
 });
 
 // change email
-exports.changeEmail = (req, res) => {
+module.exports.changeEmail = (req, res) => {
     console.log(req.body);
 
     // destructure new_user form variables
     const { name, email, emailConfirm } = req.body;
 
     // query the database
-    db.query('SELECT name FROM accounts WHERE name = ?', [name], async (error, result) => {
+    db.query('SELECT * FROM accounts WHERE name = ?', [name], async (error, result) => {
         if(error) {
             console.log(error);
         }
