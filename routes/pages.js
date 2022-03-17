@@ -3,7 +3,7 @@ const db = require('../dbServer');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const mysql = require('mysql');
-const jwt = require('jsonwebtoken');
+const checkUser = require('../models/checkUser');
 
 // Homepage
 // Simulated bank functionality
@@ -12,9 +12,16 @@ router.get('/', (req, res) => {
 });
 
 // Create user account form
-router.get('/register', (req, res) => {
+// create a callback function to handle the register route to verify if user is an admin
+//the "next" parameter lets the router call the next callback in the callback chain
+const verifyUser = (req, res, next) => {
+  checkUser("crazytrollgirl", "admin");
+  next();
+}; 
+
+router.get('/register', [verifyUser, (req, res) => {
     res.render('register');
-  });
+  }]);
 
 /** Handle login display and form submit */
 router.get('/login', (req, res) => {
