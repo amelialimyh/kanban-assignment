@@ -15,12 +15,7 @@ const db = mysql.createPool({
 });
 
 exports.register = (req, res) => {
-    // let result = validateUser()
-    // if (validateUser.checkUser() === false) {
-    //     return  ({checkUserResult:false, message: "You are not authorized to visit this page!"});
-    // }
-
-    console.log(">>>>>>", req.body);
+    console.log( req.body);
 
     // destructure new_user form variables
     const { name, email, password, passwordConfirm, role } = req.body;

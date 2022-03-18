@@ -2,6 +2,7 @@ const express = require('express');
 const db = require('../dbServer');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const alert = require('alert');
 const validateUser = require('../models/checkUser');
 
 // Homepage
@@ -10,8 +11,6 @@ router.get('/', (req, res) => {
   res.render('index', {isLoggedIn: req.session.isLoggedIn});
 });
 
-// Create user account form
-// create a callback function to handle the register route to verify if user is an admin
 //the "next" parameter lets the router call the next callback in the callback chain
 const verifyUser = (req, res, next) => {
   let doThisAfterCheckUser = (objResult) => {
@@ -23,23 +22,14 @@ const verifyUser = (req, res, next) => {
   next();
 }; 
 
-  // let isAdmin = new Object();
-  // try{
-  //   isAdmin = checkUser(req.body.username, "admin");
-  // } catch (e) {
-  //   console.log(e);
-  // }
 
-  
-  // console.log("isAdmin returned = " + isAdmin);
-  // console.log(isAdmin.checkUserResult);
-
+// Create user account form
 router.get('/register', async (req, res) => {
     const condition = await validateUser.checkUser(req.session.username, "admin")
     if (condition) {
       res.render('register');
     } else {
-      res.send({ message: "You are not authorized to view this page!"});
+      alert("You are not authorized to view this page!");
     }
   });
 
@@ -49,7 +39,7 @@ router.get('/update', async (req, res) => {
   if (checker) {
     res.render('update');
   } else {
-    res.send({ message: "You are not authorized to view this page!"});
+    alert( "You are not authorized to view this page!");
   }
 });
 
