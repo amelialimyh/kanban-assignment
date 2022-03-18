@@ -2,8 +2,7 @@ const express = require('express');
 const db = require('../dbServer');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const mysql = require('mysql');
-const checkUser = require('../models/checkUser');
+const validateUser = require('../models/checkUser');
 
 // Homepage
 // Simulated bank functionality
@@ -15,13 +14,44 @@ router.get('/', (req, res) => {
 // create a callback function to handle the register route to verify if user is an admin
 //the "next" parameter lets the router call the next callback in the callback chain
 const verifyUser = (req, res, next) => {
-  checkUser("crazytrollgirl", "admin");
+  let doThisAfterCheckUser = (objResult) => {
+    if (objResult.checkUserResult){
+      console.log("checkUserResult true");
+    }
+  }
+  validateUser.checkUser(req.body.username, 'admin', doThisAfterCheckUser);
   next();
 }; 
 
-router.get('/register', [verifyUser, (req, res) => {
-    res.render('register');
-  }]);
+  // let isAdmin = new Object();
+  // try{
+  //   isAdmin = checkUser(req.body.username, "admin");
+  // } catch (e) {
+  //   console.log(e);
+  // }
+
+  
+  // console.log("isAdmin returned = " + isAdmin);
+  // console.log(isAdmin.checkUserResult);
+
+router.get('/register', async (req, res) => {
+    const condition = await validateUser.checkUser(req.session.username, "admin")
+    if (condition) {
+      res.render('register');
+    } else {
+      res.send({ message: "You are not authorized to view this page!"});
+    }
+  });
+
+// Update other user account details
+router.get('/update', async (req, res) => {
+  const checker = await validateUser.checkUser(req.session.username, "admin")
+  if (checker) {
+    res.render('update');
+  } else {
+    res.send({ message: "You are not authorized to view this page!"});
+  }
+});
 
 /** Handle login display and form submit */
 router.get('/login', (req, res) => {
@@ -44,6 +74,9 @@ router.post('/login', (req, res) => {
     
     if (bcrypt.compareSync(password, result[0].password)){
       req.session.isLoggedIn = true;
+      req.session.username = username;
+      console.log(req.session.username);
+
       res.redirect('/');
     } 
     else {
@@ -52,11 +85,6 @@ router.post('/login', (req, res) => {
       });
     }
   })
-});
-
-// Reset password
-router.get('/update/:id', (req, res) => {
-  res.render('update');
 });
 
 /** Handle logout function */

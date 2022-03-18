@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const mysql = require("mysql");
-const bcrypt = require("bcrypt");
 require("dotenv").config();
 
 const { DB_HOST, DB_USER, DB_PASSWORD, DB_EMAIL, DB_DATABASE, DB_PORT} = process.env;
