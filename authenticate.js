@@ -2,23 +2,11 @@ const express = require("express");
 const session = require('express-session');
 const mysql = require("mysql");
 const bcrypt = require("bcrypt");
+const db = require('./dbServer');
 require("dotenv").config();
 const app = express();
 
 app.use(express.json())
-
-const { DB_HOST, DB_USER, DB_PASSWORD, DB_EMAIL, DB_DATABASE, DB_PORT} = process.env;
-
-const db = mysql.createPool({
-  connectionLimit: 100,
-  host: DB_HOST,
-  user: DB_USER,
-  password: DB_PASSWORD,
-  email: DB_EMAIL,
-  database: DB_DATABASE,
-  port: DB_PORT
-});
-
 
 //LOGIN (AUTHENTICATE USER)
 app.post("/login", (req, res)=> {
