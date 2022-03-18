@@ -14,11 +14,11 @@ const db = mysql.createPool({
 });
 
 // reset password
-module.exports.reset = (req, res) => {
+module.exports.update = (req, res) => {
     console.log(req.body);
 
     // destructure reset password form variables
-    const { name, password, passwordConfirm } = req.body;
+    const { name, email, status, password, passwordConfirm } = req.body;
 
     // query the database
     db.query('SELECT name FROM accounts WHERE name = ?', [name], async (error, result) => {
@@ -36,12 +36,12 @@ module.exports.reset = (req, res) => {
         console.log(hashedPassword);
 
         // update new password in accounts table
-        db.query('UPDATE accounts SET password = ? WHERE name = ?', [ hashedPassword, name], (error, result) => {
+        db.query('UPDATE accounts SET password = ?, email = ?, status = ? WHERE name = ?', [ hashedPassword, email, status, name], (error, result) => {
             if(error) {
                 console.log(error);
             } else {
-                res.render('resetpassword', {
-                    message: 'Password has been updated'
+                res.render('update', {
+                    message: 'User details has been updated'
                 });
             }
         });
