@@ -1,3 +1,4 @@
+const res = require('express/lib/response');
 const mysql = require('mysql');
 
 const { DB_HOST, DB_USER, DB_PASSWORD, DB_EMAIL, DB_DATABASE, DB_PORT} = process.env;
@@ -12,17 +13,64 @@ const db = mysql.createPool({
     port: DB_PORT
 });
 
-function checkUser(username, role) {
-    db.query('SELECT * FROM accounts WHERE role = ? and name = ?', [username, role], (error, result) => {
-        if (error) {
-            console.log(error);
-        }
+exports.checkUser = async (username, role) => {
+    return new Promise ((resolve, reject) => {
+        try{
+            db.query('SELECT * FROM accounts WHERE name = ? AND role = ?', [username, role], (error, result) => {
+                if (error) {
+                    console.log(error);
+                }
+        
+                // returns a promise that's why it's undefined
+                console.log('checkUser result >>>', result);
+        
+                // if no rows/result that means the user isn't an admin
+                if (!result.length) {
+                    //return ({checkUserResult:false, message: "You are not authorized to visit this page!"});
+                    resolve(false);
+                } 
+                // allow user to visit site
+                else if (result.length > 0) {
+                    //return ({checkUserResult: true});
+                    resolve(true);
+                }
+            });
 
-        if (result.length > 0) {
-            console.log(`User ${username} is a ${role}`);
+        } catch (e) {
+            console.log(e);
         }
-    });
-
+    })   
 }
 
-module.exports = checkUser;
+//////////////   CALLBACK HELL /////////////////////
+
+// function checkUser(username, role, callback) {
+//     let retval = new Object();
+//     try{
+//         db.query('SELECT * FROM accounts WHERE name = ? AND role = ?', [username, role], (error, result) => {
+//             if (error) {
+//                 console.log(error);
+//             }
+    
+//             // returns a promise that's why it's undefined
+//             console.log('checkUser result >>>', result);
+    
+//             // if no rows/result that means the user isn't an admin
+//             if (!result.length) {
+//                 //return ({checkUserResult:false, message: "You are not authorized to visit this page!"});
+//                 callback({checkUserResult:false, message: "You are not authorized to visit this page!"})
+//             } 
+//             // allow user to visit site
+//             else if (result.length > 0) {
+//                 //return ({checkUserResult: true});
+//                 callback({checkUserResult: true});
+//             }
+//         });
+
+//     } catch (e) {
+//         console.log(e);
+//     } finally {
+//         return retval;
+//     }
+    
+// }
