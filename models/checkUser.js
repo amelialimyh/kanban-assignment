@@ -13,6 +13,7 @@ const db = mysql.createPool({
     port: DB_PORT
 });
 
+// need to use async and await otherwise the result would be empty
 exports.checkUser = async (username, role) => {
     return new Promise ((resolve, reject) => {
         try{
@@ -21,17 +22,12 @@ exports.checkUser = async (username, role) => {
                     console.log(error);
                 }
         
-                // returns a promise that's why it's undefined
-                console.log('checkUser result >>>', result);
-        
                 // if no rows/result that means the user isn't an admin
                 if (!result.length) {
-                    //return ({checkUserResult:false, message: "You are not authorized to visit this page!"});
                     resolve(false);
                 } 
                 // allow user to visit site
                 else if (result.length > 0) {
-                    //return ({checkUserResult: true});
                     resolve(true);
                 }
             });
