@@ -55,13 +55,8 @@ router.post('/login', (req, res) => {
 });
 
 // Reset password
-router.get('/resetpassword', (req, res) => {
-  res.render('resetpassword');
-});
-
-// Change email
-router.get('/updateemail', (req, res) => {
-  res.render('updateemail');
+router.get('/update/:id', (req, res) => {
+  res.render('update');
 });
 
 /** Handle logout function */
