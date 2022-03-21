@@ -29,7 +29,7 @@ exports.register = (req, res) => {
         console.log(hashedPassword);
 
         // add new user into accounts table
-        db.query('INSERT INTO accounts SET ?', {name: name, email: email, password: hashedPassword, role: role, status: 1 }, (error, results) => {
+        db.query('INSERT INTO accounts SET ?', {name: name, email: email, password: hashedPassword, role: role, status: 'active' }, (error, results) => {
             if(error) {
                 console.log(error);
             } else {
