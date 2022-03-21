@@ -10,7 +10,6 @@ exports.checkUser = async (username, role) => {
                 if (error) {
                     console.log(error);
                 }
-        
                 // if no rows/result that means the user isn't an admin
                 if (!result.length) {
                     resolve(false);
