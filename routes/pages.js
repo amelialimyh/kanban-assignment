@@ -61,16 +61,25 @@ router.post('/login', (req, res) => {
   var sql = "SELECT * FROM accounts WHERE name = ?;";
   db.query (sql,[username], (err, result) => {
     if(err) throw err;
+
     
     if (bcrypt.compareSync(password, result[0].password)){
       req.session.isLoggedIn = true;
       req.session.username = username;
       console.log(req.session.username);
-
-      res.redirect('/');
+      
+        // nested if to check user status
+        if (result[0].status === 'inactive') {
+          res.render('login', {
+            message: 'User is inactive'
+          });
+        }
+        else {
+          res.redirect('/');
+        }
     } 
     else {
-      res.render('Login', {
+      res.render('login', {
         message: 'Incorrect username or password'
       });
     }
