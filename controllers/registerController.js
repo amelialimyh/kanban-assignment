@@ -14,6 +14,14 @@ exports.register = (req, res) => {
             console.log(error);
         }
 
+        // validate password to ensure minimum 8 characters that's a mix of alphabets, numbers and special characters but capped at 10
+        var validator = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,10})");
+
+        if (!validator.password) {
+            res.render('register', {
+                message: "Password has to contain minimum 8 characters but capped at 10 and it has to be a mix of alphabets, numbers and special characters!"
+            });
+        }
         if(results.length > 0 ) {
             res.render('register', {
                 message: 'That name is already in use'
@@ -24,6 +32,7 @@ exports.register = (req, res) => {
                 message: 'Passwords do not match'
             });
         }
+
 
         let hashedPassword = await bcrypt.hash(password, 10);
         console.log(hashedPassword);
