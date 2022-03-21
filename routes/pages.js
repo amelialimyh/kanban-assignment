@@ -1,4 +1,5 @@
 const express = require('express');
+const sql = require('mysql');
 const db = require('../dbServer');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
@@ -11,7 +12,7 @@ router.get('/', (req, res) => {
   res.render('index', {isLoggedIn: req.session.isLoggedIn});
 });
 
-//the "next" parameter lets the router call the next callback in the callback chain
+//create middleware to load checkUser function and the "next" parameter lets the router call the next callback in the callback chain
 const verifyUser = (req, res, next) => {
   let doThisAfterCheckUser = (objResult) => {
     if (objResult.checkUserResult){
@@ -25,6 +26,7 @@ const verifyUser = (req, res, next) => {
 
 // Create user account form
 router.get('/register', async (req, res) => {
+  // need await otherwise the result wouldn't be captured/ would be empty
     const condition = await validateUser.checkUser(req.session.username, "admin")
     if (condition) {
       res.render('register');
@@ -59,10 +61,9 @@ router.post('/login', (req, res) => {
   const {username, password} = req.body;
 
   var sql = "SELECT * FROM accounts WHERE name = ?;";
-  db.query (sql,[username], (err, result) => {
+  db.query(sql,[username], (err, result) => {
     if(err) throw err;
 
-    
     if (bcrypt.compareSync(password, result[0].password)){
       req.session.isLoggedIn = true;
       req.session.username = username;
