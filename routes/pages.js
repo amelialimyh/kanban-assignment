@@ -1,5 +1,5 @@
 const express = require('express');
-const sql = require('mysql');
+// const sql = require('mysql');
 const db = require('../dbServer');
 const router = express.Router();
 const bcrypt = require('bcryptjs');

@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+// const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
 const db = require('../dbServer');
 
@@ -15,7 +15,7 @@ exports.update = (req, res) => {
         }
 
         // validate password to ensure minimum 8 characters that's a mix of alphabets, numbers and special characters but capped at 10
-        var validator = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,10}$/)");
+        var validator = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=^.{8,10}$)");
 
         if( password !== passwordConfirm ) {
             res.render('resetpassword', {
