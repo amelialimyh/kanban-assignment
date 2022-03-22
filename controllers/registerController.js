@@ -15,7 +15,8 @@ exports.register = (req, res) => {
         }
 
         // validate password to ensure minimum 8 characters that's a mix of alphabets, numbers and special characters but capped at 10
-        var validator = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,10}$/)");
+        // need to add ^...$ to ensure that the regex mataches the entire subject string
+        var validator = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=^.{8,10}$)");
 
         if(results.length > 0 ) {
             res.render('register', {
@@ -34,7 +35,6 @@ exports.register = (req, res) => {
                 message: 'Passwords do not match'
             });
         }
-
 
         let hashedPassword = await bcrypt.hash(password, 10);
         console.log(hashedPassword);
