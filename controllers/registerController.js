@@ -4,10 +4,10 @@ const db = require('../dbServer');
 
 exports.register = (req, res) => {
     // destructure new_user form variables
-    const { useruser, email, password, passwordConfirm, role } = req.body;
+    const { username, email, password, passwordConfirm, role } = req.body;
 
     // query the database
-    db.query('SELECT name FROM accounts WHERE username = ?', [username], async (error, results) => {
+    db.query('SELECT * FROM accounts WHERE username = ?', [username], async (error, results) => {
         if(error) {
             console.log(error);
         }
