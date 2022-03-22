@@ -4,7 +4,7 @@ const db = require('../dbServer');
 
 exports.update = (req, res) => {
     // destructure reset password form variables
-    const { username, email, status, password, passwordConfirm } = req.body;
+    const { username, email, role, status, password, passwordConfirm } = req.body;
 
     // query the database
     db.query('SELECT * FROM accounts WHERE username = ?', [username], async (error, result) => {
@@ -36,7 +36,7 @@ exports.update = (req, res) => {
         let hashedPassword = await bcrypt.hash(password, 10);
 
         // update new password in accounts table
-        db.query('UPDATE accounts SET password = ?, email = ?, status = ? WHERE username = ?', [ hashedPassword, email, status, username], (error, result) => {
+        db.query('UPDATE accounts SET password = ?, email = ?, role = ?, status = ? WHERE username = ?', [ hashedPassword, email, role, status, username], (error, result) => {
             if(error) {
                 console.log(error);
             } else {
