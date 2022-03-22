@@ -1,4 +1,4 @@
-// const mysql = require('mysql');
+const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
 const db = require('../dbServer');
 

@@ -1,5 +1,5 @@
 const res = require('express/lib/response');
-// const mysql = require('mysql');
+const mysql = require('mysql');
 const db = require('../dbServer');
 
 // need to use async and await otherwise the result would be empty
