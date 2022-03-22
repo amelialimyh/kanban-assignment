@@ -3,13 +3,11 @@ const bcrypt = require('bcryptjs');
 const db = require('../dbServer');
 
 exports.update = (req, res) => {
-        console.log(req.body);
-
     // destructure reset password form variables
-    const { name, email, status, password, passwordConfirm } = req.body;
+    const { username, email, status, password, passwordConfirm } = req.body;
 
     // query the database
-    db.query('SELECT * FROM accounts WHERE name = ?', [name], async (error, result) => {
+    db.query('SELECT * FROM accounts WHERE username = ?', [username], async (error, result) => {
         if(error) {
             console.log(error);
         }
@@ -36,10 +34,9 @@ exports.update = (req, res) => {
         }
 
         let hashedPassword = await bcrypt.hash(password, 10);
-        console.log(hashedPassword);
 
         // update new password in accounts table
-        db.query('UPDATE accounts SET password = ?, email = ?, status = ? WHERE name = ?', [ hashedPassword, email, status, name], (error, result) => {
+        db.query('UPDATE accounts SET password = ?, email = ?, status = ? WHERE username = ?', [ hashedPassword, email, status, username], (error, result) => {
             if(error) {
                 console.log(error);
             } else {

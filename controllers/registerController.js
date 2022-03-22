@@ -3,13 +3,11 @@ const bcrypt = require('bcryptjs');
 const db = require('../dbServer');
 
 exports.register = (req, res) => {
-    console.log( req.body);
-
     // destructure new_user form variables
-    const { name, email, password, passwordConfirm, role } = req.body;
+    const { useruser, email, password, passwordConfirm, role } = req.body;
 
     // query the database
-    db.query('SELECT name FROM accounts WHERE name = ?', [name], async (error, results) => {
+    db.query('SELECT name FROM accounts WHERE username = ?', [username], async (error, results) => {
         if(error) {
             console.log(error);
         }
@@ -37,10 +35,9 @@ exports.register = (req, res) => {
         }
 
         let hashedPassword = await bcrypt.hash(password, 10);
-        console.log(hashedPassword);
 
         // add new user into accounts table
-        db.query('INSERT INTO accounts SET ?', {name: name, email: email, password: hashedPassword, role: role, status: 'active' }, (error, results) => {
+        db.query('INSERT INTO accounts SET ?', {username: username, email: email, password: hashedPassword, role: role, status: 'active' }, (error, results) => {
             if(error) {
                 console.log(error);
             } else {
