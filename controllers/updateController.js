@@ -34,6 +34,9 @@ exports.update = (req, res) => {
 
         let hashedPassword = await bcrypt.hash(password, 10);
 
+        // // change role [] to string
+        // var role_data = role.toString(); 
+
         // update new password in accounts table
         db.query('UPDATE accounts SET password = ?, email = ?, role = ?, status = ? WHERE username = ?', [ hashedPassword, email, role, status, username], (error, result) => {
             if(error) {
