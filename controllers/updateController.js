@@ -6,7 +6,6 @@ exports.update = (req, res) => {
     // destructure reset password form variables
     const { username, email, role, status, password, passwordConfirm } = req.body;
 
-    // query the database
     db.query('SELECT * FROM accounts WHERE username = ?', [username], async (error, result) => {
         if(error) {
             console.log(error);
@@ -35,6 +34,9 @@ exports.update = (req, res) => {
 
         let hashedPassword = await bcrypt.hash(password, 10);
 
+        // // change role [] to string
+        // var role_data = role.toString(); 
+
         // update new password in accounts table
         db.query('UPDATE accounts SET password = ?, email = ?, role = ?, status = ? WHERE username = ?', [ hashedPassword, email, role, status, username], (error, result) => {
             if(error) {
@@ -43,7 +45,7 @@ exports.update = (req, res) => {
                 res.render('update', {
                     message: 'User details has been updated'
                 });
-            }
+            } 
         });
     });    
 }
