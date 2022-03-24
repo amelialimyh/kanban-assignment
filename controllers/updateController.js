@@ -6,7 +6,6 @@ exports.update = (req, res) => {
     // destructure reset password form variables
     const { username, email, role, status, password, passwordConfirm } = req.body;
 
-    // query the database
     db.query('SELECT * FROM accounts WHERE username = ?', [username], async (error, result) => {
         if(error) {
             console.log(error);
@@ -43,7 +42,7 @@ exports.update = (req, res) => {
                 res.render('update', {
                     message: 'User details has been updated'
                 });
-            }
+            } 
         });
     });    
 }
