@@ -12,51 +12,51 @@ html
       div(class="card")
         div(class="card-body")
           form(action="/auth/update" method="POST")
-            div(class="form-group")
-              input(type="text" class="form-control" name="username" placeholder="Username")
+              div(class="form-group")
+                input(type="text" class="form-control" name="username" placeholder="Username")
+              
+              button#checkUser-btn(type="submit" class="btn btn-primary" name="checkUser-btn" value=true)="Check User"
+
+              p
             
-            button(type="submit" class="btn btn-primary")="Check User"
+              div(class="form-group")
 
-            p
-          form(action="/auth/update" method="POST")
-            div(class="form-group")
+              div(class="form-group")
+                input(type="text" class="form-control" name="email" placeholder="New Email")
 
-            div(class="form-group")
-              input(type="text" class="form-control" name="email" placeholder="New Email")
+              div(class="form-group")
+                h5 Current Roles
 
-            div(class="form-group")
-              h5 Current Roles
+                render #{currentrole} 
+                p 
 
-              render #{currentrole} 
-              p 
+                h5 New Roles
 
-              h5 New Roles
+                div(class="d-inline-flex mt-3")
+                  input(type="checkbox" class="role mt-1 mr-1" id="basic" name="role" value="team member")
+                  p Team Member
+                  input(type="checkbox" class="role mt-1 ml-3 mr-1" id="admin" name="role" value="project lead")
+                  p Project Lead
+                  input(type="checkbox" class="role mt-1 ml-3 mr-1" id="admin" name="role" value="project manager")
+                  p Project Manager
+                  input(type="checkbox" class="role mt-1 ml-3 mr-1" id="admin" name="role" value="admin")
+                  p Admin
 
-              div(class="d-inline-flex mt-3")
-                input(type="checkbox" class="role mt-1 mr-1" id="basic" name="role" value="team member")
-                p Team Member
-                input(type="checkbox" class="role mt-1 ml-3 mr-1" id="admin" name="role" value="project lead")
-                p Project Lead
-                input(type="checkbox" class="role mt-1 ml-3 mr-1" id="admin" name="role" value="project manager")
-                p Project Manager
-                input(type="checkbox" class="role mt-1 ml-3 mr-1" id="admin" name="role" value="admin")
-                p Admin
+              div(class="form-group")
+                h5 Status
+                div(class="d-inline-flex mt-3")
+                  input(type="radio" class="role mt-1 mr-1" id="basic" name="status" value="active")
+                  p Active
+                  input(type="radio" class="role mt-1 ml-3 mr-1" id="admin" name="status" value="inactive")
+                  p Inactive
+                          
+              div(class="form-group")
+                input(type="password" class="form-control" name="password" placeholder="New Password")
+              
+              div(class="form-group")
+                input(type="password" class="form-control" name="passwordConfirm" placeholder="Confirm Password")
 
-            div(class="form-group")
-              h5 Status
-              div(class="d-inline-flex mt-3")
-                input(type="radio" class="role mt-1 mr-1" id="basic" name="status" value="active")
-                p Active
-                input(type="radio" class="role mt-1 ml-3 mr-1" id="admin" name="status" value="inactive")
-                p Inactive
-                        
-            div(class="form-group")
-              input(type="password" class="form-control" name="password" placeholder="New Password")
-            
-            div(class="form-group")
-              input(type="password" class="form-control" name="passwordConfirm" placeholder="Confirm Password")
-
-            button(type="submit" class="btn btn-primary")="Confirm"
+              button(type="submit" class="btn btn-primary")="Confirm"
       if message
         h4(class="alert alert-danger mt-4")=message 
 
