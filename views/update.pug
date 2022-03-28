@@ -14,12 +14,24 @@ html
           form(action="/auth/update" method="POST")
             div(class="form-group")
               input(type="text" class="form-control" name="username" placeholder="Username")
+            
+            button(type="submit" class="btn btn-primary")="Check User"
+
+            p
+          form(action="/auth/update" method="POST")
+            div(class="form-group")
 
             div(class="form-group")
               input(type="text" class="form-control" name="email" placeholder="New Email")
 
             div(class="form-group")
-              h5 Role
+              h5 Current Roles
+
+              render #{currentrole} 
+              p 
+
+              h5 New Roles
+
               div(class="d-inline-flex mt-3")
                 input(type="checkbox" class="role mt-1 mr-1" id="basic" name="role" value="team member")
                 p Team Member
