@@ -62,6 +62,13 @@ router.post('/login', (req, res) => {
   db.query(sql,[username], (err, result) => {
     if(err) throw err;
 
+    if (result.length === 0) {
+      res.render('login', {
+        message: 'Invalid username or password'
+      });
+      return ;
+    }
+
     if (bcrypt.compareSync(password, result[0].password)){
       req.session.isLoggedIn = true;
       req.session.username = username;

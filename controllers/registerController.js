@@ -8,9 +8,7 @@ exports.register = (req, res) => {
     const { username, email, password, passwordConfirm, role } = req.body;
 
     // query the database
-    db.query('SELECT * FROM accounts WHERE username = ?', [username], async (error, results) => {
-        console.log(req.body);
-        
+    db.query('SELECT * FROM accounts WHERE username = ?', [username], async (error, results) => {       
         
         if(error) {
             console.log(error);
