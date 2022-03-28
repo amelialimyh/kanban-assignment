@@ -3,9 +3,7 @@ const bcrypt = require('bcryptjs');
 const db = require('../dbServer');
 
 exports.update = (req, res) => {
-    console.log('req.body >>>>>', req.body);
-
-    // destructure reset password form variables
+   // destructure reset password form variables
     const { username, email, role, status, password, passwordConfirm } = req.body;
 
     db.query('SELECT * FROM accounts WHERE username = ?', [username], async (error, result) => {
