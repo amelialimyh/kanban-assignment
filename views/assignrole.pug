@@ -13,28 +13,24 @@ html
         div(class="card-body")
           form(action="/auth/assignrole" method="POST")
               div(class="form-group")
-                input(type="text" class="form-control w-50" name="username" placeholder="Username")
+                input(type="text" class="form-control w-50 mb-3" name="username" placeholder="Username")
+              
+              button#checkUser-btn(type="submit" class="btn btn-primary mr-3 mb-3")="Check User"
               
               div(class="form-group")
                 h5 Current Roles
-
                 render #{currentrole} 
-                p 
 
-                |
 
-                h5 New Roles
-
-                p 
-  
-                select(class="mdb-select md-form w-50" searchable="Search here...")
+              div(class="form-group")
+                h5(class="mt-3") New Roles
+                select(class="mdb-select md-form mb-3 w-50")
                   option(value="" disabled selected)="Choose Role"
                   option(value="team member")="Team Member"
                   option(value="project lead")="Project Lead"
                   option(value="project manager")="Project Manager"
                   option(value="admin")="Admin"
 
-              button#checkUser-btn(type="submit" class="btn btn-primary mr-3" value=true)="Check User"
 
               button(type="submit" class="btn btn-primary")="Confirm"
       if message

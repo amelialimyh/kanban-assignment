@@ -4,8 +4,8 @@ exports.assign = (req, res) => {
     console.log(req.body);
     const { username, role } = req.body;  
     
-    if(username && !role ){
-        // check EXISTING ROLES that the user holds
+    // check EXISTING ROLES that the user holds
+    if(username){
         db.query('SELECT usergrp FROM usergroup WHERE username = ?', [username], (error, result, fields) => {
             console.log("running query 2");
             if(error) {
