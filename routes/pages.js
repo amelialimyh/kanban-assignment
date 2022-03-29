@@ -35,6 +35,16 @@ router.get('/register', async (req, res) => {
     }
   });
 
+  router.get('/assignrole', async (req, res) => {
+  // need await otherwise the result wouldn't be captured/ would be empty
+    const condition = await validateUser.checkUser(req.session.username, "admin")
+    if (condition) {
+      res.render('assignrole');
+    } else {
+      alert("You are not authorized to view this page!");
+    }
+  });
+
 // Update other user account details
 router.get('/update', async (req, res) => {
   const checker = await validateUser.checkUser(req.session.username, "admin")
