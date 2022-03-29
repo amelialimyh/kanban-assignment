@@ -1,0 +1,39 @@
+html
+  head 
+    title="Update User"
+    link(href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" rel="stylesheet")
+    style 
+      include ../static/style.css
+
+  body 
+    div(class="container")
+      a#header(href="/" class="pb-2")="Task Management"
+      h4(class="p-2")="Update User"
+      div(class="card")
+        div(class="card-body")
+          form(action="/auth/update" method="POST")
+              div(class="form-group")
+                h5 Current Roles
+
+                render #{currentrole} 
+                p 
+
+                h5 New Roles
+
+                div(class="dropdown")
+                    button(onclick="myFunction()" class="dropbtn")="Dropdown"
+                    div#myDropdown(class="dropdown-content")
+                        input#myInput(type="text" placeholder="Search..." onkeyup="filterFunction()")
+                        a(href="#teammember")="Team Member"
+                        a(href="#projectlead")="Project Lead"
+                        a(href="#projectmanager")="Project Manager"
+                        a(href="#admin")="Admin"
+
+
+              button(type="submit" class="btn btn-primary")="Confirm"
+      if message
+        h4(class="alert alert-danger mt-4")=message 
+
+  script(src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous")
+
+  script(src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous") 
