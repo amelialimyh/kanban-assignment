@@ -1,49 +1,13 @@
-const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
 const db = require('../dbServer');
-
-/**
-exports.update = [ 
-    (req, res, next){ //this is the check user's usergrp callback
-        **do your checkUser-btn things if the checkUser-btn was pressed
-        **otherwise, next(); 
-    },
-    (req,res){ //this is the update user callback
-        **do your update user button things if the update user button was pressed
-        **otherwise (do nothing)
-    }
-]
- */
 
 
 exports.update = (req, res) => {
     console.log(req.body);
    // destructure reset password form variables
-    const { username, email, role, status, password, passwordConfirm } = req.body;  
+    const { username, email, status, password, passwordConfirm } = req.body;  
     
-    if(username && !email){
-        db.query('SELECT usergrp FROM usergroup WHERE username = ?', [username], (error, result, fields) => {
-            console.log("running query 2");
-            if(error) {
-                console.log('currentrole error >>>>>', error);
-            } 
-            //the usergrp values will be at result[0].usergrp;
-            else if (result.length > 0) {
-                console.log('====', result[0].usergrp);
-                res.render('update', {
-                    currentrole: result[0].usergrp
-                });
-                // exit render
-                return ;
-            }
-        });
-    }
-    //DO NOT PUT INPUT FIELD OUTSIDE OF FORM IF YOU WANT THE DATA
-    //NOT A SMALL MISTAKE DUE TO INPUT ONLY READING TO INTERNAL FORM. **
-    //console.log(username)
-    if(email || role || status || (password && passwordConfirm) ){
-    
-    // update user details in both accounts and usergroup table
+    // update user details in accounts table
     // query database to check if username exists and update user details
     db.query('SELECT * FROM accounts WHERE username = ?', [username], async (error, result) => {
         console.log("running query 1");
@@ -56,7 +20,8 @@ exports.update = (req, res) => {
             return ;
         }
 
-        console.log(result);
+        console.log('result >>>>>', result);
+
         // check if username exists
         if (result.length === 0) {
             console.log('result.length === 0 >>>>>', result.length);
@@ -84,26 +49,15 @@ exports.update = (req, res) => {
 
         let hashedPassword = await bcrypt.hash(password, 10);
 
-        // // change role [] to string
-        var role_data = role.toString(); 
-
         // update user deets in accounts table
-        db.query('UPDATE accounts SET password = ?, email = ?, role = ?, status = ? WHERE username = ?;', [ hashedPassword, email, role_data, status, username], (error, result) => {
+        db.query('UPDATE accounts SET password = ?, email = ?, status = ? WHERE username = ?', [ hashedPassword, email, status, username], (error, result) => {
             if(error) {
                 console.log('error >>>',error);
             } else {
-                db.query('UPDATE usergroup SET usergrp = ? WHERE username = ?;', [role_data, username], (error, result) => {
-                    if(error) {
-                        console.log('error usergroup >>>', error);
-                    } else {
-                        
-                    } 
-                });
                 res.render('update', {
                     message: 'User details has been updated'
                 });
             } 
         });
     });  
-    }  
-}
+}  
