@@ -1,19 +1,26 @@
 const db = require('../dbServer');
 
 exports.assign = (req, res) => {
-    const { username, role } = req.body;  
+    const { username, addrole, deleterole } = req.body;  
     const role_array = ['Team Member', 'Project Lead', 'Project Manager', 'Admin'];
-    // check EXISTING ROLES that the user holds
+    // CHECK EXISTING ROLES that the user holds
     if(username){
-        db.query('SELECT usergrp FROM usergroup WHERE username = ?', [username], (error, result, fields) => {
+        db.query('SELECT * FROM usergroup WHERE username = ?', [username], (error, result, fields) => {
             console.log("running EXISTING ROLES query");
             if(error) {
                 console.log('currentrole error >>>>>', error);
             } 
             //the usergrp values will be at result[0].usergrp;
             else if (result.length > 0) {
+                var usergroups = '';
+                for (let i = 0; i < result.length; i++){
+                    if (i < result.length-1)
+                        usergroups += result[i].usergrp + ', ';
+                    else
+                        usergroups += result[i].usergrp;
+                }
                 res.render('assignrole', {
-                    currentrole: result[0].usergrp, 
+                    currentrole: usergroups, 
                     uname: username, 
                     displayuname: username,
                     role_array : role_array
@@ -24,26 +31,38 @@ exports.assign = (req, res) => {
         });
     }
 
-    // UPDATE user's role
+    // INSERT NEW ROLE
     const {hiddenuname} = req.body;
-    if (role){
-        // update user roles in accounts table
-        db.query('UPDATE accounts SET role = ? WHERE username = ?;', [ role, hiddenuname], (error, result) => {
-            if(error) {
-                console.log('error >>>',error);
-            } else {
-                // update usergrp in usergroup table
-                db.query('UPDATE usergroup SET usergrp = ? WHERE username = ?;', [role, hiddenuname], (error, result) => {
-                    if(error) {
-                        console.log('error usergroup >>>', error);
-                    } else {
-                        
-                    } 
-                });
-                res.render('assignrole', {displayuname: 'Username',
-                    message: 'User details has been updated'
-                });
-            } 
-        });
-    }
+    if (addrole || deleterole){
+
+        if (addrole){
+            // create usergrp in usergroup table
+            //INSERT INTO usergroup SET username = ? AND usergrp = ?
+            db.query('INSERT INTO usergroup (username,usergrp) VALUES (?,?)', [hiddenuname, addrole], (error, result) => {
+                if(error) {
+                    console.log('error usergroup >>>', error);
+                } else {
+                    
+                } 
+            });
+            res.render('assignrole', {displayuname: 'Username',
+                message: 'User details has been updated'
+            });
+            return ;
+        }
+        else if (deleterole){
+            // DELETE usergrp from usergroup table
+            db.query('DELETE FROM usergroup WHERE username = ? AND usergrp = ?', [hiddenuname, deleterole], (error, result) => {
+                if(error) {
+                    console.log('error usergroup >>>', error);
+                } else {
+                    
+                } 
+            });
+            res.render('assignrole', {displayuname: 'Username',
+                message: 'User details has been removed'
+            });
+            return ;
+        }
+    } 
 }
