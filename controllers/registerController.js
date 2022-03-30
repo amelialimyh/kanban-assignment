@@ -22,6 +22,7 @@ exports.register = (req, res) => {
             res.render('register', {
                 message: 'That name is already in use'
             });
+            return ;
         } 
         else if (!validator.test(password)) {
             res.render('register', {
@@ -34,6 +35,7 @@ exports.register = (req, res) => {
             res.render('register', {
                 message: 'Passwords do not match'
             });
+            return ;
         }
         
         let hashedPassword = await bcrypt.hash(password, 10);
