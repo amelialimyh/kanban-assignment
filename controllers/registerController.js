@@ -40,17 +40,22 @@ exports.register = (req, res) => {
         
         let hashedPassword = await bcrypt.hash(password, 10);
         
-        // create empty array to insert multiple values if needed for roles
-        console.log('role >>>>', role);
         // CHANGE TO STRING WHICH IS SIMILAR TO VARCHAR IN MYSQL
         var role_data = role.toString(); 
-        // var role_data = role.split(","); //When you take this value out of the database use this code please. This splits the data from full string to multiple strings using the , as the delimiter any questions?
         
         //add new user into accounts table
         db.query('INSERT INTO accounts SET ?', {username: username, email: email, password: hashedPassword, role: role_data, status: 'active' }, (error, results) => {
             if(error) {
                 console.log(error);
             } else {
+                // add username and usergrp in usergroup
+                db.query('INSERT INTO usergroup SET ?', {username: username, usergrp: role_data}, (error, results) => {
+                    if(error) {
+                        console.log(error);
+                    } else {
+
+                    }
+                });
                 res.render('register', {
                     message: 'User registered'
                 });
