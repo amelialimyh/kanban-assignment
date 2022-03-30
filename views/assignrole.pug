@@ -11,28 +11,28 @@ html
       h4(class="p-2")="Assign Role"
       div(class="card")
         div(class="card-body")
-          form(action="/auth/assignrole" method="POST")
+          form#form-1(action="/auth/assignrole" method="POST")
               div(class="form-group")
-                input(type="text" class="form-control w-50 mb-3" name="username" placeholder="Username")
+                input(type="text" class="form-control w-50 mb-3" name="username" placeholder=displayuname)
               
-              button#checkUser-btn(type="submit" class="btn btn-primary mr-3 mb-3")="Check User"
-              
-              div(class="form-group")
-                h5 Current Roles
-                render #{currentrole} 
+                button#checkUser-btn(type="submit" form="form-1" class="btn btn-primary mr-3 mb-3")="Check User"
+              if uname
+                div(class="form-group")
+                  h5 Current Roles
+                  render #{currentrole} 
+          if uname
+            form(action="/auth/assignrole" method="POST")
+                if uname
+                  input(type="hidden",value=uname name='hiddenuname')
+                div(class="form-group")
+                  h5(class="mt-3") New Roles
+                  select(class="mdb-select md-form mb-3 w-50" name="role")
+                    option(value="" disabled selected)="Choose Role"
+                    for role in role_array
+                      option(value=role)=role
 
 
-              div(class="form-group")
-                h5(class="mt-3") New Roles
-                select(class="mdb-select md-form mb-3 w-50")
-                  option(value="" disabled selected)="Choose Role"
-                  option(value="team member")="Team Member"
-                  option(value="project lead")="Project Lead"
-                  option(value="project manager")="Project Manager"
-                  option(value="admin")="Admin"
-
-
-              button(type="submit" class="btn btn-primary")="Confirm"
+                button(type="submit" class="btn btn-primary")="Confirm"
       if message
         h4(class="alert alert-danger mt-4")=message 
 

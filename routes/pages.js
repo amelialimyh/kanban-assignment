@@ -5,6 +5,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const alert = require('alert');
 const validateUser = require('../models/checkUser');
+const currentGroupController = require('../controllers/groupController');
 
 // Homepage
 // Simulated bank functionality
@@ -35,11 +36,25 @@ router.get('/register', async (req, res) => {
     }
   });
 
+  // check user's existing roles
+  router.get('/currentgroup', async (req, res) => {
+  // need await otherwise the result wouldn't be captured/ would be empty
+    const condition = await validateUser.checkUser(req.session.username, "admin")
+    if (condition) {
+      console.log(currentGroupController.user_list());
+      res.render('currentgroup', {userList: await currentGroupController.user_list()});
+      return ;
+    } else {
+      alert("You are not authorized to view this page!");
+    }
+  });
+
+  // assign user to new roles
   router.get('/assignrole', async (req, res) => {
   // need await otherwise the result wouldn't be captured/ would be empty
     const condition = await validateUser.checkUser(req.session.username, "admin")
     if (condition) {
-      res.render('assignrole');
+      res.render('assignrole', {displayuname: 'Username'});
     } else {
       alert("You are not authorized to view this page!");
     }
