@@ -6,7 +6,7 @@ const db = require('../dbServer');
 exports.checkUser = async (username, role) => {
     return new Promise ((resolve, reject) => {
         try{
-            db.query('SELECT * FROM accounts WHERE username = ? AND role = ?', [username, role], (error, result) => {
+            db.query('SELECT * FROM usergroup WHERE username = ? AND usergrp = ?', [username, role], (error, result) => {
                 if (error) {
                     console.log(error);
                 }

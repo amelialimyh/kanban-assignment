@@ -44,7 +44,7 @@ exports.register = (req, res) => {
         var role_data = role.toString(); 
         
         //add new user into accounts table
-        db.query('INSERT INTO accounts SET ?', {username: username, email: email, password: hashedPassword, role: role_data, status: 'active' }, (error, results) => {
+        db.query('INSERT INTO accounts SET ?', {username: username, email: email, password: hashedPassword, status: 'active' }, (error, results) => {
             if(error) {
                 console.log(error);
             } else {
