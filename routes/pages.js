@@ -24,7 +24,7 @@ const verifyUser = (req, res, next) => {
 }; 
 
 
-// access kanban board
+// kanban board
 router.get('/kanbanboard', (req, res) => {
   res.render('kanbanboard', {isLoggedIn: req.session.isLoggedIn});
 });
