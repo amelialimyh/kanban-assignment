@@ -24,6 +24,11 @@ const verifyUser = (req, res, next) => {
 }; 
 
 
+// access kanban board
+router.get('/kanbanboard', (req, res) => {
+  res.render('kanbanboard', {isLoggedIn: req.session.isLoggedIn});
+});
+
 // Create user account form
 router.get('/register', async (req, res) => {
   // need await otherwise the result wouldn't be captured/ would be empty

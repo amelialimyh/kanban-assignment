@@ -42,7 +42,7 @@ a#logout-link:hover {
 .btn-primary:hover {
     background-color: rgb(173, 99, 99);
 }
-.user-management-btn {
+.user-management-btn, #kanban-link {
     background: none;
     border: none;
     font-size: 18px;
