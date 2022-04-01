@@ -4,7 +4,6 @@ const db = require('../dbServer');
 
 exports.register = (req, res) => {
     // destructure new_user form variables
-    console.log(req.body);
     const { username, email, password, passwordConfirm, role } = req.body;
 
     // query the database
@@ -38,10 +37,8 @@ exports.register = (req, res) => {
             return ;
         }
         
+        // hash password
         let hashedPassword = await bcrypt.hash(password, 10);
-        
-        // CHANGE TO STRING WHICH IS SIMILAR TO VARCHAR IN MYSQL
-        var role_data = role.toString(); 
         
         //add new user into accounts table
         db.query('INSERT INTO accounts SET ?', {username: username, email: email, password: hashedPassword, status: 'active' }, (error, results) => {
@@ -49,7 +46,7 @@ exports.register = (req, res) => {
                 console.log(error);
             } else {
                 // add username and usergrp in usergroup
-                db.query('INSERT INTO usergroup SET ?', {username: username, usergrp: role_data}, (error, results) => {
+                db.query('INSERT INTO usergroup SET ?', {username: username, usergrp: role}, (error, results) => {
                     if(error) {
                         console.log(error);
                     } else {
