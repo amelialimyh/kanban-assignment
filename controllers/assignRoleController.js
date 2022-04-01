@@ -2,7 +2,7 @@ const db = require('../dbServer');
 
 exports.assign = (req, res) => {
     const { username, addrole, deleterole } = req.body;  
-    const role_array = ['Team Member', 'Project Lead', 'Project Manager', 'Admin'];
+    const role_array = ['Developer', 'Project Lead', 'Project Manager', 'Admin'];
     // CHECK EXISTING ROLES that the user holds
     if(username){
         db.query('SELECT * FROM usergroup WHERE username = ?', [username], (error, result, fields) => {
