@@ -13,10 +13,11 @@ html
         div(class="card-body")
           form(action="/auth/createtask" method="POST")
             div(class="form-group")
-              input(type="text" class="form-control" name="username" placeholder="Username")
+              input(type="text" class="form-control w-50" name="name" placeholder="Task Name")
             
             div(class="form-group")
-              input(type="email" class="form-control" name="email" placeholder="Email")
+              p Description:
+              textarea#createtask-comment(name="description", cols="60", rows="8") 
             
             
             button(type="submit" class="btn btn-primary")="Register User"
