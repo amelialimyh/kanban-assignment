@@ -23,7 +23,6 @@ const verifyUser = (req, res, next) => {
   next();
 }; 
 
-
 // Create user account form
 router.get('/register', async (req, res) => {
   // need await otherwise the result wouldn't be captured/ would be empty
@@ -51,6 +50,16 @@ router.get('/update', async (req, res) => {
   const checker = await validateUser.checkUser(req.session.username, "admin")
   if (checker) {
     res.render('update');
+  } else {
+    alert( "You are not authorized to view this page!");
+  }
+});
+
+// Create task
+router.get('/createtask', async (req, res) => {
+  const checker = await validateUser.checkUser(req.session.username, "project lead")
+  if (checker) {
+    res.render('createtask');
   } else {
     alert( "You are not authorized to view this page!");
   }
