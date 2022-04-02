@@ -24,8 +24,11 @@ html
                   li 
                     a#navbar-content(href="/update" class="m-2")="Update User"
             ul 
-              li
-                a#kanban-link(href="/kanbanboard" class="")="Kanban Board"
+              li 
+                button(href="#" class="user-management-btn")="Task"
+                ul
+                  li
+                    a#navbar-content(href="/createtask" class="")="Create Task"
         else
           small 
             a#login-link(href="/login" class="float-right mt-3")="Login" 
