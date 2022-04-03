@@ -19,16 +19,12 @@ html
               input(type="email" class="form-control" name="email" placeholder="Email")
             
             div(class="form-group")
-              h5 Role
-              div(class="d-inline-flex mt-3")
-                input(type="radio" class="role mt-1 mr-1" id="basic" name="role" value="developer")
-                p Developer 
-                input(type="radio" class="role mt-1 ml-3 mr-1" id="admin" name="role" value="project lead")
-                p Project Lead
-                input(type="radio" class="role mt-1 ml-3 mr-1" id="admin" name="role" value="project manager")
-                p Project Manager
-                input(type="radio" class="role mt-1 ml-3 mr-1" id="admin" name="role" value="admin")
-                p Admin
+              h5(class="mt-3") Assign Role
+              select(class="mdb-select md-form mb-3 w-50" name="role")
+                option(value="" disabled selected)="Choose Role"
+                if role_array 
+                  for role in role_array
+                    option(value=role)=role
             
             div(class="form-group")
               p <em>Password must contain minimally 8 or more characters that are a mix of alphabets, numbers and special characters but capped at 10 in total!</em>
