@@ -27,8 +27,14 @@ const verifyUser = (req, res, next) => {
 router.get('/register', async (req, res) => {
   // need await otherwise the result wouldn't be captured/ would be empty
     const condition = await validateUser.checkUser(req.session.username, "admin")
+    const role_array = ['developer', 'project lead', 'project manager', 'admin'];
+
+    for (let i = 0; i < role_array.length; i++) {
+        console.log(role_array[i]);
+    }
+    
     if (condition) {
-      res.render('register');
+      res.render('register', {role_array: role_array});
     } else {
       alert("You are not authorized to view this page!");
     }

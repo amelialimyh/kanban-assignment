@@ -1,4 +1,3 @@
-const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
 const db = require('../dbServer');
 
@@ -8,7 +7,6 @@ exports.register = (req, res) => {
 
     // query the database
     db.query('SELECT * FROM accounts WHERE username = ?', [username], async (error, results) => {       
-        
         if(error) {
             console.log(error);
         }
@@ -25,8 +23,7 @@ exports.register = (req, res) => {
         } 
         else if (!validator.test(password)) {
             res.render('register', {
-                message: "Password has to contain minimum 8 characters but capped at 10 and it has to be a mix of alphabets, numbers and special characters!"
-            });
+                message: "Password has to contain minimum 8 characters but capped at 10 and it has to be a mix of alphabets, numbers and special characters!"            });
             // exit the function
             return ;
         }
@@ -39,6 +36,7 @@ exports.register = (req, res) => {
         
         // hash password
         let hashedPassword = await bcrypt.hash(password, 10);
+
         
         //add new user into accounts table
         db.query('INSERT INTO accounts SET ?', {username: username, email: email, password: hashedPassword, status: 'active' }, (error, results) => {

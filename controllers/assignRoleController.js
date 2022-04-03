@@ -22,7 +22,7 @@ exports.assign = (req, res) => {
                     currentrole: usergroups, 
                     uname: username, 
                     displayuname: username,
-                    role_array : role_array
+                    role_array: role_array
                 });
                 // exit render
                 return ;
