@@ -8,6 +8,9 @@ body {
     font-size: 1rem;
     text-decoration: none;
 }
+h5 {
+    font-size: 16px;
+}
 a#header {
     text-decoration: none;
     font-size: 35px;

@@ -57,6 +57,25 @@ router.get('/update', async (req, res) => {
   }
 });
 
+// Create app
+router.get('/createapp/:id', async (req, res) => {
+  const checker = await validateUser.checkUser(req.session.username, "project manager")
+  var permit_open_role = ['Project Manager']
+  var permit_toDoList_role = ['Developer']
+  var permit_doing_role = ['Developer']
+  var permit_done_role = ['Task Lead']
+  if (checker) {
+    res.render('createapp', {
+      permit_open_role: permit_open_role,
+      permit_toDoList_role: permit_toDoList_role,
+      permit_doing_role: permit_doing_role,
+      permit_done_role: permit_done_role,
+    });
+  } else {
+    alert( "You are not authorized to view this page!");
+  }
+});
+
 // Create task
 router.get('/createtask/:id', async (req, res) => {
   const checker = await validateUser.checkUser(req.session.username, "project lead")

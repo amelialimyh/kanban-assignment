@@ -29,6 +29,12 @@ html
                 ul
                   li
                     a#navbar-content(href="/createtask/:id")="Create Task"
+            ul 
+              li 
+                button(href="#" class="user-management-btn")="Application"
+                ul
+                  li
+                    a#navbar-content(href="/createapp/:id")="Create Application"
         else
           small 
             a#login-link(href="/login" class="float-right mt-3")="Login" 
