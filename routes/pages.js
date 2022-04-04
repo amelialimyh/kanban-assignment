@@ -58,7 +58,7 @@ router.get('/update', async (req, res) => {
 });
 
 // Create task
-router.get('/createtask', async (req, res) => {
+router.get('/createtask/:id', async (req, res) => {
   const checker = await validateUser.checkUser(req.session.username, "project lead")
   if (checker) {
     res.render('createtask');
