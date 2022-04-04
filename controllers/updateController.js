@@ -4,7 +4,6 @@ const db = require('../dbServer');
 
 exports.update = (req, res) => {
     console.log(req.body);
-   // destructure reset password form variables
     const { username, email, status, password, passwordConfirm } = req.body;  
     
     // update user details in accounts table

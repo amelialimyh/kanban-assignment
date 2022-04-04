@@ -13,11 +13,11 @@ html
         div(class="card-body")
           form(action="/auth/createapp/:id" method="POST")
             div(class="form-group")
-                input(type="text" class="form-control w-50" name="name" placeholder="App Acronym")
+                input(type="text" class="form-control w-50" name="app_acronym" placeholder="App Acronym")
             
             div(class="form-group")
                 h5 Description
-                textarea#createtask-comment(name="description", cols="57", rows="4") 
+                textarea(name="description", cols="57", rows="4") 
             
             div(class="form-group")
                 h5 Start Date
@@ -43,14 +43,14 @@ html
             
             div(class="form-group")
                 h5(class="mt-3") Permit Doing 
-                select(class="mdb-select md-form w-50" name="permit_todolist")
+                select(class="mdb-select md-form w-50" name="permit_doing")
                     option(value="" disabled selected)="Choose Role"
                     for role in permit_doing_role
                         option(value=role)=role
             
             div(class="form-group")
                 h5(class="mt-3") Permit Done 
-                select(class="mdb-select md-form w-50" name="permit_todolist")
+                select(class="mdb-select md-form w-50" name="permit_done")
                     option(value="" disabled selected)="Choose Role"
                     for role in permit_done_role
                         option(value=role)=role
