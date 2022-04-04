@@ -11,16 +11,20 @@ html
       h4(class="p-2")="Create task"
       div(class="card")
         div(class="card-body")
-          form(action="/auth/createtask" method="POST")
+          form(action="/auth/createtask/:id" method="POST")
             div(class="form-group")
               input(type="text" class="form-control w-50" name="name" placeholder="Task Name")
             
             div(class="form-group")
               p Description:
-              textarea#createtask-comment(name="description", cols="60", rows="8") 
+              textarea#createtask-comment(name="description", cols="57", rows="4") 
+            
+            div(class="form-group")
+              p Notes:
+              textarea(name="notes", cols="57", rows="4") 
             
             
-            button(type="submit" class="btn btn-primary")="Register User"
+            button(type="submit" class="btn btn-primary")="Submit"
       if message
         h4(class="alert alert-danger mt-4")=message 
 
