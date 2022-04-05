@@ -58,7 +58,7 @@ router.get('/update', async (req, res) => {
 });
 
 // Create app
-router.get('/createapp/:id', async (req, res) => {
+router.get('/createapp', async (req, res) => {
   const checker = await validateUser.checkUser(req.session.username, "project manager")
   var permit_open_role = ['Project Manager']
   var permit_toDoList_role = ['Developer']
