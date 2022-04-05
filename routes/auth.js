@@ -9,7 +9,7 @@ const router = express.Router();
 router.post('/register', registerController.register);
 router.post('/update', updateController.update);
 router.post('/assignrole', assignRoleController.assign);
-router.post('/createapplication', createAppController.createapp);
+router.post('/createapp', createAppController.createapp);
 router.post('/createTask', createTaskController.createtask);
 
 

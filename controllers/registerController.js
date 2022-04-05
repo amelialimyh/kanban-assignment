@@ -6,7 +6,7 @@ exports.register = (req, res) => {
     const { username, email, password, passwordConfirm, role } = req.body;
 
     // query the database
-    db.query('SELECT * FROM accounts WHERE username = ?', [username], async (error, results) => {       
+    db.query('SELECT * FROM accounts WHERE username = ?', [username], async (error, result) => {       
         if(error) {
             console.log(error);
         }
@@ -15,7 +15,7 @@ exports.register = (req, res) => {
         // need to add ^...$ to ensure that the regex matches the entire subject string
         var validator = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=^.{8,10}$)");
         
-        if(results.length > 0 ) {
+        if(result.length > 0 ) {
             res.render('register', {
                 message: 'That name is already in use'
             });
@@ -39,12 +39,12 @@ exports.register = (req, res) => {
 
         
         //add new user into accounts table
-        db.query('INSERT INTO accounts SET ?', {username: username, email: email, password: hashedPassword, status: 'active' }, (error, results) => {
+        db.query('INSERT INTO accounts SET ?', {username: username, email: email, password: hashedPassword, status: 'active' }, (error, result) => {
             if(error) {
                 console.log(error);
             } else {
                 // add username and usergrp in usergroup
-                db.query('INSERT INTO usergroup SET ?', {username: username, usergrp: role}, (error, results) => {
+                db.query('INSERT INTO usergroup SET ?', {username: username, usergrp: role}, (error, result) => {
                     if(error) {
                         console.log(error);
                     } else {
