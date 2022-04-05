@@ -79,8 +79,11 @@ router.get('/createapp', async (req, res) => {
 // Create task
 router.get('/createtask/:id', async (req, res) => {
   const checker = await validateUser.checkUser(req.session.username, "project lead")
+  var state_array = ['Open', 'To-do', 'Doing', 'Done', 'Close'];
   if (checker) {
-    res.render('createtask');
+    res.render('createtask', {
+      state_array: state_array
+    });
   } else {
     alert( "You are not authorized to view this page!");
   }
