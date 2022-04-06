@@ -10,7 +10,7 @@ router.post('/register', registerController.register);
 router.post('/update', updateController.update);
 router.post('/assignrole', assignRoleController.assign);
 router.post('/createapp', createAppController.createapp);
-router.post('/createTask', createTaskController.createtask);
+router.post('/createtask/:id', createTaskController.createtask);
 
 
 module.exports = router;

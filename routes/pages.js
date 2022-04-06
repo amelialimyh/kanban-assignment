@@ -79,12 +79,39 @@ router.get('/createapp', async (req, res) => {
 // Create task
 router.get('/createtask/:id', async (req, res) => {
   const checker = await validateUser.checkUser(req.session.username, "project lead")
-  if (checker) {
-    res.render('createtask');
+
+  // %% represents anything before and anything after
+  // for example, in mySQL '%a%' means "it contains an 'a'"
+  var app_acronym = '%%';
+  if(checker) {
+    db.query('SELECT * FROM application WHERE app_acronym LIKE ?', [app_acronym], (error, result) => {
+      if(error){
+        console.log(error);
+      }
+      // console.dir(result);
+      var app_acronym_array = [];
+      for (let i = 0; i < result.length; i++){
+        console.log('app_acronym >>>>', result[i].app_acronym);
+        app_acronym_array.push(result[i].app_acronym);
+      }
+      res.render('createtask', {
+        app_acronym: app_acronym_array
+      })
+    });
   } else {
-    alert( "You are not authorized to view this page!");
+    alert("You are not authorized to view this page!");
   }
-});
+  // const { app_acronym } = req.body;
+
+  // db.query('SELECT * FROM application WHERE app_acronym = ?',[app_acronym], (error, result) => {
+  //   if (checker) {
+  //     } 
+  //   } else {
+  //     alert( "You are not authorized to view this page!");
+  //   }
+  // });
+  })
+
 
 /** Handle login display and form submit */
 router.get('/login', (req, res) => {
