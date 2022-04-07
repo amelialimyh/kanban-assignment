@@ -1,5 +1,4 @@
 const express = require('express');
-const sql = require('mysql');
 const db = require('../dbServer');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
@@ -74,6 +73,11 @@ router.get('/createapp', async (req, res) => {
   } else {
     alert( "You are not authorized to view this page!");
   }
+});
+
+// display all app
+router.get('/applications', (req, res) => {
+  res.render('applications');
 });
 
 // Create task

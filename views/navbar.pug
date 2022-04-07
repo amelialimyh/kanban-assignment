@@ -9,35 +9,38 @@ html
     nav 
       div(class="container")
         a#header(href="/" class="float-left")="Task Management"
-        if isLoggedIn 
-            ul 
-              li
-                a#logout-link(href="/logout")="Logout"
-            ul
-              li 
-                button(href="#" class="user-management-btn")="User Management"
-                ul 
-                  li 
-                    a#navbar-content(href="/assignrole" class="m-2")="Assign Role"
-                  li 
-                    a#navbar-content(href="/register" class="m-2")="Register Account"
-                  li 
-                    a#navbar-content(href="/update" class="m-2")="Update User"
-            ul 
-              li 
-                button(href="#" class="user-management-btn")="Task"
-                ul
-                  li
-                    a#navbar-content(href="/createtask/:id")="Create Task"
-            ul 
-              li 
-                button(href="#" class="user-management-btn")="Application"
-                ul
-                  li
-                    a#navbar-content(href="/createapp")="Create Application"
-        else
-          small 
-            a#login-link(href="/login" class="float-right mt-3")="Login" 
+        div(class="row float-right mt-3")
+          if isLoggedIn 
+              ul 
+                li 
+                  button(href="#" class="user-management-btn")="Application"
+                  ul
+                    li
+                      a#navbar-content(href="/applications" class="m-2")="All Applications"
+                    li
+                      a#navbar-content(href="/createapp")="Create Application"
+              ul 
+                li 
+                  button(href="#" class="user-management-btn")="Task"
+                  ul
+                    li
+                      a#navbar-content(href="/createtask/:id")="Create Task"
+              ul
+                li 
+                  button(href="#" class="user-management-btn")="User Management"
+                  ul 
+                    li 
+                      a#navbar-content(href="/assignrole" class="m-2")="Assign Role"
+                    li 
+                      a#navbar-content(href="/register" class="m-2")="Register Account"
+                    li 
+                      a#navbar-content(href="/update" class="m-2")="Update User"
+              ul 
+                li
+                  a#logout-link(href="/logout")="Logout"
+          else
+            small 
+              a#login-link(href="/login" class="float-right mt-3")="Login" 
         
     script(src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous")
 
