@@ -4,6 +4,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const alert = require('alert');
 const validateUser = require('../models/checkUser');
+const { query } = require('express');
 
 // Homepage
 // Simulated bank functionality
@@ -77,7 +78,21 @@ router.get('/createapp', async (req, res) => {
 
 // display all app
 router.get('/applications', (req, res) => {
-  res.render('applications');
+  
+  app_array = [];
+
+  db.query('SELECT app_acronym, description, rnumber FROM application', (error, result) => {
+    if (error) {
+      console.log(error);
+    } else {
+      for (let i = 0; i < result.length; i++){
+        app_array.push(result[i]);
+      }
+      res.render('applications', {
+        app_array: app_array
+      })
+    }
+  })
 });
 
 // Create task
