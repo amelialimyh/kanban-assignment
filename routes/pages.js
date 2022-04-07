@@ -122,7 +122,7 @@ router.get('/createtask/:id', async (req, res) => {
 })
 
 // display all tasks
-router.get('/tasks', (req, res) => {
+router.get('/tasklist', (req, res) => {
   
   task_array = [];
 
@@ -133,7 +133,7 @@ router.get('/tasks', (req, res) => {
       for (let i = 0; i < result.length; i++){
         task_array.push(result[i]);
       }
-      res.render('tasks', {
+      res.render('tasklist', {
         task_array: task_array
       })
     }
