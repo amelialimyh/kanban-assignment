@@ -91,7 +91,6 @@ router.get('/createtask/:id', async (req, res) => {
       // console.dir(result);
       var app_acronym_array = [];
       for (let i = 0; i < result.length; i++){
-        console.log('app_acronym >>>>', result[i].app_acronym);
         app_acronym_array.push(result[i].app_acronym);
       }
       res.render('createtask', {
@@ -101,16 +100,7 @@ router.get('/createtask/:id', async (req, res) => {
   } else {
     alert("You are not authorized to view this page!");
   }
-  // const { app_acronym } = req.body;
-
-  // db.query('SELECT * FROM application WHERE app_acronym = ?',[app_acronym], (error, result) => {
-  //   if (checker) {
-  //     } 
-  //   } else {
-  //     alert( "You are not authorized to view this page!");
-  //   }
-  // });
-  })
+})
 
 
 /** Handle login display and form submit */

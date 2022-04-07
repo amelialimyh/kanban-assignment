@@ -19,11 +19,10 @@ exports.createtask = (req, res, fields) => {
             return ;
         } else {
             for (let i = 0; i < result.length; i++){
-                console.log('for loop result >>>>', result);
                 var task_app_acronym = `${result[i].app_acronym}`;
-                console.log('app_acronnym >>>>', app_acronym);
+                
                 // new task id
-                var newTaskId = `${result[0].app_acronym}_${result[0].rnumber}`;
+                var newTaskId = `${result[0].app_acronym}_${result[0].rnumber+1}`;
 
                 // state
                 var state = 'open';
@@ -37,14 +36,19 @@ exports.createtask = (req, res, fields) => {
                 // date that task was created
                 var today = new Date();
                 var createDate = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate();
-    
+                
+                // new rnumber 
+                var rnumber = `${result[0].rnumber+1}`;
+
                 db.query('INSERT INTO task (task_id,name,description,notes,task_app_acronym,state,creator,owner,createDate) VALUES (?,?,?,?,?,?,?,?,?)', [newTaskId, name, description, notes, task_app_acronym, state, task_creator, task_owner, createDate], (error, result) => {
                     if (error) {
                         console.log('insert application error >>>', error);
                     } else {
-                        res.render('createapp', {
-                            message: 'Application created',
-                        });
+                        db.query('UPDATE application SET rnumber = ? WHERE app_acronym = ?', [rnumber, app_acronym], (error, result) => {
+                            res.render('createapp', {
+                                message: 'Application created',
+                            });
+                        })
                     }
                 });
             }
