@@ -1,6 +1,6 @@
 html
   head 
-    title="All Applications"
+    title="Task List"
     link(href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" rel="stylesheet")
     style 
       include ../static/style.css
@@ -9,20 +9,26 @@ html
   body 
     div(class="container")
         a#header(href="/" class="pb-2")="Task Management"
-        h4(class="p-2")="All Applications"
-        mixin accordion(id, app_acronym, description, rnumber)
+        h4(class="p-2")="Task List"
+        mixin accordion(id, task_id, name, description, notes, task_app_acronym, state, creator, owner, createDate)
             .accordion 
                 input.toggle(id=id, type="checkbox")
                 label.accordion-header.accordion-toggle(for=id)
-                    span(value=app_acronym)=app_acronym  
+                    span(value=task_id)=task_id  
                 .accordion-content 
                     .accordion-content-inner 
-                        p(value=description)=description
-                        p(value=rnumber)=rnumber
+                        p(value=name)=name 
+                        p(value=description)=description 
+                        p(value=notes)=notes 
+                        p(value=task_app_acronym)=task_app_acronym 
+                        p(value=state)=state 
+                        p(value=creator)=creator 
+                        p(value=owner)=owner 
+                        p(value=createDate)=createDate  
 
-        if app_array
-            each app in app_array
-                +accordion("accordion-expandable-"+app.app_acronym, app.app_acronym, app.description, app.rnumber)
+        if task_array
+            each task in task_array
+                +accordion("accordion-expandable-"+task.task_id, task.task_id, task.name, task.description, task.notes, task.task_app_acronym, task.state, task.creator, task.owner, task.createDate)
 
 
   script(src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous")
