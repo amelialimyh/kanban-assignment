@@ -81,7 +81,7 @@ router.get('/applications', (req, res) => {
   
   app_array = [];
 
-  db.query('SELECT app_acronym, description, rnumber FROM application', (error, result) => {
+  db.query('SELECT * FROM application', (error, result) => {
     if (error) {
       console.log(error);
     } else {
@@ -121,6 +121,24 @@ router.get('/createtask/:id', async (req, res) => {
   }
 })
 
+// display all tasks
+router.get('/tasks', (req, res) => {
+  
+  task_array = [];
+
+  db.query('SELECT * FROM task', (error, result) => {
+    if (error) {
+      console.log(error);
+    } else {
+      for (let i = 0; i < result.length; i++){
+        task_array.push(result[i]);
+      }
+      res.render('tasks', {
+        task_array: task_array
+      })
+    }
+  })
+});
 
 /** Handle login display and form submit */
 router.get('/login', (req, res) => {
