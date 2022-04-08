@@ -55,7 +55,7 @@ html
                 h5(class="mt-3") Permit Done 
                 select(class="mdb-select md-form w-50" name="permit_done")
                     option(value="" disabled selected)="Choose Role"
-                    if permit_done_role
+                    if permit_done_role      
                         for role in permit_done_role
                             option(value=role)=role
 

@@ -52,7 +52,8 @@ exports.register = (req, res) => {
                     }
                 });
                 res.render('register', {
-                    message: 'User registered'
+                    message: 'User registered',
+                    isLoggedIn: req.session.isLoggedIn
                 });
             }
         });

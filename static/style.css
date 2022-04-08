@@ -38,6 +38,14 @@ a#logout-link {
 a#logout-link:hover {
     color: rgb(163, 83, 62);
 }
+a#updateapp-link {
+    font-size: 18px;
+    color: rgb(221, 151, 134);
+    text-decoration: none;
+}
+a#updateapp-link:hover {
+    color: rgb(163, 83, 62);
+}
 .btn-primary {
     border: none;
     background-color: rgb(228, 135, 135);
