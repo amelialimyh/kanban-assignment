@@ -30,7 +30,9 @@ router.get('/register', async (req, res) => {
     const role_array = ['developer', 'project lead', 'project manager', 'admin'];
   
     if (condition) {
-      res.render('register', {role_array: role_array});
+      res.render('register', {
+        role_array: role_array
+      });
     } else {
       alert("You are not authorized to view this page!");
     }
@@ -76,6 +78,30 @@ router.get('/createapp', async (req, res) => {
   }
 });
 
+// Edit app
+router.get('/editapp', async (req, res) => {
+  const checker = await validateUser.checkUser(req.session.username, "project manager")
+  var app_acronym = '%%'
+  var app_acronym_arr = [];
+ 
+  if (checker) {
+    db.query('SELECT * FROM application WHERE app_acronym LIKE ?', [app_acronym], (error, result) => {
+      if (error) {
+        console.log(error);
+      }  
+      for (let i = 0; i < result.length; i++){
+        app_acronym_arr.push(result[i].app_acronym);
+      }
+      res.render('editapp', {
+        app_acronym_arr: app_acronym_arr,
+        isLoggedIn: req.session.isLoggedIn
+      })
+    })
+  } else {
+    alert( "You are not authorized to view this page!");
+  }
+});
+
 // display all app
 router.get('/applications', (req, res) => {
   
@@ -89,7 +115,8 @@ router.get('/applications', (req, res) => {
         app_array.push(result[i]);
       }
       res.render('applications', {
-        app_array: app_array
+        app_array: app_array,
+        isLoggedIn: req.session.isLoggedIn
       })
     }
   })
