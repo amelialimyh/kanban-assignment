@@ -82,7 +82,7 @@ router.get('/createapp', async (req, res) => {
 router.get('/editapp', async (req, res) => {
   const checker = await validateUser.checkUser(req.session.username, "project manager")
   var app_acronym = '%%'
-  var app_acronym_arr = [];
+  var app_arr = [];
  
   if (checker) {
     db.query('SELECT * FROM application WHERE app_acronym LIKE ?', [app_acronym], (error, result) => {
@@ -90,11 +90,10 @@ router.get('/editapp', async (req, res) => {
         console.log(error);
       }  
       for (let i = 0; i < result.length; i++){
-        app_acronym_arr.push(result[i].app_acronym);
+        app_arr.push(result[i]);
       }
       res.render('editapp', {
-        app_acronym_arr: app_acronym_arr,
-        isLoggedIn: req.session.isLoggedIn
+        app_arr: result
       })
     })
   } else {

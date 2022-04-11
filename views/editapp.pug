@@ -1,6 +1,6 @@
 html
   head 
-    title="Edit App"
+    title="Edit Application"
     link(href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" rel="stylesheet")
     style 
       include ../static/style.css
@@ -8,29 +8,79 @@ html
   body 
     div(class="container")
       a#header(href="/" class="pb-2")="Task Management"
-      h4(class="p-2")="Edit App"
+      h4(class="p-2")="Edit Application"
       div(class="card")
         div(class="card-body")
-          form#form-a(action="/auth/editapp" method="POST")    
-            h5(class="mt-3") App_Acronym
-            select(class="mdb-select md-form mb-3 w-50" name="app_acronym")
-              option(value="" disabled selected)="Choose App_Acronym"
-              if app_acronym_arr  
-                for app_acronym in app_acronym_arr
-                  option(value=app_acronym)=app_acronym
+          form#form-1(action="/auth/editapp" method="POST")
+            div(class="form-group")
+              h5(class="mt-3") App_Acronym 
+              select(class="mdb-select md-form mb-3 w-50" name="app_acronym")
+                option(value="" disabled selected)="Choose App_Acronym"
+                  if selected_app
+                    option(value=selected_app[0].app_acronym selected)=selected_app[0].app_acronym
+                  else 
+                    for app in app_arr 
+                      option(value=app.app_acronym)=app.app_acronym
             
-          form#form-b(action="/auth/editapp" method="POST")
-            div(class="form-group")
-            p Description:
-            textarea#createtask-comment(name="description", cols="57", rows="4" value=description) 
-        
-            div(class="form-group")
-            p Notes:
-            textarea(name="notes", cols="57", rows="4") 
+              div(class="row")
+                button(type="submit" form="form-1" class="btn btn-primary ml-3 mb-3" name="check_acronym_btn" value="true")="Check app_acronym"
+            
+              if selected_app
+                form(action="/auth/editapp" method="POST")
+                  div(class="form-group")
+                    h5 Description
+                    textarea(name="description", cols="57", rows="4") 
+                      if selected_app
+                        for app in selected_app
+                          option(value=app.description)=app.description
+                  
+                  if selected_app 
+                    for app in selected_app
+                      div(class="form-group")
+                        h5="rNumber"
+                        input(type="text" name="rnumber" value=app.rnumber placeholder=app.rnumber disabled="disabled")
+                  
+                  div(class="form-group")
+                    h5="Start Date"
+                    input(type="date" name="start_date" value=start_Date)
+                  
+                  div(class="form-group")
+                    h5="End Date"
+                    input(type="date" name="end_date" value=end_Date)
 
-            
-            button(type="submit" class="btn btn-primary")="Confirm"
-      
+                  div(class="form-group")
+                    h5(class="mt-3") Permit Open 
+                    select(class="mdb-select md-form mb-3 w-50" name="permit_open")
+                      option(value="" disabled selected)="Choose Role"
+                      if roles
+                        for role in roles
+                          option(value=role)=role
+                  
+                  div(class="form-group")
+                    h5(class="mt-3") Permit To-do-list
+                    select(class="mdb-select md-form mb-3 w-50" name="permit_todolist")
+                      option(value="" disabled selected)="Choose Role"
+                      if roles
+                        for role in roles
+                          option(value=role)=role
+
+                  div(class="form-group")
+                    h5(class="mt-3") Permit Doing 
+                    select(class="mdb-select md-form mb-3 w-50" name="permit_doing")
+                      option(value="" disabled selected)="Choose Role"
+                      if roles
+                        for role in roles
+                          option(value=role)=role
+
+                  div(class="form-group")
+                    h5(class="mt-3") Permit Done  
+                    select(class="mdb-select md-form mb-3 w-50" name="permit_done")
+                      option(value="" disabled selected)="Choose Role"
+                      if roles
+                        for role in roles
+                          option(value=role)=role
+
+                  button(type="submit" class="btn btn-primary" name="confirm_edit_btn" value="true")="Update"
       if message
         h4(class="alert alert-danger mt-4")=message 
 
