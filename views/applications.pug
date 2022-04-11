@@ -13,25 +13,26 @@ html
             h4(style="float:left;")="All Applications"
             a#updateapp-link(class="" href="/editapp" style="float:right;")="Update Application"
         div(class="form-group")
-            mixin accordion(id, app_acronym, description, rnumber, start_date, end_date)
+            mixin accordion(id, app_acronym, description, rnumber, start_date, end_date, permit_open, permit_todolist, permit_doing, permit_done)
                 .accordion 
                     input.toggle(id=id, type="checkbox")
                     label.accordion-header.accordion-toggle(for=id)
                         span(value=app_acronym)=app_acronym  
                     .accordion-content 
                         .accordion-content-inner 
-                            h5 <em>Description:</em>
-                            p(value=description)=description
-                            p <em>rNumber:</em> 
-                            p(value=rnumber)=rnumber
-                            p <em>Start Date:</em>
-                            p(value=start_date)=start_date
-                            p <em>End Date:</em> 
-                            p(value=end_date)=end_date
+                            p(value=description)=`Description: ${description}`
+                            p(value=rnumber)=`rNumber: ${rnumber}`
+                            p(value=start_date)=`Start Date: ${start_date}`
+                            p(value=end_date)=`End Date: ${end_date}`
+                            p(value=permit_open)=`Permit Open: ${permit_open}`
+                            p(value=permit_todolist)=`Permit To-do-list: ${permit_todolist}`
+                            p(value=permit_doing)=`Permit Doing: ${permit_doing}`
+                            p(value=permit_done)=`Permit Done: ${permit_done}` 
+
 
             if app_array
                 each app in app_array
-                    +accordion("accordion-expandable-"+app.app_acronym, app.app_acronym, app.description, app.rnumber, app.start_date, app.end_date)
+                    +accordion("accordion-expandable-"+app.app_acronym, app.app_acronym, app.description, app.rnumber, app.start_date, app.end_date, app.permit_open, app.permit_todolist, app.permit_doing, app.permit_done)
 
 
   script(src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous")
