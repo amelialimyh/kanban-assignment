@@ -17,14 +17,14 @@ html
                     span(value=task_id)=task_id  
                 .accordion-content 
                     .accordion-content-inner 
-                        p(value=name)=name 
-                        p(value=description)=description 
-                        p(value=notes)=notes 
-                        p(value=task_app_acronym)=task_app_acronym 
-                        p(value=state)=state 
-                        p(value=creator)=creator 
-                        p(value=owner)=owner 
-                        p(value=createDate)=createDate  
+                        p(value=name)=`Name: ${name}`
+                        p(value=description)=`Description: ${description}` 
+                        p(value=notes)=`Notes: ${notes}`
+                        p(value=task_app_acronym)=`Task App_Acronym: ${task_app_acronym}` 
+                        p(value=state)=`State: ${state}` 
+                        p(value=creator)=`Creator: ${creator}` 
+                        p(value=owner)=`Owner: ${owner}`
+                        p(value=createDate)=`Create Date: ${createDate}`  
 
         if task_array
             each task in task_array
