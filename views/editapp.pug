@@ -24,6 +24,8 @@ html
             
               div(class="row")
                 button(type="submit" form="form-1" class="btn btn-primary ml-3 mb-3" name="check_acronym_btn" value="true")="Check app_acronym"
+              
+                button#delete_acronym_btn(type="submit" form="form-1" class="btn btn-primary ml-3 mb-3" name="delete_acronym_btn" value="true")="Delete app_acronym"
             
               if selected_app
                 form(action="/auth/editapp" method="POST")
