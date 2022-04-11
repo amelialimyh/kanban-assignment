@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const db = require('../dbServer');
 
 
-exports.update = (req, res) => {
+exports.updateuser = (req, res) => {
     console.log(req.body);
     const { username, email, status, password, passwordConfirm } = req.body;  
     
@@ -13,7 +13,7 @@ exports.update = (req, res) => {
         // display current user's roles
         if(error) {
             console.log(error);
-            res.render('update', {
+            res.render('updateuser', {
                 message: 'Internal server error'
             });
             return ;
@@ -24,7 +24,7 @@ exports.update = (req, res) => {
         // check if username exists
         if (result.length === 0) {
             console.log('result.length === 0 >>>>>', result.length);
-            res.render('update', {
+            res.render('updateuser', {
                 message: 'Username or Password is invalid!'
             });
             return ;
@@ -34,13 +34,13 @@ exports.update = (req, res) => {
         var validator = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=^.{8,10}$)");
 
         if( password !== passwordConfirm ) {
-            res.render('update', {
+            res.render('updateuser', {
                 message: 'Passwords do not match'
             });
             return ;
         }
         if (!validator.test(password)) {
-            res.render('update', {
+            res.render('updateuser', {
                 message: "Password has to contain minimum 8 characters but capped at 10 and it has to be a mix of alphabets, numbers and special characters!"
             });
             return ;
@@ -53,7 +53,7 @@ exports.update = (req, res) => {
             if(error) {
                 console.log('error >>>',error);
             } else {
-                res.render('update', {
+                res.render('updateuser', {
                     message: 'User details has been updated'
                 });
             } 
