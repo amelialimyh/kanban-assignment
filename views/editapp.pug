@@ -19,8 +19,9 @@ html
                   if selected_app
                     option(value=selected_app[0].app_acronym selected)=selected_app[0].app_acronym
                   else 
-                    for app in app_arr 
-                      option(value=app.app_acronym)=app.app_acronym
+                    if app_arr
+                      for app in app_arr 
+                        option(value=app.app_acronym)=app.app_acronym
             
               div(class="row")
                 button(type="submit" form="form-1" class="btn btn-primary ml-3 mb-3" name="check_acronym_btn" value="true")="Check app_acronym"
