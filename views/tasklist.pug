@@ -9,7 +9,13 @@ html
   body 
     div(class="container")
         a#header(href="/" class="pb-2")="Task Management"
-        h4(class="p-2")="Task List"
+        
+        div(id="divBox" style="height:50;width:100%;")
+            h4(style="float:left;")="Task List"
+            div(class="row float-right")
+                a#createapp-link(class="" href="/createtask" class="mr-3")="Create Task"
+                a#updateapp-link(class="" href="/updatetask" class="mr-3")="Update Task"
+
         mixin accordion(id, task_id, name, description, notes, task_app_acronym, state, creator, owner, createDate)
             .accordion 
                 input.toggle(id=id, type="checkbox")

@@ -113,6 +113,14 @@ a#updateapp-link:hover {
 #register-header {
     font-size: 28px;
 }
+#createapp-link {
+    font-size: 18px;
+    color: rgb(139, 133, 133);
+}
+#createapp-link:hover {
+    font-size: 18px;
+    color: rgb(87, 85, 85);
+}
 #delete_acronym_btn {
     background-color: rgb(231, 21, 21);
 }

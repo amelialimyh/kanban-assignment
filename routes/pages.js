@@ -54,10 +54,10 @@ router.get('/register', async (req, res) => {
   });
 
 // Update other user account details
-router.get('/update', async (req, res) => {
+router.get('/updateuser', async (req, res) => {
   const checker = await validateUser.checkUser(req.session.username, "admin")
   if (checker) {
-    res.render('update', {
+    res.render('updateuser', {
       isLoggedIn: req.session.isLoggedIn
     });
   } else {
@@ -130,7 +130,7 @@ router.get('/applications', (req, res) => {
 });
 
 // Create task
-router.get('/createtask/:id', async (req, res) => {
+router.get('/createtask', async (req, res) => {
   const checker = await validateUser.checkUser(req.session.username, "project lead")
 
   // %% represents anything before and anything after
@@ -155,6 +155,30 @@ router.get('/createtask/:id', async (req, res) => {
     alert("You are not authorized to view this page!");
   }
 })
+
+// Update task
+router.get('/updatetask', async (req, res) => {
+  const checker = await validateUser.checkUser(req.session.username, "project lead")
+  var task_id = '%%'
+  var task_array = [];
+ 
+  if (checker) {
+    db.query('SELECT * FROM task WHERE task_id LIKE ?', [task_id], (error, result) => {
+      if (error) {
+        console.log(error);
+      }  
+      for (let i = 0; i < result.length; i++){
+        task_array.push(result[i]);
+      }
+      res.render('updatetask', {
+        task_array: result,
+        isLoggedIn: req.session.isLoggedIn
+      })
+    })
+  } else {
+    alert( "You are not authorized to view this page!");
+  }
+});
 
 // display all tasks
 router.get('/tasklist', (req, res) => {

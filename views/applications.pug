@@ -9,9 +9,13 @@ html
   body 
     div(class="container")
         a#header(href="/" class="pb-2")="Task Management"
+        
         div(id="divBox" style="height:50;width:100%;")
             h4(style="float:left;")="All Applications"
-            a#updateapp-link(class="" href="/editapp" style="float:right;")="Update Application"
+            div(class="row float-right")
+                a#createapp-link(class="" href="/createapp" class="mr-3")="Create Application"
+                a#updateapp-link(class="" href="/editapp" class="mr-3")="Update Application"
+        
         div(class="form-group")
             mixin accordion(id, app_acronym, description, rnumber, start_date, end_date, permit_open, permit_todolist, permit_doing, permit_done)
                 .accordion 
