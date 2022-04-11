@@ -31,7 +31,8 @@ router.get('/register', async (req, res) => {
   
     if (condition) {
       res.render('register', {
-        role_array: role_array
+        role_array: role_array,
+        isLoggedIn: req.session.isLoggedIn
       });
     } else {
       alert("You are not authorized to view this page!");
@@ -43,7 +44,10 @@ router.get('/register', async (req, res) => {
   // need await otherwise the result wouldn't be captured/ would be empty
     const condition = await validateUser.checkUser(req.session.username, "admin")
     if (condition) {
-      res.render('assignrole', {displayuname: 'Username'});
+      res.render('assignrole', {
+        displayuname: 'Username',
+        isLoggedIn: req.session.isLoggedIn
+    });
     } else {
       alert("You are not authorized to view this page!");
     }
@@ -53,7 +57,9 @@ router.get('/register', async (req, res) => {
 router.get('/update', async (req, res) => {
   const checker = await validateUser.checkUser(req.session.username, "admin")
   if (checker) {
-    res.render('update');
+    res.render('update', {
+      isLoggedIn: req.session.isLoggedIn
+    });
   } else {
     alert( "You are not authorized to view this page!");
   }
@@ -72,6 +78,7 @@ router.get('/createapp', async (req, res) => {
       permit_toDoList_role: permit_toDoList_role,
       permit_doing_role: permit_doing_role,
       permit_done_role: permit_done_role,
+      isLoggedIn: req.session.isLoggedIn
     });
   } else {
     alert( "You are not authorized to view this page!");
@@ -93,7 +100,8 @@ router.get('/editapp', async (req, res) => {
         app_arr.push(result[i]);
       }
       res.render('editapp', {
-        app_arr: result
+        app_arr: result,
+        isLoggedIn: req.session.isLoggedIn
       })
     })
   } else {
@@ -139,7 +147,8 @@ router.get('/createtask/:id', async (req, res) => {
         app_acronym_array.push(result[i].app_acronym);
       }
       res.render('createtask', {
-        app_acronym: app_acronym_array
+        app_acronym: app_acronym_array,
+        isLoggedIn: req.session.isLoggedIn
       })
     });
   } else {
@@ -160,7 +169,8 @@ router.get('/tasklist', (req, res) => {
         task_array.push(result[i]);
       }
       res.render('tasklist', {
-        task_array: task_array
+        task_array: task_array,
+        isLoggedIn: req.session.isLoggedIn
       })
     }
   })

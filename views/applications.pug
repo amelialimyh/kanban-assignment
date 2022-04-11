@@ -13,19 +13,25 @@ html
             h4(style="float:left;")="All Applications"
             a#updateapp-link(class="" href="/editapp" style="float:right;")="Update Application"
         div(class="form-group")
-            mixin accordion(id, app_acronym, description, rnumber)
+            mixin accordion(id, app_acronym, description, rnumber, start_date, end_date)
                 .accordion 
                     input.toggle(id=id, type="checkbox")
                     label.accordion-header.accordion-toggle(for=id)
                         span(value=app_acronym)=app_acronym  
                     .accordion-content 
                         .accordion-content-inner 
+                            h5 <em>Description:</em>
                             p(value=description)=description
+                            p <em>rNumber:</em> 
                             p(value=rnumber)=rnumber
+                            p <em>Start Date:</em>
+                            p(value=start_date)=start_date
+                            p <em>End Date:</em> 
+                            p(value=end_date)=end_date
 
             if app_array
                 each app in app_array
-                    +accordion("accordion-expandable-"+app.app_acronym, app.app_acronym, app.description, app.rnumber)
+                    +accordion("accordion-expandable-"+app.app_acronym, app.app_acronym, app.description, app.rnumber, app.start_date, app.end_date)
 
 
   script(src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous")
