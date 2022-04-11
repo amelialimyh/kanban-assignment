@@ -113,6 +113,12 @@ a#updateapp-link:hover {
 #register-header {
     font-size: 28px;
 }
+#delete_acronym_btn {
+    background-color: rgb(231, 21, 21);
+}
+#delete_acronym_btn:hover {
+    background-color: rgb(165, 31, 31);
+}
 nav {
   background: none;
   z-index: auto;
