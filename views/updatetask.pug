@@ -20,68 +20,53 @@ html
                     option(value=selected_task[0].task_id selected)=selected_task[0].task_id
                   else 
                     if task_array 
-                      for task  in task_array 
+                      for task in task_array 
                         option(value=task.task_id)=task.task_id
             
               div(class="row")
                 button(type="submit" form="form-1" class="btn btn-primary ml-3 mb-3" name="task_id_btn" value="true")="Check Task Id"
+               
+                button#delete_btn(type="submit" form="form-1" class="btn btn-primary ml-3 mb-3" name="delete_task_btn" value="true")="Delete Task"
             
-              if selected_app
-                form(action="/auth/updatetask" method="POST")
+              if selected_task
+                for task in selected_task
+                  form(action="/auth/updatetask" method="POST")
+                    div(class="form-group")
+                      h5 Name 
+                      input(type="name" name="name" value=task.name placeholder=task.name disabled="disabled")
+
+              if selected_task 
+                for task in selected_task 
                   div(class="form-group")
                     h5 Description
                     textarea(name="description", cols="57", rows="4") 
-                      if selected_app
-                        for app in selected_app
-                          option(value=app.description)=app.description
+                        option(value=task.description)=task.description
+                
+                if selected_task  
+                  for task in selected_task
+                    div(class="form-group")
+                      h5 Notes
+                      textarea(name="notes", cols="57", rows="4" disabled="disabled") 
+                        option(value=task.notes)=task.notes
+                        option(value=task.state)=task.state
+                        option(value=task.creator)=task.creator
+                        option(value=task.owner)=task.owner
                   
-                  if selected_app 
-                    for app in selected_app
-                      div(class="form-group")
-                        h5="rNumber"
-                        input(type="text" name="rnumber" value=app.rnumber placeholder=app.rnumber disabled="disabled")
-                  
-                  div(class="form-group")
-                    h5="Start Date"
-                    input(type="date" name="start_date" value=start_Date)
-                  
-                  div(class="form-group")
-                    h5="End Date"
-                    input(type="date" name="end_date" value=end_Date)
+                if selected_task
+                  for task in selected_task
+                    div(class="form-group")
+                      h5 Task_App_Acronym
+                      input(type="text" name="task_app_acronym" value=task.task_app_acronym placeholder=task.task_app_acronym disabled="disabled")
 
-                  div(class="form-group")
-                    h5(class="mt-3") Permit Open 
-                    select(class="mdb-select md-form mb-3 w-50" name="permit_open")
-                      option(value="" disabled selected)="Choose Role"
-                      if roles
-                        for role in roles
-                          option(value=role)=role
-                  
-                  div(class="form-group")
-                    h5(class="mt-3") Permit To-do-list
-                    select(class="mdb-select md-form mb-3 w-50" name="permit_todolist")
-                      option(value="" disabled selected)="Choose Role"
-                      if roles
-                        for role in roles
-                          option(value=role)=role
+                div(class="form-group")
+                    h5(class="mt-3") Change State  
+                    select(class="mdb-select md-form mb-3 w-50" name="state")
+                      option(value="" disabled selected)="Choose State"
+                      if state_array
+                        for state in state_array
+                          option(value=state)=state
 
-                  div(class="form-group")
-                    h5(class="mt-3") Permit Doing 
-                    select(class="mdb-select md-form mb-3 w-50" name="permit_doing")
-                      option(value="" disabled selected)="Choose Role"
-                      if roles
-                        for role in roles
-                          option(value=role)=role
-
-                  div(class="form-group")
-                    h5(class="mt-3") Permit Done  
-                    select(class="mdb-select md-form mb-3 w-50" name="permit_done")
-                      option(value="" disabled selected)="Choose Role"
-                      if roles
-                        for role in roles
-                          option(value=role)=role
-
-                  button(type="submit" class="btn btn-primary" name="confirm_edit_btn" value="true")="Update"
+                button(type="submit" class="btn btn-primary" name="confirm_btn" value="true")="Update"
       if message
         h4(class="alert alert-danger mt-4")=message 
 
