@@ -14,7 +14,8 @@ exports.updateuser = (req, res) => {
         if(error) {
             console.log(error);
             res.render('updateuser', {
-                message: 'Internal server error'
+                message: 'Internal server error',
+                isLoggedIn: req.session.isLoggedIn
             });
             return ;
         }
@@ -25,7 +26,8 @@ exports.updateuser = (req, res) => {
         if (result.length === 0) {
             console.log('result.length === 0 >>>>>', result.length);
             res.render('updateuser', {
-                message: 'Username or Password is invalid!'
+                message: 'Username or Password is invalid!',
+                isLoggedIn: req.session.isLoggedIn
             });
             return ;
         } 
@@ -35,13 +37,15 @@ exports.updateuser = (req, res) => {
 
         if( password !== passwordConfirm ) {
             res.render('updateuser', {
-                message: 'Passwords do not match'
+                message: 'Passwords do not match',
+                isLoggedIn: req.session.isLoggedIn
             });
             return ;
         }
         if (!validator.test(password)) {
             res.render('updateuser', {
-                message: "Password has to contain minimum 8 characters but capped at 10 and it has to be a mix of alphabets, numbers and special characters!"
+                message: "Password has to contain minimum 8 characters but capped at 10 and it has to be a mix of alphabets, numbers and special characters!",
+                isLoggedIn: req.session.isLoggedIn
             });
             return ;
         }
@@ -54,7 +58,8 @@ exports.updateuser = (req, res) => {
                 console.log('error >>>',error);
             } else {
                 res.render('updateuser', {
-                    message: 'User details has been updated'
+                    message: 'User details has been updated',
+                    isLoggedIn: req.session.isLoggedIn
                 });
             } 
         });

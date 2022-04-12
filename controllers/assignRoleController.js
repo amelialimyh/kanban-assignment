@@ -22,7 +22,8 @@ exports.assign = (req, res) => {
                     currentrole: usergroups, 
                     uname: username, 
                     displayuname: username,
-                    role_array: role_array
+                    role_array: role_array,
+                    isLoggedIn: req.session.isLoggedIn
                 });
                 // exit render
                 return ;
@@ -44,8 +45,10 @@ exports.assign = (req, res) => {
                     
                 } 
             });
-            res.render('assignrole', {displayuname: 'Username',
-                message: 'User details has been updated'
+            res.render('assignrole', {
+                displayuname: 'Username',
+                message: 'User details has been updated',
+                isLoggedIn: req.session.isLoggedIn
             });
             return ;
         }
@@ -58,8 +61,10 @@ exports.assign = (req, res) => {
                     
                 } 
             });
-            res.render('assignrole', {displayuname: 'Username',
-                message: 'User details has been removed'
+            res.render('assignrole', {
+                displayuname: 'Username',
+                message: 'User details has been removed',
+                isLoggedIn: req.session.isLoggedIn
             });
             return ;
         }

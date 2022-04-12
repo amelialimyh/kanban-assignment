@@ -17,19 +17,23 @@ exports.register = (req, res) => {
         
         if(result.length > 0 ) {
             res.render('register', {
-                message: 'That name is already in use'
+                message: 'That name is already in use',
+                isLoggedIn: req.session.isLoggedIn
             });
             return ;
         } 
         else if (!validator.test(password)) {
             res.render('register', {
-                message: "Password has to contain minimum 8 characters but capped at 10 and it has to be a mix of alphabets, numbers and special characters!"            });
+                message: "Password has to contain minimum 8 characters but capped at 10 and it has to be a mix of alphabets, numbers and special characters!",
+                isLoggedIn: req.session.isLoggedIn
+            });
             // exit the function
             return ;
         }
         else if ( password !== passwordConfirm ) {
             res.render('register', {
-                message: 'Passwords do not match'
+                message: 'Passwords do not match',
+                isLoggedIn: req.session.isLoggedIn
             });
             return ;
         }
