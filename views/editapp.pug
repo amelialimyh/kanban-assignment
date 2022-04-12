@@ -35,7 +35,7 @@ html
                     textarea(name="description", cols="57", rows="4") 
                       if selected_app
                         for app in selected_app
-                          option(value=app.description)=app.description
+                          | #{app.description}
                   
                   if selected_app 
                     for app in selected_app

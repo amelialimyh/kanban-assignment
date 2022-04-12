@@ -68,10 +68,10 @@ router.get('/updateuser', async (req, res) => {
 // Create app
 router.get('/createapp', async (req, res) => {
   const checker = await validateUser.checkUser(req.session.username, "project manager")
-  var permit_open_role = ['Project Manager']
-  var permit_toDoList_role = ['Developer']
-  var permit_doing_role = ['Developer']
-  var permit_done_role = ['Task Lead']
+  var permit_open_role = ['project manager']
+  var permit_toDoList_role = ['developer']
+  var permit_doing_role = ['developer']
+  var permit_done_role = ['task lead', 'developer']
   if (checker) {
     res.render('createapp', {
       permit_open_role: permit_open_role,
