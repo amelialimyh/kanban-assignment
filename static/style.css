@@ -121,10 +121,10 @@ a#updateapp-link:hover {
     font-size: 18px;
     color: rgb(87, 85, 85);
 }
-#delete_acronym_btn {
+#delete_btn {
     background-color: rgb(231, 21, 21);
 }
-#delete_acronym_btn:hover {
+#delete_btn:hover {
     background-color: rgb(165, 31, 31);
 }
 nav {

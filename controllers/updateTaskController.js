@@ -1,7 +1,9 @@
 const db = require('../dbServer');
 
 exports.updatetask = (req, res) => {
-    const { task_id, task_id_btn } = req.body;  
+    const { task_id, task_id_btn, delete_task_btn, description, confirm_btn, state } = req.body;  
+
+    state_array = ['open', 'to-do', 'doing', 'done', 'close'];
 
     // VERIFY EXISTING APP 
     if (task_id_btn){
@@ -13,41 +15,41 @@ exports.updatetask = (req, res) => {
             console.log(result);
 
             res.render('updatetask', {
-                selected_task: result
+                selected_task: result,
+                state_array: state_array
             });
             return ;
         });
         return;
     }
     
-    // // DELETE APP
-    // if (delete_acronym_btn){
-    //     db.query('DELETE FROM application WHERE app_acronym = ?', [app_acronym], (error, result) => {
-    //         if(error) {
-    //             console.log('delete app error >>>>>', error);
-    //         } 
+    // DELETE TASK
+    if (delete_task_btn){
+        db.query('DELETE FROM task WHERE task_id = ?', [task_id], (error, result) => {
+            if(error) {
+                console.log('delete task error >>>>>', error);
+            } 
 
-    //         console.log(result);
+            console.log(result);
 
-    //         res.render('editapp', {
-    //             message: "Application deleted!"
-    //         });
-    //     });
-    //     return;
-    // }
+            res.render('updatetask', {
+                message: "Task deleted!"
+            });
+        });
+        return;
+    }
 
-    // // UPDATE APP
-    // if (confirm_edit_btn){
-    //     // UPDATE APP
-    //     db.query('UPDATE application SET description = ?, start_date = ?, end_date = ?, permit_open = ?, permit_todolist = ?, permit_doing = ?, permit_done = ? WHERE app_acronym = ?', [description, start_date, end_date, permit_open, permit_todolist, permit_doing, permit_done, app_acronym], (error, result) => {
-    //         if (error) {
-    //             console.log(error);
-    //         }
-    //         res.render('editapp', {
-    //             message: 'Application successfully updated!',
-    //             app_arr: result
-    //         });
-    //     });
-    //     return;
-    // }
+    // UPDATE APP
+    if (confirm_btn){
+        // UPDATE APP
+        db.query('UPDATE task SET description = ?, state = ? WHERE task_id = ?', [description, state, task_id], (error, result) => {
+            if (error) {
+                console.log(error);
+            }
+            res.render('updatetask', {
+                message: 'Task successfully updated!',
+            });
+        });
+        return;
+    }
 }
