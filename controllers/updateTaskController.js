@@ -1,7 +1,7 @@
 const db = require('../dbServer');
 
 exports.updatetask = (req, res) => {
-    const { task_id, task_id_btn, delete_task_btn, description, confirm_btn, state } = req.body;  
+    const { task_id, task_id_btn, delete_task_btn, description, confirm_btn, state, new_note } = req.body;  
 
     state_array = ['open', 'to-do', 'doing', 'done', 'close'];
 
@@ -42,7 +42,7 @@ exports.updatetask = (req, res) => {
     // UPDATE APP
     if (confirm_btn){
         // UPDATE APP
-        db.query('UPDATE task SET description = ?, state = ? WHERE task_id = ?', [description, state, task_id], (error, result) => {
+        db.query('UPDATE task SET description = ?, notes = ?, state = ? WHERE task_id = ?', [description, new_note, state, task_id], (error, result) => {
             if (error) {
                 console.log(error);
             }
