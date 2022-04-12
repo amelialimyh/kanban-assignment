@@ -13,7 +13,8 @@ exports.createapp = (req, res) => {
 
         if (result.length > 0) {
             res.render('createapp', {
-                message: 'Application already exists!'
+                message: 'Application already exists!',
+                isLoggedIn: req.session.isLoggedIn
             });
             return ;
         } else {
@@ -22,7 +23,8 @@ exports.createapp = (req, res) => {
                     console.log('insert application error >>>', error);
                 } else {
                     res.render('createapp', {
-                        message: 'Application created'
+                        message: 'Application created',
+                        isLoggedIn: req.session.isLoggedIn
                     });
                 }
             });

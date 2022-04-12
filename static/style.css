@@ -3,6 +3,9 @@
 * {
     box-sizing: border-box;
 }
+#navbar_container {
+    height: 10%;
+}
 body {
     font-family: 'Montserrat', sans-serif;
     font-size: 1rem;

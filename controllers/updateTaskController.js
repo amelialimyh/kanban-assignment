@@ -16,7 +16,8 @@ exports.updatetask = (req, res) => {
 
             res.render('updatetask', {
                 selected_task: result,
-                state_array: state_array
+                state_array: state_array,
+                isLoggedIn: req.session.isLoggedIn
             });
             return ;
         });
@@ -33,7 +34,8 @@ exports.updatetask = (req, res) => {
             console.log(result);
 
             res.render('updatetask', {
-                message: "Task deleted!"
+                message: "Task deleted!",
+                isLoggedIn: req.session.isLoggedIn
             });
         });
         return;
@@ -48,6 +50,7 @@ exports.updatetask = (req, res) => {
             }
             res.render('updatetask', {
                 message: 'Task successfully updated!',
+                isLoggedIn: req.session.isLoggedIn
             });
         });
         return;

@@ -14,7 +14,8 @@ exports.createtask = (req, res, fields) => {
         if (result.length === 0) {
             console.log('result >>>', result);
             res.render('createtask', {
-                message: 'Application does not exist!'
+                message: 'Application does not exist!',
+                isLoggedIn: req.session.isLoggedIn
             });
             return ;
         } else {
@@ -51,6 +52,7 @@ exports.createtask = (req, res, fields) => {
                         db.query('UPDATE application SET rnumber = ? WHERE app_acronym = ?', [rnumber, app_acronym], (error, result) => {
                             res.render('createtask', {
                                 message: 'Application created',
+                                isLoggedIn: req.session.isLoggedIn
                             });
                         })
                     }

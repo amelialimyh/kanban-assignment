@@ -7,14 +7,18 @@ html
       include ../static/accordion.css
 
   body 
+    include ./navbar.pug
+
     div(class="container")
-        a#header(href="/" class="pb-2")="Task Management"
+        //- a#header(href="/" class="pb-2")="Task Management"
         
-        div(id="divBox" style="height:50;width:100%;")
-            h4(style="float:left;")="Task List"
-            div(class="row float-right")
-                a#createapp-link(class="" href="/createtask" class="mr-3")="Create Task"
-                a#updateapp-link(class="" href="/updatetask" class="mr-3")="Update Task"
+        div(class="row mb-2")
+            h4(class="ml-2 mb-2") Task List
+        
+        //- div(id="divBox" style="height:50;width:100%;")
+        //-     div(class="row float-right")
+        //-         a#createapp-link(class="" href="/createtask" class="mr-3")="Create Task"
+        //-         a#updateapp-link(class="" href="/updatetask" class="mr-3")="Update Task"
 
         mixin accordion(id, task_id, name, description, notes, task_app_acronym, state, creator, owner, createDate)
             .accordion 
