@@ -10,12 +10,11 @@ html
     include ./navbar.pug
 
     div(class="container")
-        h4(class="ml-2 float-left") All Applications
+        h4(class="ml-2 mr-2 float-left") All Applications
         
         div(id="divBox" style="height:30;width:100%;")
-            div(class="row float-right")
-                a#createapp-link(href="/createapp" class="mr-3")="Create Application"
-                a#updateapp-link(href="/editapp" class="mr-3")="Update Application"
+            a#createapp-link(href="/createapp" class="ml-3")="Create Application"
+            a#updateapp-link(href="/editapp" class="ml-3")="Update Application"
         
         div(class="form-group mt-3")
             mixin accordion(id, app_acronym, description, rnumber, start_date, end_date, permit_open, permit_todolist, permit_doing, permit_done)
