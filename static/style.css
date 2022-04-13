@@ -3,6 +3,9 @@
 * {
     box-sizing: border-box;
 }
+h4 {
+    font-size: 20px;
+}
 #navbar_container {
     height: 10%;
 }
