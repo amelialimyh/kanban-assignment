@@ -150,26 +150,23 @@ router.get('/createtask', async (req, res) => {
 
 // Update task
 router.get('/updatetask', async (req, res) => {
-  const checker = await validateUser.checkUser(req.session.username, "project lead")
   var task_id = '%%'
   var task_array = [];
  
-  if (checker) {
-    db.query('SELECT * FROM task WHERE task_id LIKE ?', [task_id], (error, result) => {
-      if (error) {
-        console.log(error);
-      }  
-      for (let i = 0; i < result.length; i++){
-        task_array.push(result[i]);
-      }
-      res.render('updatetask', {
-        task_array: result,
-        isLoggedIn: req.session.isLoggedIn
-      })
+  db.query('SELECT * FROM task WHERE task_id like ?', [task_id], (error, result) => {
+    if (error) {
+      console.log(error);
+    }  else {
+      db.query('SELECT * FROM application WHERE ')
+    }
+    for (let i = 0; i < result.length; i++){
+      task_array.push(result[i]);
+    }
+    res.render('updatetask', {
+      task_array: result,
+      isLoggedIn: req.session.isLoggedIn
     })
-  } else {
-    alert( "You are not authorized to view this page!");
-  }
+  })
 });
 
 // display all tasks
