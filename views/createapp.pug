@@ -29,35 +29,43 @@ html
                 input(type="date" name="endDate")
             
             div(class="form-group")
+                h5(class="mt-3") Permit Create
+                select(class="mdb-select md-form w-50" name="permit_create")
+                    option(value="" disabled selected)="Choose Role"
+                    if roles 
+                        for role in roles
+                            option(value=role)=role
+
+            div(class="form-group")
                 h5(class="mt-3") Permit Open
                 select(class="mdb-select md-form w-50" name="permit_open")
                     option(value="" disabled selected)="Choose Role"
-                    if permit_open_role 
-                        for role in permit_open_role
+                    if roles 
+                        for role in roles
                             option(value=role)=role
             
             div(class="form-group")
                 h5(class="mt-3") Permit To-Do List
                 select(class="mdb-select md-form w-50" name="permit_todolist")
                     option(value="" disabled selected)="Choose Role"
-                    if permit_toDoList_role
-                        for role in permit_toDoList_role
+                    if roles
+                        for role in roles
                             option(value=role)=role
             
             div(class="form-group")
                 h5(class="mt-3") Permit Doing 
                 select(class="mdb-select md-form w-50" name="permit_doing")
                     option(value="" disabled selected)="Choose Role"
-                    if permit_doing_role
-                        for role in permit_doing_role
+                    if roles
+                        for role in roles
                             option(value=role)=role
             
             div(class="form-group")
                 h5(class="mt-3") Permit Done 
                 select(class="mdb-select md-form w-50" name="permit_done")
                     option(value="" disabled selected)="Choose Role"
-                    if permit_done_role      
-                        for role in permit_done_role
+                    if roles      
+                        for role in roles
                             option(value=role)=role
 
             button(type="submit" class="btn btn-primary")="Submit"

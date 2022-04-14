@@ -4,10 +4,8 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const alert = require('alert');
 const validateUser = require('../models/checkUser');
-const { query } = require('express');
 
 // Homepage
-// Simulated bank functionality
 router.get('/', (req, res) => {
   res.render('index', {isLoggedIn: req.session.isLoggedIn});
 });
@@ -68,17 +66,11 @@ router.get('/updateuser', async (req, res) => {
 // Create app
 router.get('/createapp', async (req, res) => {
   const checker = await validateUser.checkUser(req.session.username, "project manager")
-  var permit_open_role = ['project manager']
-  var permit_toDoList_role = ['developer']
-  var permit_doing_role = ['developer']
-  var permit_done_role = ['task lead', 'developer']
+  var roles = ['developer', 'project lead', 'project manager']
+
   if (checker) {
     res.render('createapp', {
-      permit_open_role: permit_open_role,
-      permit_toDoList_role: permit_toDoList_role,
-      permit_doing_role: permit_doing_role,
-      permit_done_role: permit_done_role,
-      isLoggedIn: req.session.isLoggedIn
+      roles: roles
     });
   } else {
     alert( "You are not authorized to view this page!");
@@ -158,26 +150,23 @@ router.get('/createtask', async (req, res) => {
 
 // Update task
 router.get('/updatetask', async (req, res) => {
-  const checker = await validateUser.checkUser(req.session.username, "project lead")
   var task_id = '%%'
   var task_array = [];
  
-  if (checker) {
-    db.query('SELECT * FROM task WHERE task_id LIKE ?', [task_id], (error, result) => {
-      if (error) {
-        console.log(error);
-      }  
-      for (let i = 0; i < result.length; i++){
-        task_array.push(result[i]);
-      }
-      res.render('updatetask', {
-        task_array: result,
-        isLoggedIn: req.session.isLoggedIn
-      })
+  db.query('SELECT * FROM task WHERE task_id like ?', [task_id], (error, result) => {
+    if (error) {
+      console.log(error);
+    }  else {
+      db.query('SELECT * FROM application WHERE ')
+    }
+    for (let i = 0; i < result.length; i++){
+      task_array.push(result[i]);
+    }
+    res.render('updatetask', {
+      task_array: result,
+      isLoggedIn: req.session.isLoggedIn
     })
-  } else {
-    alert( "You are not authorized to view this page!");
-  }
+  })
 });
 
 // display all tasks
