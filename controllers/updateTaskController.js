@@ -12,7 +12,6 @@ exports.updatetask = async (req, res) => {
             if(error) {
                 console.log('existing app error >>>>>', error);
             } else {
-                console.log(result[0].task_app_acronym);
                 db.query('SELECT * FROM application WHERE app_acronym = ?', [result[0].task_app_acronym], async (error, rows) => {
                     if (error) {
                         console.log(error);

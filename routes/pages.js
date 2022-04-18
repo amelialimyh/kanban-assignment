@@ -122,31 +122,32 @@ router.get('/applications', (req, res) => {
 });
 
 // Create task
-router.get('/createtask', async (req, res) => {
-  const checker = await validateUser.checkUser(req.session.username, "project lead")
-
+router.get('/createtask', (req, res) => {
+  
   // %% represents anything before and anything after
   // for example, in mySQL '%a%' means "it contains an 'a'"
   var app_acronym = '%%';
-  if(checker) {
-    db.query('SELECT * FROM application WHERE app_acronym LIKE ?', [app_acronym], (error, result) => {
+    db.query('SELECT * FROM application WHERE app_acronym LIKE ?', [app_acronym], async (error, result) => {
       if(error){
         console.log(error);
+      } else {
+        const checker = await validateUser.checkUser(req.session.username, result[0].permit_create);
+        if (checker) {
+          var task_array = [];
+          for (let i = 0; i < result.length; i++){
+          task_array.push(result[i]);
+          } 
+          //console.log('task array >>>>', task_array);
+          res.render('createtask', {
+            task_array: result,
+            isLoggedIn: req.session.isLoggedIn
+          });
+        } else {
+            alert("You are not authorized to view this page!");
+        }
       }
-      // console.dir(result);
-      var app_acronym_array = [];
-      for (let i = 0; i < result.length; i++){
-        app_acronym_array.push(result[i].app_acronym);
-      }
-      res.render('createtask', {
-        app_acronym: app_acronym_array,
-        isLoggedIn: req.session.isLoggedIn
-      })
     });
-  } else {
-    alert("You are not authorized to view this page!");
-  }
-})
+});
 
 // Update task
 router.get('/updatetask', async (req, res) => {
