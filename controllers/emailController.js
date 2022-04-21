@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 
-var transport = nodemailer.createTransport({
+module.exports = transport = nodemailer.createTransport({
     host: "smtp.mailtrap.io",
     port: 2525,
     auth: {
@@ -9,18 +9,3 @@ var transport = nodemailer.createTransport({
     }
   });
 
-message = {
-    from: "from-example@email.com",
-    to: "to-example@email.com",
-    subject: "Subject",
-    text: "Hello SMTP Email"
-}
-
-// query
-transport.sendMail(message, function(err, info) {
-    if (err) {
-      console.log(err)
-    } else {
-      console.log(info);
-    }
-});
