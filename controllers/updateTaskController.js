@@ -1,5 +1,6 @@
 const db = require('../dbServer');
 const userController = require('../models/checkUser');
+const email = require('./emailController');
 
 exports.updatetask = async (req, res) => {
     const { task_id, task_id_btn, delete_task_btn, description, confirm_btn, state, new_note } = req.body;  
@@ -42,7 +43,25 @@ exports.updatetask = async (req, res) => {
                         });
                         return ;
                     } else if (result[0].state === 'done' && await userController.checkUser(req.session.username, rows[0].permit_done)) {
-                        state_array = ['doing', 'close'];
+                       db.query('SELECT * FROM accounts WHERE username = ?', [req.session.username], (error, res) => {
+                            message = {
+                                from: "amelialimyh@gmail.com",
+                                to: `${res[0].email}`,
+                                subject: `Task ${result[0].task_id} is done.`,
+                                text: `Task ${result[0].task_id} has been closed.`
+                            }
+                            
+                            // calls the transport variable from emailController and send it to mailtrap
+                            transport.sendMail(message, function(err, info) {
+                                if (err) {
+                                console.log(err)
+                                } else {
+                                console.log(info);
+                                }
+                            });
+                       }) 
+                       state_array = ['doing', 'close'];
+                        
                         res.render('updatetask', {
                             selected_task: result,
                             state_array: state_array,
