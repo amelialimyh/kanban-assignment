@@ -10,6 +10,11 @@ router.get('/', (req, res) => {
   res.render('index', {isLoggedIn: req.session.isLoggedIn});
 });
 
+// kanban
+router.get('/kanban', (req, res) => {
+  res.render('kanban', {isLoggedIn: req.session.isLoggedIn});
+});
+
 //create middleware to load checkUser function and the "next" parameter lets the router call the next callback in the callback chain
 const verifyUser = (req, res, next) => {
   let doThisAfterCheckUser = (objResult) => {
