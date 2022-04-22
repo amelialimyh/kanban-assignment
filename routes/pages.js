@@ -7,12 +7,46 @@ const validateUser = require('../models/checkUser');
 
 // Homepage
 router.get('/', (req, res) => {
-  res.render('index', {isLoggedIn: req.session.isLoggedIn});
-});
+  
+  const {app_acronym_btn} = req.query
 
-// kanban
-router.get('/kanban', (req, res) => {
-  res.render('kanban', {isLoggedIn: req.session.isLoggedIn});
+  let app_array = []
+  db.query('SELECT app_acronym FROM application', (error, result) => {
+    if(error) {
+      console.log(error);
+    } else {
+      for (let i = 0; i < result.length; i++){
+        app_array.push(result[i]);
+      }
+    }
+
+    if(app_acronym_btn) {
+    
+      db.query('SELECT * FROM task where task_app_acronym = ?', [app_acronym_btn], (error, row) => {
+        if(error) {
+          console.log(error);
+        } else {
+          // for (let i = 0; i < result.length; i++){
+          //   app_array.push(result[i]);
+          // }
+        }
+        console.log(result);
+        res.render('index', {
+          app_array: result,
+          selected_app: row,
+          isLoggedIn: req.session.isLoggedIn
+        });
+        
+      })
+  
+      return;
+    }
+    
+    res.render('index', {
+      app_array: result,
+      isLoggedIn: req.session.isLoggedIn
+    });
+  })
 });
 
 //create middleware to load checkUser function and the "next" parameter lets the router call the next callback in the callback chain
