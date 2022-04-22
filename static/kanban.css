@@ -1,65 +1,81 @@
 #kanban-container {
-    width: 70%;
-    min-width: 50%;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .kanban-heading {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    font-family: sans-serif;
-  }
-  
-  .kanban-heading-text {
-    font-size: 1.8rem;
-    margin: 1rem;
-  }
-  
-  .kanban-board {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    font-family: sans-serif;
-  }
-  
-  .kanban-block {
-    padding: 0.6rem;
-    width: 30.5%;
-    min-width: 14rem;
-    min-height: 4.5rem;
-    border-radius: 0.3rem;
-  }
-  
-  #todo {
-    border: 4px double #fec6d1;
-  }
-  
-  #inprogress {
-    border: 4px double #91d1da;
-  }
-  
-  #done {
-    border: 4px double rgb(185, 241, 195);;
-  }
+  width: 70%;
+  min-width: 50%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
 
-  .task {
-    background-color: white;
-    margin: 0.8rem 0rem 0.3rem 0rem;
-    border: 0.1rem solid black;
-    border-radius: 0.2rem;
-    padding: 0.5rem 0.2rem 0.5rem 2rem;
-  }
+.kanban-heading {
+  display: flex;
+  flex-direction: row;
+  font-family: sans-serif;
   
-  #task-button {
-    margin: 0.4rem 0rem 0.1rem 0rem;
-    background-color: white;
-    border-radius: 0.2rem;
-    width: 100%;
-    border: 0.25rem solid black;
-    padding: 0.5rem 2.7rem;
-    border-radius: 0.3rem;
-    font-size: 1rem;
-  }
+}
+
+.kanban-heading-text {
+  font-size: 1.8rem;
+  margin: auto;
+}
+
+.kanban-board {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-family: sans-serif;
+}
+
+.kanban-block {
+  padding: 0.6rem;
+  width: 30.5%;
+  min-width: 14rem;
+  min-height: 4.5rem;
+  border-radius: 0.3rem;
+}
+  
+.kanban-board {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-family: sans-serif;
+  margin: 15px 15px;
+}
+
+.kanban-block {
+  padding: 0.6rem;
+  width: 30.5%;
+  min-width: 14rem;
+  min-height: 4.5rem;
+  border-radius: 0.3rem;
+}
+
+#todo {
+  border: 4px double #fec6d1;
+}
+
+#inprogress {
+  border: 4px double #91d1da;
+}
+
+#done {
+  border: 4px double rgb(185, 241, 195);;
+}
+
+.task {
+  background-color: white;
+  margin: 0.2rem 0rem 0.3rem 0rem;
+  border: 0.1rem solid black;
+  border-radius: 0.2rem;
+  padding: 0.5rem 0.2rem 0.5rem 2rem;
+}
+
+#task-button {
+  margin: 0.2rem 0rem 0.1rem 0rem;
+  background-color: white;
+  border-radius: 0.2rem;
+  width: 100%;
+  border: 0.25rem solid black;
+  padding: 0.5rem 2.7rem;
+  border-radius: 0.3rem;
+  font-size: 1rem;
+}
