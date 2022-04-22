@@ -12,27 +12,35 @@ body
     div(class="container")
       div(class="kanban-heading")
         strong(class="kanban-heading-text")="Kanban Board"
+        
+      form(action="/" method="GET")
+        div(class="form-group")
+          div(class="row")
+            h5(class="ml-4 mt-2") Applications:
+              if app_array 
+                for app in app_array
+                  button(name="app_acronym_btn" class="btn-primary ml-3" value=app.app_acronym style="border-radius: 5%")=app.app_acronym
 
-      div(class="kanban-board")
-        div#todo(class="kanban-block")
-          <strong>To Do</strong>
-          div(class="task-button-block")
-            button(id="task-button")="Create new task"
-          
-          div#task1(class="task" draggable="true")
-            <span>Task 1</span>
-          
-          div#task2(class="task" draggable="true")
-            <span>Task 2</span>
-          
-          div#task3(class="task" draggable="true")
-            <span>Task 3</span>
-          
-        div#inprogress(class="kanban-block")
-          <strong>In Progress</strong>
+          div(class="kanban-board" style="text-align: center;")
+            div#todo(class="kanban-block")
+              <strong>To Do</strong>
+                div(class="task-button-block")
+                  button(id="task-button" onclick="window.location='/createtask'")="Create task"
+                  
+                  if selected_app
+                    for selected in selected_app
+                      div#task1(class="task" draggable="true")
+                        input(type="text" value=selected.task_app_acronym placeholder=selected.task_app_acronym)
+                  
+            div#inprogress(class="kanban-block")
+              <strong>In Progress</strong>
+              div(class="task-button-block")
+                button(id="task-button" onclick="window.location='/updatetask'")="Update Task"
 
-        div#done(class="kanban-block")
-          <strong>Done</strong>
+            div#done(class="kanban-block")
+              <strong>Done</strong>
+              div(class="task-button-block")
+                button(id="task-button" onclick="window.location='/updatetask'")="Update Task"
 
   script.
     const draggables = document.querySelectorAll('.task')
