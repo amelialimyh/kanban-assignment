@@ -11,8 +11,12 @@ html
         a#header(href="/" class="float-left")="Task Management"
         div(class="row float-right mt-3")
           if isLoggedIn 
-              ul
-                li 
+            ul
+              li   
+                    a#navbar-content(href="/kanban") 
+                      button(href="#" class="user-management-btn")="Kanban Board"
+              li
+             
                   button(href="#" class="user-management-btn")="Application"
                   ul
                     li
@@ -21,29 +25,26 @@ html
                       a#navbar-content(href="/createapp" class="m-2")="Create Application"
                     li
                       a#navbar-content(href="/editapp" class="m-2")="Edit Application"
-              ul 
-                li 
-                  button(href="#" class="user-management-btn")="Task"
-                  ul
-                    li
-                      a#navbar-content(href="/tasklist" class="m-2")="Task List"
-                    li
-                      a#navbar-content(href="/createtask" class="m-2")="Create Task"
-                    li
-                      a#navbar-content(href="/updatetask" class="m-2")="Update Task"
-              ul
-                li 
-                  button(href="#" class="user-management-btn")="User Management"
-                  ul 
-                    li 
-                      a#navbar-content(href="/assignrole" class="m-2")="Assign Role"
-                    li 
-                      a#navbar-content(href="/register" class="m-2")="Register Account"
-                    li 
-                      a#navbar-content(href="/updateuser" class="m-2")="Update User"
-              ul 
-                li
-                  a#logout-link(href="/logout")="Logout"
+              li 
+                button(href="#" class="user-management-btn")="Task"
+                ul
+                  li
+                    a#navbar-content(href="/tasklist" class="m-2")="Task List"
+                  li
+                    a#navbar-content(href="/createtask" class="m-2")="Create Task"
+                  li
+                    a#navbar-content(href="/updatetask" class="m-2")="Update Task"
+              li 
+                button(href="#" class="user-management-btn")="User Management"
+                ul 
+                  li 
+                    a#navbar-content(href="/assignrole" class="m-2")="Assign Role"
+                  li 
+                    a#navbar-content(href="/register" class="m-2")="Register Account"
+                  li 
+                    a#navbar-content(href="/updateuser" class="m-2")="Update User"
+              li
+                a#logout-link(href="/logout")="Logout"
           else
             small 
               a#login-link(href="/login" class="float-right mt-3")="Login" 
