@@ -16,6 +16,7 @@ exports.index = (req, res) => {
             }
             res.render('index', {
                 selected_app: result,
+                current_user: req.session.username,
                 isLoggedin: req.session.isLoggedIn
             })
         }

@@ -23,6 +23,7 @@ exports.updatetask = async (req, res) => {
                         res.render('updatetask', {
                             selected_task: result,
                             state_array: state_array,
+                            current_user: req.session.username,
                             isLoggedIn: req.session.isLoggedIn
                         });
                         return ;
@@ -31,6 +32,7 @@ exports.updatetask = async (req, res) => {
                         res.render('updatetask', {
                             selected_task: result,
                             state_array: state_array,
+                            current_user: req.session.username,
                             isLoggedIn: req.session.isLoggedIn
                         });
                         return ;
@@ -39,6 +41,7 @@ exports.updatetask = async (req, res) => {
                         res.render('updatetask', {
                             selected_task: result,
                             state_array: state_array,
+                            current_user: req.session.username,
                             isLoggedIn: req.session.isLoggedIn
                         });
                         return ;
@@ -65,12 +68,14 @@ exports.updatetask = async (req, res) => {
                         res.render('updatetask', {
                             selected_task: result,
                             state_array: state_array,
+                            current_user: req.session.username,
                             isLoggedIn: req.session.isLoggedIn
                         });
                         return ;
                     } else {
                         res.render('updatetask', {
                             message: 'You are not authorized',
+                            current_user: req.session.username,
                             isLoggedIn: req.session.isLoggedIn
                         });
                     return ;
@@ -93,6 +98,7 @@ exports.updatetask = async (req, res) => {
 
             res.render('updatetask', {
                 message: "Task deleted!",
+                current_user: req.session.username,
                 isLoggedIn: req.session.isLoggedIn
             });
         });
@@ -117,6 +123,7 @@ exports.updatetask = async (req, res) => {
                 }
                 res.render('updatetask', {
                     message: 'Task successfully updated!',
+                    current_user: req.session.username,
                     isLoggedIn: req.session.isLoggedIn
                 });
             });

@@ -18,6 +18,7 @@ exports.editapp = (req, res) => {
             res.render('editapp', {
                 selected_app: result,
                 roles: roles,
+                current_user: req.session.username,
                 isLoggedIn: req.session.isLoggedIn
             });
             return ;
@@ -36,6 +37,7 @@ exports.editapp = (req, res) => {
 
             res.render('editapp', {
                 message: "Application deleted!",
+                current_user: req.session.username,
                 isLoggedIn: req.session.isLoggedIn
             });
         });
@@ -52,6 +54,7 @@ exports.editapp = (req, res) => {
             res.render('editapp', {
                 message: 'Application successfully updated!',
                 app_arr: result,
+                current_user: req.session.username,
                 isLoggedIn: req.session.isLoggedIn
             });
         });

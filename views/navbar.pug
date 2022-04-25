@@ -40,6 +40,9 @@ html
                     a#navbar-content(href="/register" class="m-2")="Register Account"
                   li 
                     a#navbar-content(href="/updateuser" class="m-2")="Update User"
+              if current_user
+                li
+                  p(class="mr-4" style="font-size: 18px; color: rgb(169, 185, 230);")=current_user
               li
                 a#logout-link(href="/logout")="Logout"
           else

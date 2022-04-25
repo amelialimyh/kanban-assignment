@@ -14,6 +14,7 @@ exports.createapp = (req, res) => {
         if (result.length > 0) {
             res.render('createapp', {
                 message: 'Application already exists!',
+                current_user: req.session.username,
                 isLoggedIn: req.session.isLoggedIn
             });
             return ;
@@ -24,6 +25,7 @@ exports.createapp = (req, res) => {
                 } else {
                     res.render('createapp', {
                         message: 'Application created',
+                        current_user: req.session.username,
                         isLoggedIn: req.session.isLoggedIn
                     });
                 }
