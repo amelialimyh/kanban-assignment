@@ -11,6 +11,8 @@ router.get('/', (req, res) => {
   const {app_acronym_btn} = req.query
 
   let app_array = []
+
+  // display all the applications
   db.query('SELECT app_acronym FROM application', (error, result) => {
     if(error) {
       console.log(error);
@@ -20,25 +22,22 @@ router.get('/', (req, res) => {
       }
     }
 
+    // once user has selected the application, the relevant task would be rendered on the kanban board
     if(app_acronym_btn) {
     
       db.query('SELECT * FROM task where task_app_acronym = ?', [app_acronym_btn], (error, row) => {
         if(error) {
           console.log(error);
         } else {
-          // for (let i = 0; i < result.length; i++){
-          //   app_array.push(result[i]);
-          // }
+
         }
-        console.log(result);
         res.render('index', {
           app_array: result,
-          selected_app: row,
+          app_tasks: row,
           isLoggedIn: req.session.isLoggedIn
         });
         
       })
-  
       return;
     }
     

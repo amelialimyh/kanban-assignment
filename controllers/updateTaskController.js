@@ -106,7 +106,7 @@ exports.updatetask = async (req, res) => {
              var today = new Date();
              var createDate = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate();
 
-            var audit_log = `${result[0].notes}\n ${new_note}, ${req.session.username}, ${createDate}` 
+            var audit_log = `${result[0].notes}\n ${new_note}, ${req.session.username}, ${createDate}, ${state}` 
 
             console.log('audit log >>>>>', audit_log);
 
