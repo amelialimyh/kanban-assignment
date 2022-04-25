@@ -1,5 +1,5 @@
 #kanban-container {
-  width: 70%;
+  width: 80%;
   min-width: 50%;
   margin: auto;
   display: flex;
@@ -39,7 +39,7 @@
   flex-direction: row;
   justify-content: space-between;
   font-family: sans-serif;
-  margin: 15px 15px;
+  /* margin: 15px 15px; */
 }
 
 .kanban-block {
@@ -50,12 +50,19 @@
   border-radius: 0.3rem;
 }
 
-#todo {
-  border: 4px double #fec6d1;
+#open {
+  border: 4px double #e8e0ad;
+  margin-right: 15px;
 }
 
-#inprogress {
+#todo {
+  border: 4px double #fec6d1;
+  margin-right: 8px;
+}
+
+#doing {
   border: 4px double #91d1da;
+  margin-right: 8px;
 }
 
 #done {
