@@ -36,7 +36,6 @@ router.get('/', (req, res) => {
           app_tasks: row,
           isLoggedIn: req.session.isLoggedIn
         });
-        
       })
       return;
     }
