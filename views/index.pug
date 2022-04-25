@@ -37,13 +37,13 @@ body
                 if app_tasks 
                   for task in app_tasks 
                     if task.state === 'open'
-                      div#task1(class="task" draggable="true")
+                      div(class="task" draggable="true" id=`${task.task_id}`)
                         span=`Task ID: ${task.task_id}`
                         br
                         span=`Description: ${task.description}`
 
             div(class="kanban-board" style="text-align: center;")
-              div#todo(class="kanban-block")
+              div#to-do(class="kanban-block")
                 <strong>To-do List</strong>
                   div(class="task-button-block")
                     button(id="task-button" onclick="window.location='/updatetask'")="Edit task"
@@ -51,7 +51,7 @@ body
                   if app_tasks 
                     for task in app_tasks 
                       if task.state === 'to-do'
-                        div#task1(class="task" draggable="true")
+                        div(class="task" draggable="true" id=`${task.task_id}`)
                           span=`Task ID: ${task.task_id}`
                           br
                           span=`Description: ${task.description}`
@@ -65,7 +65,7 @@ body
                   if app_tasks 
                     for task in app_tasks 
                       if task.state === 'doing'
-                        div#task1(class="task" draggable="true")
+                        div(class="task" draggable="true" id=`${task.task_id}`)
                           span=`Task ID: ${task.task_id}`
                           br
                           span=`Description: ${task.description}`
@@ -78,7 +78,7 @@ body
               if app_tasks 
                 for task in app_tasks 
                   if task.state === 'done'
-                    div#task1(class="task" draggable="true")
+                    div(class="task" draggable="true" id=`${task.task_id}`)
                       span=`Task ID: ${task.task_id}`
                       br
                       span=`Description: ${task.description}`
@@ -94,6 +94,7 @@ body
 
       draggable.addEventListener('dragend', () => {
         draggable.classList.remove('dragging')
+        changeState(draggable, draggable.id);
       })
     })
 
@@ -122,6 +123,38 @@ body
           return closest
         }
       }, { offset: Number.NEGATIVE_INFINITY }).element
+    }
+
+    // save the open state
+    async function changeState(element, task_id) {
+      //- console.log('container, task_id', container, task_id);
+      console.log('parentNode', element.parentNode.id);
+
+      // create state var
+      var state = '';
+
+      if (element.parentNode.id === 'open') state = 'open';
+      else if (element.parentNode.id === 'to-do') state = 'to-do';
+      else if (element.parentNode.id === 'doing') state = 'doing';
+      else if (element.parentNode.id === 'done') state = 'done';
+
+      console.log(state);
+
+      var payload = { 
+        'state': state,
+        'task_id': task_id
+      }
+
+      // update
+      const updateUrl = 'http://localhost:3000/post/peanut';
+      await fetch(updateUrl, {
+        method: "Post",
+        headers: {
+          // send content as json
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
     }
 
   script(src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous")

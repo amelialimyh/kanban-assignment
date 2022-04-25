@@ -2,6 +2,7 @@ const express = require("express");
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const db = require('./dbServer');
+const kanbanController = require('./controllers/kanbanController');
 require('./dbServer');
 require("dotenv").config();
 
@@ -30,6 +31,7 @@ app.use(express.json());
 // Define routes
 app.use('/', require('./routes/pages'));
 app.use('/auth', require('./routes/auth'));
+kanbanController(app);
 
 const port = process.env.PORT
 app.listen(port, 
