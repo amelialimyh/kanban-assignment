@@ -17,6 +17,31 @@ const connection = mysql.createConnection({
 // export routes
 module.exports = function(app) {
     // retrieve all data
+    app.get("/usergroup", async (req, res) => {
+        try {
+            const results = await util.promisify(connection.query).bind(connection)(
+                 `SELECT * FROM usergroup WHERE username = '${req.session.username}'`
+            );
+            console.log(results);
+          res.json({ results });
+        } catch (e) {
+          res.status(500).send({ e });
+        }
+      });
+    app.get("/application/permit/:id", async (req, res) => {
+        try {
+            const id = req.params.id;
+            console.log("Backend id:",id)
+            const results = await util.promisify(connection.query).bind(connection)(
+                 `SELECT * FROM application WHERE app_acronym = '${id}'`
+            );
+            //console.log(results);
+          res.json({ results });
+        } catch (e) {
+          res.status(500).send({ e });
+        }
+      });
+
     app.get("/list/apis", async (req, res) => {
         try {
             const results = await util.promisify(connection.query).bind(connection)(
@@ -31,8 +56,11 @@ module.exports = function(app) {
       app.post("/post/peanut", async (req, res) => {
         try {
             const { state, task_id } = req.body;
-            console.log(state, task_id);
 
+            // var today = new Date();
+            // var createDate = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate();
+            // var audit_log = `${result[0].notes}\n ${req.session.username}, ${state}, ${createDate}` 
+            //
             const results = await util.promisify(connection.query).bind(connection)(
                  `UPDATE task SET state = '${state}' WHERE task_id = '${task_id}'`
             );

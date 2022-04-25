@@ -13,6 +13,9 @@ html
       div(class="card")
         div(class="card-body")
           form(action="/auth/createapp" method="POST")
+            if message
+                h4(class="alert alert-danger mt-4")=message 
+                
             div(class="form-group")
                 input(type="text" class="form-control w-50" name="app_acronym" placeholder="App Acronym")
             
@@ -67,11 +70,16 @@ html
                     if roles      
                         for role in roles
                             option(value=role)=role
+            
+            div(class="form-group")
+                h5(class="mt-3") Permit Close 
+                select(class="mdb-select md-form w-50" name="permit_close")
+                    option(value="" disabled selected)="Choose Role"
+                    if roles      
+                        for role in roles
+                            option(value=role)=role
 
             button(type="submit" class="btn btn-primary")="Submit"
-      
-      if message
-        h4(class="alert alert-danger mt-4")=message 
 
   script(src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous")
 
