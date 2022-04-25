@@ -35,6 +35,7 @@ router.get('/', (req, res) => {
           app_array: result,
           app_tasks: row,
           isLoggedIn: req.session.isLoggedIn,
+          current_user: req.session.username,
           current_app: app_acronym_btn
         });
       })
@@ -43,6 +44,7 @@ router.get('/', (req, res) => {
     
     res.render('index', {
       app_array: result,
+      current_user: req.session.username,
       isLoggedIn: req.session.isLoggedIn
     });
   })
@@ -68,6 +70,7 @@ router.get('/register', async (req, res) => {
     if (condition) {
       res.render('register', {
         role_array: role_array,
+        current_user: req.session.username,
         isLoggedIn: req.session.isLoggedIn
       });
     } else {
@@ -82,6 +85,7 @@ router.get('/register', async (req, res) => {
     if (condition) {
       res.render('assignrole', {
         displayuname: 'Username',
+        current_user: req.session.username,
         isLoggedIn: req.session.isLoggedIn
     });
     } else {
@@ -94,6 +98,7 @@ router.get('/updateuser', async (req, res) => {
   const checker = await validateUser.checkUser(req.session.username, "admin")
   if (checker) {
     res.render('updateuser', {
+      current_user: req.session.username,
       isLoggedIn: req.session.isLoggedIn
     });
   } else {
@@ -108,7 +113,9 @@ router.get('/createapp', async (req, res) => {
 
   if (checker) {
     res.render('createapp', {
-      roles: roles
+      roles: roles, 
+      current_user: req.session.username,
+      isLoggedIn: req.session.isLoggedIn
     });
   } else {
     alert( "You are not authorized to view this page!");
@@ -131,6 +138,7 @@ router.get('/editapp', async (req, res) => {
       }
       res.render('editapp', {
         app_arr: result,
+        current_user: req.session.username,
         isLoggedIn: req.session.isLoggedIn
       })
     })
@@ -153,6 +161,7 @@ router.get('/applications', (req, res) => {
       }
       res.render('applications', {
         app_array: app_array,
+        current_user: req.session.username,
         isLoggedIn: req.session.isLoggedIn
       })
     }
@@ -178,6 +187,7 @@ router.get('/createtask', (req, res) => {
           //console.log('task array >>>>', task_array);
           res.render('createtask', {
             task_array: result,
+            current_user: req.session.username,
             isLoggedIn: req.session.isLoggedIn
           });
         } else {
@@ -203,6 +213,7 @@ router.get('/updatetask', async (req, res) => {
     }
     res.render('updatetask', {
       task_array: result,
+      current_user: req.session.username,
       isLoggedIn: req.session.isLoggedIn
     })
   })
@@ -222,6 +233,7 @@ router.get('/tasklist', (req, res) => {
       }
       res.render('tasklist', {
         task_array: task_array,
+        current_user: req.session.username,
         isLoggedIn: req.session.isLoggedIn
       })
     }

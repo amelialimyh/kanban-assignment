@@ -23,6 +23,7 @@ exports.assign = (req, res) => {
                     uname: username, 
                     displayuname: username,
                     role_array: role_array,
+                    current_user: req.session.username,
                     isLoggedIn: req.session.isLoggedIn
                 });
                 // exit render
@@ -48,6 +49,7 @@ exports.assign = (req, res) => {
             res.render('assignrole', {
                 displayuname: 'Username',
                 message: 'User details has been updated',
+                current_user: req.session.username,
                 isLoggedIn: req.session.isLoggedIn
             });
             return ;
@@ -64,6 +66,7 @@ exports.assign = (req, res) => {
             res.render('assignrole', {
                 displayuname: 'Username',
                 message: 'User details has been removed',
+                current_user: req.session.username,
                 isLoggedIn: req.session.isLoggedIn
             });
             return ;

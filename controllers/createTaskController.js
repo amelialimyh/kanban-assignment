@@ -19,12 +19,14 @@ exports.createtask = (req, res, fields) => {
                 console.log('result >>>', result);
                 res.render('createtask', {
                     message: 'Application does not exist!',
+                    current_user: req.session.username,
                     isLoggedIn: req.session.isLoggedIn
                 });
                 return ;
             } else {
                 res.render('createtask', {
                     selected_task: result,
+                    current_user: req.session.username,
                     isLoggedIn: req.session.isLoggedIn
                 });
             }
@@ -45,6 +47,7 @@ exports.createtask = (req, res, fields) => {
                 console.log('result >>>', result);
                 res.render('createtask', {
                     message: 'Application does not exist!',
+                    current_user: req.session.username,
                     isLoggedIn: req.session.isLoggedIn
                 });
                 return ;
@@ -91,6 +94,7 @@ exports.createtask = (req, res, fields) => {
                                         res.render('createtask', {
                                             task_array: result,
                                             message: 'Task created',
+                                            current_user: req.session.username,
                                             isLoggedIn: req.session.isLoggedIn
                                         });
                                     });
@@ -104,6 +108,7 @@ exports.createtask = (req, res, fields) => {
                     res.render('createtask', {
                         selected_task: result,
                         message: 'Empty fields.',
+                        current_user: req.session.username,
                         isLoggedIn: req.session.isLoggedIn
                     });
                 }
