@@ -20,7 +20,7 @@ body
             h5(class="ml-4 mt-2") Applications:
               if app_array 
                 for app in app_array
-                  button(name="app_acronym_btn" class="btn-primary ml-3" value=app.app_acronym style="border-radius: 5%")=app.app_acronym
+                  button(name="app_acronym_btn" class="btn-primary ml-3" value=app.app_acronym style="border-radius: 5%" )=app.app_acronym
 
               //- if selected_app 
               //-   for selected in selected_app 
@@ -28,88 +28,156 @@ body
 
 
           //- START OF KANBAN BOARD
-          div(class="kanban-board" style="text-align: center;")
+          div(class="kanban-board" style="text-align: center;" currentapp = current_app)
             div#open(class="kanban-block")
               <strong>Open</strong>
                 div(class="task-button-block")
-                  button(id="task-button" onclick="window.location='/createtask'")="Create task"
+                  a(type="button" id="task-button" href="/createtask")="Create task"
 
                 if app_tasks 
                   for task in app_tasks 
                     if task.state === 'open'
-                      div(class="task" draggable="true" id=`${task.task_id}`)
+                      div(class="task" draggable="true" id=`${task.task_id}` state=`${task.state}`)
                         span=`Task ID: ${task.task_id}`
                         br
                         span=`Description: ${task.description}`
 
-            div(class="kanban-board" style="text-align: center;")
-              div#to-do(class="kanban-block")
-                <strong>To-do List</strong>
-                  div(class="task-button-block")
-                    button(id="task-button" onclick="window.location='/updatetask'")="Edit task"
-                    
-                  if app_tasks 
-                    for task in app_tasks 
-                      if task.state === 'to-do'
-                        div(class="task" draggable="true" id=`${task.task_id}`)
-                          span=`Task ID: ${task.task_id}`
-                          br
-                          span=`Description: ${task.description}`
+            div#to-do(class="kanban-block")
+              <strong>To-do List</strong>
+                div(class="task-button-block")
+                  a(type="button" id="task-button" href="/updatetask")="Edit task"
+                  
+                if app_tasks 
+                  for task in app_tasks 
+                    if task.state === 'to-do'
+                      div(class="task" draggable="true" id=`${task.task_id}` state=`${task.state}`)
+                        span=`Task ID: ${task.task_id}`
+                        br
+                        span=`Description: ${task.description}`
 
-            div(class="kanban-board" style="text-align: center;")
-              div#doing(class="kanban-block")
-                <strong>Doing</strong>
-                  div(class="task-button-block")
-                    button(id="task-button" onclick="window.location='/updatetask'")="Edit task"
-                    
-                  if app_tasks 
-                    for task in app_tasks 
-                      if task.state === 'doing'
-                        div(class="task" draggable="true" id=`${task.task_id}`)
-                          span=`Task ID: ${task.task_id}`
-                          br
-                          span=`Description: ${task.description}`
+            div#doing(class="kanban-block")
+              <strong>Doing</strong>
+                div(class="task-button-block")
+                  a(type="button" id="task-button" href="/updatetask")="Edit task"
+                  
+                if app_tasks 
+                  for task in app_tasks 
+                    if task.state === 'doing'
+                      div(class="task" draggable="true" id=`${task.task_id}` state=`${task.state}`)
+                        span=`Task ID: ${task.task_id}`
+                        br
+                        span=`Description: ${task.description}`
 
             div#done(class="kanban-block")
               <strong>Done</strong>
               div(class="task-button-block")
-                button(id="task-button" onclick="window.location='/updatetask'")="Edit Task"
+                a(type="button" id="task-button" href="/updatetask")="Edit task"
 
               if app_tasks 
                 for task in app_tasks 
                   if task.state === 'done'
-                    div(class="task" draggable="true" id=`${task.task_id}`)
+                    div(class="task" draggable="true" id=`${task.task_id}` state=`${task.state}`)
+                      span=`Task ID: ${task.task_id}`
+                      br
+                      span=`Description: ${task.description}`
+            
+            div#closed(class="kanban-block")
+              <strong>Closed</strong>
+              div(class="task-button-block")
+                a(type="button" id="task-button" href="/updatetask")="Edit task"
+
+              if app_tasks 
+                for task in app_tasks 
+                  if task.state === 'closed'
+                    div(class="task" draggable="true" id=`${task.task_id}` state=`${task.state}`)
                       span=`Task ID: ${task.task_id}`
                       br
                       span=`Description: ${task.description}`
 
   script.
-    const draggables = document.querySelectorAll('.task')
-    const containers = document.querySelectorAll('.kanban-block')
+    // everytime it reloads then this function would be executed
+    window.onload = async () => {
 
-    draggables.forEach(draggable => {
-      draggable.addEventListener('dragstart', () => {
-        draggable.classList.add('dragging')
+      const draggables = document.querySelectorAll('.task')
+      const containers = document.querySelectorAll('.kanban-block')
+
+      const current_app = document.querySelectorAll('.kanban-board')
+      console.log(current_app[0].getAttribute('currentapp'))
+      var bounce ;  
+
+      let permission ;
+
+      await fetch(`http://localhost:3000/application/permit/`+current_app[0].getAttribute('currentapp'))
+      .then(async(response) => {
+        return await response.json();
+      })
+      .then((data) => { permission = data.results })
+      //console.log(permission);
+      console.log(permission[0].permit_todolist)
+      let usergroup ;
+
+      await fetch(`http://localhost:3000/usergroup`)
+      .then(async(response) => {
+        return await response.json();
+      })
+      .then((data) => { usergroup = data.results })
+
+      //console.log(usergroup)
+
+      draggables.forEach(draggable => {
+        draggable.addEventListener('dragstart', () => {
+          // where my task originates from
+          bounce = draggable.parentNode.id; 
+
+          draggable.classList.add('dragging')
+        })
+
+        draggable.addEventListener('dragend', () => {
+          draggable.classList.remove('dragging')
+          //- console.log(draggable.getAttribute('state'), draggable.parentNode.id);
+          if (draggable.getAttribute('state') === 'open' && draggable.parentNode.id === 'to-do' && checkGroup(usergroup,permission[0].permit_open)){
+            changeState(draggable, draggable.id);
+          }
+          else if (draggable.getAttribute('state') === 'to-do' && draggable.parentNode.id === 'doing' && checkGroup(usergroup,permission[0].permit_todolist)){
+            changeState(draggable, draggable.id);
+          }
+          else if(draggable.getAttribute('state') === 'doing' && draggable.parentNode.id === 'done' && checkGroup(usergroup,permission[0].permit_doing)){
+            changeState(draggable, draggable.id);
+          } else if(draggable.getAttribute('state') === 'done' && draggable.parentNode.id === 'closed' && checkGroup(usergroup,permission[0].permit_done)){
+            changeState(draggable, draggable.id);
+          } else {
+            console.log(bounce);
+            // gives me the element's id
+            const bounce_element = document.getElementById(bounce);
+            console.log(bounce_element);
+            bounce_element.appendChild(draggable);
+          }
+        })
       })
 
-      draggable.addEventListener('dragend', () => {
-        draggable.classList.remove('dragging')
-        changeState(draggable, draggable.id);
+      containers.forEach(container => {
+        container.addEventListener('dragover', e => {
+          e.preventDefault()
+          const afterElement = getDragAfterElement(container, e.clientY)
+          const draggable = document.querySelector('.dragging')
+          if (afterElement == null) {
+            container.appendChild(draggable)
+          } else {
+            container.insertBefore(draggable, afterElement)
+          }
+        })
       })
-    })
-
-    containers.forEach(container => {
-      container.addEventListener('dragover', e => {
-        e.preventDefault()
-        const afterElement = getDragAfterElement(container, e.clientY)
-        const draggable = document.querySelector('.dragging')
-        if (afterElement == null) {
-          container.appendChild(draggable)
-        } else {
-          container.insertBefore(draggable, afterElement)
+    }
+    function checkGroup(usergroup, permission){
+      let condition = false;
+      for (let i = 0; i < usergroup.length; i++){
+        if(usergroup[i].usergrp == permission) {
+          condition = true;
         }
-      })
-    })
+      }
+      return condition;
+    }
+
 
     function getDragAfterElement(container, y) {
       const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')]

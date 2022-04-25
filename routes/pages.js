@@ -34,7 +34,8 @@ router.get('/', (req, res) => {
         res.render('index', {
           app_array: result,
           app_tasks: row,
-          isLoggedIn: req.session.isLoggedIn
+          isLoggedIn: req.session.isLoggedIn,
+          current_app: app_acronym_btn
         });
       })
       return;
