@@ -74,7 +74,7 @@ exports.createtask = (req, res, fields) => {
                     var createDate = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate();
                     
                     // audit trail
-                    var audit_trail = `${notes}, ${req.session.username}, ${state}, ${createDate}`
+                    var audit_trail = `${req.session.username}, ${notes}, ${state}, ${createDate}`
                     
                     // new rnumber 
                     var rnumber = `${result[0].rnumber+1}`;
