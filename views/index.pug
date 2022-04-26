@@ -143,7 +143,7 @@ body
           }
           else if(draggable.getAttribute('state') === 'doing' && draggable.parentNode.id === 'done' && checkGroup(usergroup,permission[0].permit_doing)){
             changeState(draggable, draggable.id);
-          } else if(draggable.getAttribute('state') === 'done' && draggable.parentNode.id === 'closed' && checkGroup(usergroup,permission[0].permit_done)){
+          } else if(draggable.getAttribute('state') === 'done' && draggable.parentNode.id === 'closed' && checkGroup(usergroup,permission[0].permit_close)){
             changeState(draggable, draggable.id);
           } else {
             console.log(bounce);
