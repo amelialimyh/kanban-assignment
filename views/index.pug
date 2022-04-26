@@ -88,7 +88,7 @@ body
 
               if app_tasks 
                 for task in app_tasks 
-                  if task.state === 'closed'
+                  if task.state === 'close'
                     div(class="task" draggable="true" id=`${task.task_id}` state=`${task.state}`)
                       span=`Task ID: ${task.task_id}`
                       br
@@ -205,7 +205,7 @@ body
       else if (element.parentNode.id === 'to-do') state = 'to-do';
       else if (element.parentNode.id === 'doing') state = 'doing';
       else if (element.parentNode.id === 'done') state = 'done';
-      else if (element.parentNode.id === 'close') state = 'close';
+      else if (element.parentNode.id === 'closed') state = 'close';
 
       console.log(state);
 

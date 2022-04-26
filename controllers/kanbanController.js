@@ -57,13 +57,23 @@ module.exports = function(app) {
         try {
             const { state, task_id } = req.body;
 
-            // var today = new Date();
-            // var createDate = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate();
-            // var audit_log = `${result[0].notes}\n ${req.session.username}, ${state}, ${createDate}` 
-            //
-            const results = await util.promisify(connection.query).bind(connection)(
-                 `UPDATE task SET state = '${state}' WHERE task_id = '${task_id}'`
-            );
+            
+            await util.promisify(connection.query).bind(connection)(
+              `UPDATE task SET state = '${state}' WHERE task_id = '${task_id}'`
+              );
+              
+              
+              const results = await util.promisify(connection.query).bind(connection)(
+                `SELECT * FROM task WHERE task_id = '${task_id}'`
+              );
+
+              var today = new Date();
+              var createDate = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate();
+              var audit_log = `${req.session.username}, ${state}, ${createDate} \n ${results[0].notes}` 
+              
+              await util.promisify(connection.query).bind(connection)(
+                `UPDATE task SET notes = '${audit_log}' WHERE task_id = '${task_id}'`
+                );
 
           res.redirect('/');
         } catch (e) {
