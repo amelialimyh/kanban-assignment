@@ -3,6 +3,7 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const db = require('./dbServer');
 const kanbanController = require('./controllers/kanbanController');
+const taskApi = require('./utilities/taskApi');
 require('./dbServer');
 require("dotenv").config();
 
@@ -32,6 +33,7 @@ app.use(express.json());
 app.use('/', require('./routes/pages'));
 app.use('/auth', require('./routes/auth'));
 kanbanController(app);
+taskApi(app);
 
 const port = process.env.PORT
 app.listen(port, 
