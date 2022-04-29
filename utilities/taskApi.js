@@ -27,7 +27,7 @@ module.exports = function(app) {
 
 
     // --------------------------- CREATE TASK GET ROUTE --------------------------------  
-    app.get('/api/newtask', (req, res) => {
+    app.get('/api/task/new', (req, res) => {
     
     // %% represents anything before and anything after
     // for example, in mySQL '%a%' means "it contains an 'a'"
@@ -57,7 +57,7 @@ module.exports = function(app) {
 
 
     // -------------------------- CREATE TASK POST ROUTE ---------------------------------
-    app.post('/api/newtask', (req, res) => {
+    app.post('/api/task/new', (req, res) => {
         console.log(req.body);
 
         const { name, description, notes, task_app_acronym, app_acronym_btn, submit_btn } = req.body;
