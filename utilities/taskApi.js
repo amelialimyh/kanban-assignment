@@ -43,7 +43,7 @@ module.exports = function(app) {
                 task_array.push(result[i]);
                 } 
                 //console.log('task array >>>>', task_array);
-                res.render('createtask', {
+                res.render('newtask', {
                     task_array: result,
                     current_user: req.session.username,
                     isLoggedIn: req.session.isLoggedIn
@@ -74,14 +74,14 @@ module.exports = function(app) {
         
                 if (result.length === 0) {
                     console.log('result >>>', result);
-                    res.render('createtask', {
+                    res.render('newtask', {
                         message: 'Application does not exist!',
                         current_user: req.session.username,
                         isLoggedIn: req.session.isLoggedIn
                     });
                     return ;
                 } else {
-                    res.render('createtask', {
+                    res.render('newtask', {
                         selected_task: result,
                         current_user: req.session.username,
                         isLoggedIn: req.session.isLoggedIn
@@ -89,6 +89,10 @@ module.exports = function(app) {
                 }
             });
         }
+
+        res.send({ message:  'hellooooo' });
+
+        
         //---------------------------------- SUBMIT ---------------------------------------
 
         if (submit_btn) {
@@ -102,7 +106,7 @@ module.exports = function(app) {
                 //Error check for query 1
                 if (result.length === 0) {
                     console.log('result >>>', result);
-                    res.render('createtask', {
+                    res.render('newtask', {
                         message: 'Application does not exist!',
                         current_user: req.session.username,
                         isLoggedIn: req.session.isLoggedIn
@@ -148,7 +152,7 @@ module.exports = function(app) {
                                         console.log("Successfully updated Application running number.");
 
                                         db.query('SELECT * FROM application', (error, result) => {
-                                            res.render('createtask', {
+                                            res.render('newtask', {
                                                 task_array: result,
                                                 message: 'Task created',
                                                 current_user: req.session.username,
@@ -162,7 +166,7 @@ module.exports = function(app) {
                         });
                     }
                     else {
-                        res.render('createtask', {
+                        res.render('newtask', {
                             selected_task: result,
                             message: 'Empty fields.',
                             current_user: req.session.username,
