@@ -53,23 +53,19 @@ module.exports = function(app) {
         }
       });
 
-      app.post("/post/peanut", async (req, res) => {
-        try {
-            const { state, task_id } = req.body;
+    app.post("/post/peanut", async (req, res) => {
+      try {
+          const { state, task_id } = req.body;
 
-            // var today = new Date();
-            // var createDate = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate();
-            // var audit_log = `${result[0].notes}\n ${req.session.username}, ${state}, ${createDate}` 
-            //
-            const results = await util.promisify(connection.query).bind(connection)(
-                 `UPDATE task SET state = '${state}' WHERE task_id = '${task_id}'`
-            );
+          const results = await util.promisify(connection.query).bind(connection)(
+                `UPDATE task SET state = '${state}' WHERE task_id = '${task_id}'`
+          );
 
-          res.redirect('/');
-        } catch (e) {
-          res.status(500).send({ e });
-        }
-      });
+        res.redirect('/');
+      } catch (e) {
+        res.status(500).send({ e });
+      }
+    });
 
 
 }

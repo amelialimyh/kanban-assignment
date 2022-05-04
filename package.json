@@ -34,6 +34,6 @@
   "homepage": "https://github.com/amelialimyh/kanban-assignment#readme",
   "devDependencies": {
     "dotenv": "^16.0.0",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.16"
   }
 }
