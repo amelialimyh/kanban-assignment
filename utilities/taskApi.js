@@ -70,9 +70,9 @@ module.exports = function(app) {
     // --------------------------- CREATE TASK POST ROUTE --------------------------
     app.post("/api/task/new", async (req, res) => {
         try {
-            const { task_id, name, description, notes, task_app_acronym, state, creator, owner, createDate } = req.body;
+            const { task_id, name, description, notes, task_app_acronym, state, current_owner, createDate } = req.body;
 
-            console.log('task_id, name, description, notes, task_app_acronym, state, creator, owner, createDate', task_id, name, description, notes, task_app_acronym, state, creator, owner, createDate);
+            console.log('task_id, name, description, notes, task_app_acronym, state, creator, owner, createDate', task_id, name, description, notes, task_app_acronym, state, current_owner, createDate);
 
             const results = await util.promisify(connection.query).bind(connection)(
                 `SELECT * FROM application WHERE app_acronym = ?`, 
@@ -91,29 +91,32 @@ module.exports = function(app) {
             var new_state = 'open';
             console.log(new_state);
 
-            // // creator
-            // var task_creator = req.session.username;
+            // creator
+            var task_creator = current_owner;
+            console.log('current_owner', current_owner);
             
-            // // owner
-            // var task_owner = req.session.username;
+            // owner
+            var task_owner = current_owner;
+            console.log('current_owner', current_owner);
             
-            // // date that task was created
-            // var today = new Date();
-            // var date = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate();
+            // date that task was created
+            var today = new Date();
+            var date = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate();
+            console.log(date);
             
-            // // audit trail
-            // var audit_trail = `${req.session.username}, ${notes}, ${state}, ${createDate}`
+            // audit trail
+            var audit_trail = `${current_owner}, ${notes}, ${new_state}, ${date}`
+            console.log('audit trail', audit_trail);
             
-            // // new rnumber 
-            // var rnumber = `${results[0].rnumber+1}`;
+            // new rnumber 
+            var rnumber = `${results[0].rnumber+1}`;
+            console.log('rnumber >>>>', rnumber);
     
-            // const result = await util.promisify(connection.query).bind(connection)(
-            //     'INSERT INTO task (task_id,name,description,notes,task_app_acronym,state,creator,owner,createDate) VALUES (?,?,?,?,?,?,?,?,?)', [newTaskId, name, description, notes, app_acronym, new_state, task_creator, task_owner, date]
-            // );
+            const result = await util.promisify(connection.query).bind(connection)(
+                'INSERT INTO task (task_id,name,description,notes,task_app_acronym,state,creator,owner,createDate) VALUES (?,?,?,?,?,?,?,?,?)', [newTaskId, name, description, audit_trail, app_acronym, new_state, task_creator, task_owner, date]
+            );
             
-            // console.log('CHICKEN BACKSIDE', result);
-
-            res.json({ results });
+            res.json({ result });
         } catch (e) {
             res.status(500).send({ e });
         }
