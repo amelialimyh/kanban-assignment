@@ -1,0 +1,14 @@
+script.
+    window.onload = async () => {
+        
+        // fetch all tasks
+        var tasks ;
+        await fetch(`http://localhost:3000/api/task`)
+        .then(async(response) => {
+        return await response.json();
+        })
+        .then((data) => { tasks = data.results })
+        console.log(tasks);
+        
+
+    }
