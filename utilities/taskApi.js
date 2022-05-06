@@ -18,10 +18,9 @@ const connection = mysql.createConnection({
 });
 
 module.exports = function(app) {
-    // ---------------------------- GET USER'S ROLE ----------------------------------
+    // ---------------------------- CHECK USER'S ROLE ---------------------------------
     app.get("/user", async (req, res, next) => {
         try {
-
             var authheader = req.headers.authorization; 
             console.log('authheader', authheader);
 
@@ -66,7 +65,7 @@ module.exports = function(app) {
     });
 
 
-    // ------------------------- SELECT SPECIFIC TASK (GET) ---------------------------
+    // --------------------- SELECT TASK IN SPECIFIC STATE (GET) ----------------------
     app.get('/api/selecttask/:id', async (req, res) => {
         try {
             const { id } = req.params
@@ -84,7 +83,7 @@ module.exports = function(app) {
     });
 
 
-    // ------------------------- SELECT SPECIFIC TASK (POST) --------------------------
+    // -------------------- SELECT TASK IN SPECIFIC STATE (POST) ----------------------
     app.post('/api/selecttask', async (req, res) => {
         try {
             const { task_id } = req.body
@@ -105,9 +104,8 @@ module.exports = function(app) {
     // --------------------------- CREATE TASK POST ROUTE --------------------------
     app.post("/api/task/new", async (req, res) => {
         try {
+            
             const { task_id, name, description, notes, task_app_acronym, state, current_owner, createDate } = req.body;
-
-            console.log('task_id, name, description, notes, task_app_acronym, state, creator, owner, createDate', task_id, name, description, notes, task_app_acronym, state, current_owner, createDate);
 
             const results = await util.promisify(connection.query).bind(connection)(
                 `SELECT * FROM application WHERE app_acronym = ?`, 
@@ -115,37 +113,28 @@ module.exports = function(app) {
             );
 
             var app_acronym = results[0].app_acronym;
-
-            console.log('psstttt', app_acronym);
             
             // new task id
             var newTaskId = `${results[0].app_acronym}_${results[0].rnumber+1}`;
-            console.log('newwwwtaskId', newTaskId);
 
             // state
             var new_state = 'open';
-            console.log(new_state);
 
             // creator
             var task_creator = current_owner;
-            console.log('current_owner', current_owner);
             
             // owner
             var task_owner = current_owner;
-            console.log('current_owner', current_owner);
             
             // date that task was created
             var today = new Date();
             var date = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate();
-            console.log(date);
             
             // audit trail
             var audit_trail = `${current_owner}, ${notes}, ${new_state}, ${date}`
-            console.log('audit trail', audit_trail);
             
             // new rnumber 
             var rnumber = `${results[0].rnumber+1}`;
-            console.log('rnumber >>>>', rnumber);
     
             const result = await util.promisify(connection.query).bind(connection)(
                 'INSERT INTO task (task_id,name,description,notes,task_app_acronym,state,creator,owner,createDate) VALUES (?,?,?,?,?,?,?,?,?)', [newTaskId, name, description, audit_trail, app_acronym, new_state, task_creator, task_owner, date]
@@ -158,7 +147,7 @@ module.exports = function(app) {
         });
 
 
-    // -------------------------- UPDATE TASK STATE FROM DOING TO DONE -------------------
+    // ----------------------- UPDATE TASK STATE FROM DOING TO DONE -------------------
 
     
 }
