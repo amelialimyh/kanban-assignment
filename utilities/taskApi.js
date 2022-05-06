@@ -3,6 +3,7 @@ const util = require('util');
 const mysql = require('mysql');
 const fs = require("fs");
 var path = require('path');
+const verify = require('./authorization');
 require("dotenv").config();
 
 
@@ -17,14 +18,18 @@ const connection = mysql.createConnection({
    port: DB_PORT
 });
 
+
 module.exports = function(app) {
+    // ----------------------- VERIFY USER REGARDLESS OF ROUTE ------------------------
+    app.all('/api/*', verify.validate);
+
     // ---------------------------- CHECK USER'S ROLE ---------------------------------
     app.get("/user", async (req, res, next) => {
         try {
+            console.log('HEADERSSSS >>>>', req.headers);
+
             var authheader = req.headers.authorization; 
             console.log('authheader', authheader);
-
-            console.log('HEADERSSSS >>>>', req.headers);
 
             if (!authheader) {
                 var err = new Error('You are not authenticated!');
@@ -37,12 +42,15 @@ module.exports = function(app) {
                 
                 // split the joint decoded username and password
                 var [username, password] = text.split(':');
-                
-                const results = await util.promisify(connection.query).bind(connection)(
-                    `SELECT * FROM usergroup WHERE username = ?`, [username]
+
+                const results = await util.promisify(connection.query).bind(connection)( 
+                    `SELECT * FROM accounts WHERE username = ?`, [username]
                 );
-                res.json({ results });
-                res.end();
+                // bcrypt.compare for password
+                if (bcrypt.compareSync(password, results[0].password)){
+                    res.json({ results });
+                    next();
+                }
             }
         } catch (e) {
             res.status(500).send({ e });
@@ -102,10 +110,10 @@ module.exports = function(app) {
 
 
     // --------------------------- CREATE TASK POST ROUTE --------------------------
-    app.post("/api/task/new", async (req, res) => {
+    app.post("/api/task/new", async (req, res, next) => {
         try {
-            
-            const { task_id, name, description, notes, task_app_acronym, state, current_owner, createDate } = req.body;
+            const { name, description, notes, task_app_acronym, current_owner } = req.body;
+            console.log(name, description, notes, task_app_acronym, current_owner);
 
             const results = await util.promisify(connection.query).bind(connection)(
                 `SELECT * FROM application WHERE app_acronym = ?`, 
@@ -136,12 +144,29 @@ module.exports = function(app) {
             // new rnumber 
             var rnumber = `${results[0].rnumber+1}`;
     
-            const result = await util.promisify(connection.query).bind(connection)(
-                'INSERT INTO task (task_id,name,description,notes,task_app_acronym,state,creator,owner,createDate) VALUES (?,?,?,?,?,?,?,?,?)', [newTaskId, name, description, audit_trail, app_acronym, new_state, task_creator, task_owner, date]
-            );
+            console.log(app_acronym,newTaskId,new_state,task_creator,task_owner,date,audit_trail,rnumber);
+
+            let condition = false
+            for(let r of req.roles){
+                if (r.usergrp == results[0].permit_create) condition = true;
+            }
+
+            if (condition){
+                const result = await util.promisify(connection.query).bind(connection)(
+                    'INSERT INTO task (task_id,name,description,notes,task_app_acronym,state,creator,owner,createDate) VALUES (?,?,?,?,?,?,?,?,?)', [newTaskId, name, description, audit_trail, app_acronym, new_state, task_creator, task_owner, date]
+                    
+                );
+                res.status(200).send('Task successfully added!');
+                
+            } else {
+                var err = new Error('You are not authorized!');
+                res.setHeader('WWW-Authenticate', 'Basic');
+                err.status = 401;
+                res.send(err)
+            }
             
-            res.json({ result });
-        } catch (e) {
+        } catch (e){
+            console.log(e);
             res.status(500).send({ e });
         }
         });
