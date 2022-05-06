@@ -1,7 +1,10 @@
 const e = require('express');
 const util = require('util');
 const mysql = require('mysql');
+const fs = require("fs");
+var path = require('path');
 require("dotenv").config();
+
 
 const { DB_HOST, DB_USER, DB_PASSWORD, DB_EMAIL, DB_DATABASE, DB_PORT} = process.env;
 
@@ -15,6 +18,41 @@ const connection = mysql.createConnection({
 });
 
 module.exports = function(app) {
+    // ---------------------------- GET USER'S ROLE ----------------------------------
+    app.get("/user", async (req, res, next) => {
+        try {
+
+            var authheader = req.headers.authorization; 
+            console.log('authheader', authheader);
+
+            console.log('HEADERSSSS >>>>', req.headers);
+
+            if (!authheader) {
+                var err = new Error('You are not authenticated!');
+                res.setHeader('WWW-Authenticate', 'Basic');
+                err.status = 401;
+                return next(err);
+            } else {
+                // split authheader to grab the hash and convert it to string via ascii
+                var text = Buffer.from((authheader.split(' '))[1], 'base64').toString('ascii');
+                
+                // split the joint decoded username and password
+                var [username, password] = text.split(':');
+                
+                const results = await util.promisify(connection.query).bind(connection)(
+                    `SELECT * FROM usergroup WHERE username = ?`, [username]
+                );
+                res.json({ results });
+                res.end();
+            }
+
+            
+        } catch (e) {
+            res.status(500).send({ e });
+        }
+    });
+
+    
     // ---------------------------- DISPLAY ALL TASK (JSON) ---------------------------
     app.get('/api/task', async (req, res) => {
         try {
@@ -46,7 +84,6 @@ module.exports = function(app) {
             res.status(500).send({ e });
         }
     });
-
 
 
     // ------------------------- SELECT SPECIFIC TASK (POST) --------------------------
@@ -123,131 +160,7 @@ module.exports = function(app) {
         });
 
 
-    // // -------------------------- CREATE TASK POST ROUTE ---------------------------------
-    // app.post('/api/task/new', (req, res) => {
-    //     console.log(req.body);
-
-    //     const { name, description, notes, task_app_acronym, app_acronym_btn, submit_btn } = req.body;
-
-    //     console.log(app_acronym_btn, submit_btn)
-    //     //First Post from button one
-    //     //-------------------------------- SELECT APP ------------------------------------
-    //     if (app_acronym_btn){
-    //         // check if app exists
-    //         db.query('SELECT * FROM application WHERE app_acronym = ?',[task_app_acronym], (error, result) => {
-    //             if (error) {
-    //                 console.log(error);
-    //             }
-        
-    //             if (result.length === 0) {
-    //                 console.log('result >>>', result);
-    //                 res.render('newtask', {
-    //                     message: 'Application does not exist!',
-    //                     current_user: req.session.username,
-    //                     isLoggedIn: req.session.isLoggedIn
-    //                 });
-    //                 return ;
-    //             } else {
-    //                 res.render('newtask', {
-    //                     selected_task: result,
-    //                     current_user: req.session.username,
-    //                     isLoggedIn: req.session.isLoggedIn
-    //                 });
-    //             }
-    //         });
-    //     }
-
-    //     res.send({ message:  'hellooooo' });
-
-        
-    //     //---------------------------------- SUBMIT ---------------------------------------
-
-    //     if (submit_btn) {
-    //         console.log("ENTERED SUBMIT CONDITION")
-            
-    //         db.query('SELECT * FROM application WHERE app_acronym = ?',[task_app_acronym], (error, result) => {
-    //             //Error check for query 1
-    //             if (error) {
-    //                 console.log(error);
-    //             }
-    //             //Error check for query 1
-    //             if (result.length === 0) {
-    //                 console.log('result >>>', result);
-    //                 res.render('newtask', {
-    //                     message: 'Application does not exist!',
-    //                     current_user: req.session.username,
-    //                     isLoggedIn: req.session.isLoggedIn
-    //                 });
-    //                 return ;
-    //             } else {
-                    
-    //                 if(name && description && notes) {
-    //                     var app_acronym = req.body.task_app_acronym;
-                
-    //                     // new task id
-    //                     var newTaskId = `${result[0].app_acronym}_${result[0].rnumber+1}`;
-
-    //                     // state
-    //                     var state = 'open';
-
-                        
-    //                     // creator
-    //                     var task_creator = req.session.username;
-                        
-    //                     // owner
-    //                     var task_owner = req.session.username;
-                        
-    //                     // date that task was created
-    //                     var today = new Date();
-    //                     var createDate = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate();
-                        
-    //                     // audit trail
-    //                     var audit_trail = `${req.session.username}, ${notes}, ${state}, ${createDate}`
-                        
-    //                     // new rnumber 
-    //                     var rnumber = `${result[0].rnumber+1}`;
-                        
-    //                     db.query('INSERT INTO task (task_id,name,description,notes,task_app_acronym,state,creator,owner,createDate) VALUES (?,?,?,?,?,?,?,?,?)', [newTaskId, name, description, audit_trail, app_acronym, state, task_creator, task_owner, createDate], (error, result) => {
-    //                         if (error) {
-    //                             console.log('insert application error >>>', error);
-    //                         } else {
-    //                             db.query('UPDATE application SET rnumber = ? WHERE app_acronym = ?', [rnumber, app_acronym], (error, result) => {
-                                    
-    //                                 if(error) console.log(error)
-    //                                 else
-    //                                 {
-    //                                     console.log("Successfully updated Application running number.");
-
-    //                                     db.query('SELECT * FROM application', (error, result) => {
-    //                                         res.render('newtask', {
-    //                                             task_array: result,
-    //                                             message: 'Task created',
-    //                                             current_user: req.session.username,
-    //                                             isLoggedIn: req.session.isLoggedIn
-    //                                         });
-    //                                     });
-    //                                 }
-                                    
-    //                             })
-    //                         }
-    //                     });
-    //                 }
-    //                 else {
-    //                     res.render('newtask', {
-    //                         selected_task: result,
-    //                         message: 'Empty fields.',
-    //                         current_user: req.session.username,
-    //                         isLoggedIn: req.session.isLoggedIn
-    //                     });
-    //                 }
-                    
-                    
-    //             }
-    //         });
-    //     }
-    // });
-
-
     // -------------------------- UPDATE TASK STATE FROM DOING TO DONE -------------------
 
+    
 }

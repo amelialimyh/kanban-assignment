@@ -22,16 +22,17 @@ module.exports = function(app) {
             const results = await util.promisify(connection.query).bind(connection)(
                  `SELECT * FROM usergroup WHERE username = '${req.session.username}'`
             );
-            console.log(results);
+            // console.log(results);
           res.json({ results });
         } catch (e) {
           res.status(500).send({ e });
         }
       });
+      
     app.get("/application/permit/:id", async (req, res) => {
         try {
             const id = req.params.id;
-            console.log("Backend id:",id)
+            // console.log("Backend id:",id)
             const results = await util.promisify(connection.query).bind(connection)(
                  `SELECT * FROM application WHERE app_acronym = '${id}'`
             );
@@ -56,7 +57,6 @@ module.exports = function(app) {
     app.post("/post/peanut", async (req, res) => {
       try {
           const { state, task_id } = req.body;
-
           const results = await util.promisify(connection.query).bind(connection)(
                 `UPDATE task SET state = '${state}' WHERE task_id = '${task_id}'`
           );
