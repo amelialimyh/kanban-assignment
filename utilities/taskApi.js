@@ -45,8 +45,6 @@ module.exports = function(app) {
                 res.json({ results });
                 res.end();
             }
-
-            
         } catch (e) {
             res.status(500).send({ e });
         }
