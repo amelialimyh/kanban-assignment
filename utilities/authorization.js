@@ -18,10 +18,10 @@ const connection = mysql.createConnection({
 // ---------------------------- CHECK USER'S ROLE ---------------------------------
 exports.validate = async (req, res, next) => {
     try {
-        console.log('HEADERSSSS >>>>', req.headers);
+        // console.log('HEADERSSSS >>>>', req.headers);
 
         var authheader = req.headers.authorization; 
-        console.log('authheader', authheader);
+        // console.log('authheader', authheader);
 
 
         if (!authheader) {

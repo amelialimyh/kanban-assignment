@@ -23,40 +23,6 @@ module.exports = function(app) {
     // ----------------------- VERIFY USER REGARDLESS OF ROUTE ------------------------
     app.all('/api/*', verify.validate);
 
-    // ---------------------------- CHECK USER'S ROLE ---------------------------------
-    app.get("/user", async (req, res, next) => {
-        try {
-            console.log('HEADERSSSS >>>>', req.headers);
-
-            var authheader = req.headers.authorization; 
-            console.log('authheader', authheader);
-
-            if (!authheader) {
-                var err = new Error('You are not authenticated!');
-                res.setHeader('WWW-Authenticate', 'Basic');
-                err.status = 401;
-                return next(err);
-            } else {
-                // split authheader to grab the hash and convert it to string via ascii
-                var text = Buffer.from((authheader.split(' '))[1], 'base64').toString('ascii');
-                
-                // split the joint decoded username and password
-                var [username, password] = text.split(':');
-
-                const results = await util.promisify(connection.query).bind(connection)( 
-                    `SELECT * FROM accounts WHERE username = ?`, [username]
-                );
-                // bcrypt.compare for password
-                if (bcrypt.compareSync(password, results[0].password)){
-                    res.json({ results });
-                    next();
-                }
-            }
-        } catch (e) {
-            res.status(500).send({ e });
-        }
-    });
-
     
     // ---------------------------- DISPLAY ALL TASK (JSON) ---------------------------
     app.get('/api/task', async (req, res) => {
@@ -113,7 +79,6 @@ module.exports = function(app) {
     app.post("/api/task/new", async (req, res, next) => {
         try {
             const { name, description, notes, task_app_acronym, current_owner } = req.body;
-            console.log(name, description, notes, task_app_acronym, current_owner);
 
             const results = await util.promisify(connection.query).bind(connection)(
                 `SELECT * FROM application WHERE app_acronym = ?`, 
@@ -144,8 +109,6 @@ module.exports = function(app) {
             // new rnumber 
             var rnumber = `${results[0].rnumber+1}`;
     
-            console.log(app_acronym,newTaskId,new_state,task_creator,task_owner,date,audit_trail,rnumber);
-
             let condition = false
             for(let r of req.roles){
                 if (r.usergrp == results[0].permit_create) condition = true;
@@ -173,6 +136,48 @@ module.exports = function(app) {
 
 
     // ----------------------- UPDATE TASK STATE FROM DOING TO DONE -------------------
+    app.patch("/api/update/:task_id", async (req, res) => {
+        try {
+            const { task_id } = req.params;
+            const { state } = req.body;
 
+            console.log(task_id, state);
+
+            const task = await util.promisify(connection.query).bind(connection)(
+                ` SELECT * FROM task WHERE task_id = ?`, [task_id]
+            );
+
+            // filter for update permission from applications table 
+            const app = await util.promisify(connection.query).bind(connection)(
+                `SELECT * FROM application WHERE app_acronym = ?`, 
+                [task[0].task_app_acronym]
+            );
+
+            // set up condition with result from application table's query
+            let condition = false
+            for(let r of req.roles){
+                if (r.usergrp == app[0].permit_done) condition = true;
+            }
+            
+            // update table
+            if (condition){
+                const results = await util.promisify(connection.query).bind(connection)(
+                    `UPDATE task SET state = ? WHERE task_id = ?`
+                    , [state, task_id]
+              );
+                res.status(200).send('Task successfully updated!');
+                
+            } else {
+                var err = new Error('You are not authorized!');
+                res.setHeader('WWW-Authenticate', 'Basic');
+                err.status = 401;
+                res.send(err)
+            }
+  
+        } catch (e) {
+            console.log(e);
+            res.status(500).send({ e });
+        }
+      });
     
 }
