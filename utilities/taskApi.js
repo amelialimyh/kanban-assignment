@@ -39,7 +39,7 @@ module.exports = function(app) {
     });
 
 
-    // --------------------- SELECT SPECIFIC TASK (GET) ----------------------
+    // --------------------- SELECT SPECIFIC TASK VIA STATE(GET) ----------------------
     app.get('/api/selecttask/:id', async (req, res) => {
         try {
             const { id } = req.params
@@ -56,6 +56,23 @@ module.exports = function(app) {
         }
     });
 
+
+        // --------------------- SELECT SPECIFIC TASK VIA TASK_ID ----------------------
+        app.get('/api/selecttask/:state', async (req, res) => {
+            try {
+                const { state } = req.params
+    
+                const results = await util.promisify(connection.query).bind(connection)(
+                    `SELECT * FROM task WHERE state = ?`,
+                    [state]
+                );
+                console.log('ALL TASKS >>>>>>', results);
+    
+                res.json({ results });
+            } catch (e) {
+                res.status(500).send({ e });
+            }
+        });
 
     // --------------------------- CREATE TASK POST ROUTE --------------------------
     app.post("/api/task/new", async (req, res, next) => {
