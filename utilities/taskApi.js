@@ -39,7 +39,7 @@ module.exports = function(app) {
     });
 
 
-    // --------------------- SELECT TASK IN SPECIFIC STATE (GET) ----------------------
+    // --------------------- SELECT SPECIFIC TASK (GET) ----------------------
     app.get('/api/selecttask/:id', async (req, res) => {
         try {
             const { id } = req.params
@@ -47,24 +47,6 @@ module.exports = function(app) {
             const results = await util.promisify(connection.query).bind(connection)(
                 `SELECT * FROM task WHERE task_id = ?`,
                 [id]
-            );
-            console.log('ALL TASKS >>>>>>', results);
-
-            res.json({ results });
-        } catch (e) {
-            res.status(500).send({ e });
-        }
-    });
-
-
-    // -------------------- SELECT TASK IN SPECIFIC STATE (POST) ----------------------
-    app.post('/api/selecttask', async (req, res) => {
-        try {
-            const { task_id } = req.body
-
-            const results = await util.promisify(connection.query).bind(connection)(
-                `SELECT * FROM task WHERE task_id = ?`,
-                [task_id]
             );
             console.log('ALL TASKS >>>>>>', results);
 
