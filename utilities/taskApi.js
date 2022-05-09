@@ -93,10 +93,10 @@ module.exports = function(app) {
             var new_state = 'open';
 
             // creator
-            var task_creator = current_owner;
+            var task_creator = req.username;
             
             // owner
-            var task_owner = current_owner;
+            var task_owner = req.username;
             
             // date that task was created
             var today = new Date();

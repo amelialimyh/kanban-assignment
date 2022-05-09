@@ -35,6 +35,7 @@ exports.validate = async (req, res, next) => {
             
             // split the joint decoded username and password
             var [username, password] = text.split(':');
+            req.username = username;
 
             const results = await util.promisify(connection.query).bind(connection)( 
                 `SELECT * FROM accounts WHERE username = ?`, [username]
