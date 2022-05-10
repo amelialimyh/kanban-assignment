@@ -103,7 +103,7 @@ module.exports = function(app) {
             var date = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate();
             
             // audit trail
-            var audit_trail = `${current_owner}, ${notes}, ${new_state}, ${date}`
+            var audit_trail = `${task_creator}, ${notes}, ${new_state}, ${date}`
             
             // new rnumber 
             var rnumber = `${results[0].rnumber+1}`;
@@ -113,7 +113,7 @@ module.exports = function(app) {
                 if (r.usergrp == results[0].permit_create) condition = true;
             }
 
-            if (condition && task_app_acronym){
+            if (condition){
                 const result = await util.promisify(connection.query).bind(connection)(
                     'INSERT INTO task (task_id,name,description,notes,task_app_acronym,state,creator,owner,createDate) VALUES (?,?,?,?,?,?,?,?,?)', [newTaskId, name, description, audit_trail, app_acronym, new_state, task_creator, task_owner, date]
                 );
@@ -131,7 +131,7 @@ module.exports = function(app) {
             
         } catch (e){
             console.log(e);
-            res.status(500).send({ e });
+            res.status(500).send('Invalid application!');
         }
         });
 
@@ -162,17 +162,21 @@ module.exports = function(app) {
             
             // update table
             if (condition){
-                const results = await util.promisify(connection.query).bind(connection)(
-                    `UPDATE task SET state = ? WHERE task_id = ?`
-                    , [state, task_id]
-              );
-                res.status(200).send('Task successfully updated!');
-                
+                // filter to check if application exists
+                if (task_app_acronym) {
+                    const results = await util.promisify(connection.query).bind(connection)(
+                        `UPDATE task SET state = ? WHERE task_id = ?`
+                        , [state, task_id]
+                  );
+                  res.status(200).send('Task successfully updated!');
+                } else {
+                    res.send('Invalid application!');
+                }
             } else {
                 var err = new Error('You are not authorized!');
                 res.setHeader('WWW-Authenticate', 'Basic');
                 err.status = 401;
-                res.send(err)
+                res.send(err);
             }
   
         } catch (e) {
