@@ -87,7 +87,7 @@ module.exports = function(app) {
             var app_acronym = results[0].app_acronym;
             
             // new task id
-            var newTaskId = `${results[0].app_acronym}_${results[0].rnumber+1}`;
+            var newTaskId = `${task_app_acronym}_${results[0].rnumber+1}`;
 
             // state
             var new_state = 'open';
@@ -113,18 +113,20 @@ module.exports = function(app) {
                 if (r.usergrp == results[0].permit_create) condition = true;
             }
 
-            if (condition){
+            if (condition && task_app_acronym){
                 const result = await util.promisify(connection.query).bind(connection)(
                     'INSERT INTO task (task_id,name,description,notes,task_app_acronym,state,creator,owner,createDate) VALUES (?,?,?,?,?,?,?,?,?)', [newTaskId, name, description, audit_trail, app_acronym, new_state, task_creator, task_owner, date]
-                    
+                );
+                const update = await util.promisify(connection.query).bind(connection)(
+                    'UPDATE application SET rnumber = ?', [rnumber]
                 );
                 res.status(200).send('Task successfully added!');
                 
             } else {
                 var err = new Error('You are not authorized!');
                 res.setHeader('WWW-Authenticate', 'Basic');
-                err.status = 401;
-                res.send(err)
+                // err.status = 401;
+                res.status(401).send('You are not authorized to view this page!');
             }
             
         } catch (e){
@@ -135,7 +137,7 @@ module.exports = function(app) {
 
 
     // ----------------------- UPDATE TASK STATE FROM DOING TO DONE -------------------
-    app.patch("/api/update/:task_id", async (req, res) => {
+    app.patch("/api/updatetaskstate/:task_id", async (req, res) => {
         try {
             const { task_id } = req.params;
             const { state } = req.body;
