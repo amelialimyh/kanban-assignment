@@ -51,6 +51,6 @@ exports.validate = async (req, res, next) => {
             }
         }
     } catch (e) {
-        res.status(500).send({ e });
+        res.status(500).send("You are not authorized!");
     }
 }
