@@ -1,8 +1,7 @@
 const e = require('express');
 const util = require('util');
 const mysql = require('mysql');
-const fs = require("fs");
-var path = require('path');
+const email = require('./transporter');
 const verify = require('./authorization');
 require("dotenv").config();
 
@@ -118,14 +117,13 @@ module.exports = function(app) {
                     'INSERT INTO task (task_id,name,description,notes,task_app_acronym,state,creator,owner,createDate) VALUES (?,?,?,?,?,?,?,?,?)', [newTaskId, name, description, audit_trail, app_acronym, new_state, task_creator, task_owner, date]
                 );
                 const update = await util.promisify(connection.query).bind(connection)(
-                    'UPDATE application SET rnumber = ?', [rnumber]
+                    'UPDATE application SET rnumber = ? WHERE app_acronym = ?', [rnumber, task_app_acronym]
                 );
                 res.status(200).send('Task successfully added!');
                 
             } else {
                 var err = new Error('You are not authorized!');
                 res.setHeader('WWW-Authenticate', 'Basic');
-                // err.status = 401;
                 res.status(401).send('You are not authorized to view this page!');
             }
             
@@ -142,41 +140,58 @@ module.exports = function(app) {
             const { task_id } = req.params;
             const { state } = req.body;
 
-            console.log(task_id, state);
+            // console.log(task_id, state);
 
             const task = await util.promisify(connection.query).bind(connection)(
                 ` SELECT * FROM task WHERE task_id = ?`, [task_id]
             );
 
-            // filter for update permission from applications table 
-            const app = await util.promisify(connection.query).bind(connection)(
-                `SELECT * FROM application WHERE app_acronym = ?`, 
-                [task[0].task_app_acronym]
-            );
-
-            // set up condition with result from application table's query
-            let condition = false
-            for(let r of req.roles){
-                if (r.usergrp == app[0].permit_done) condition = true;
-            }
-            
-            // update table
-            if (condition){
-                // filter to check if application exists
-                if (task_app_acronym) {
+            if (task.length > 0){
+                // filter for update permission from applications table 
+                const app = await util.promisify(connection.query).bind(connection)(
+                    `SELECT * FROM application WHERE app_acronym = ?`, 
+                    [task[0].task_app_acronym]
+                );
+    
+                // set up condition with result from application table's query
+                let condition = false
+                for(let r of req.roles){
+                    if (r.usergrp == app[0].permit_done) condition = true;
+                }
+                
+                // update table
+                if (condition && task[0].state == 'doing'){
+                    // filter to check if application exists
                     const results = await util.promisify(connection.query).bind(connection)(
                         `UPDATE task SET state = ? WHERE task_id = ?`
                         , [state, task_id]
-                  );
-                  res.status(200).send('Task successfully updated!');
+                    );
+                    
+                    // once task has been updated send an email to project lead
+                    message = {
+                        from: "amelialimyh@gmail.com",
+                        to: `${req.email}`,
+                        subject: `Task ${task[0].task_id} has been updated to done.`,
+                        text: `User ${req.username} has amended ${task[0].task_id}'s task status to done, pending approval.`
+                    }
+                    
+                    // calls the transport variable from emailController and send it to mailtrap
+                    transport.sendMail(message, function(err, info) {
+                        if (err) {
+                        console.log(err)
+                        } else {
+                        console.log(info);
+                        }
+                    });
+                    
+                    res.status(200).send('Task successfully updated!');
                 } else {
-                    res.send('Invalid application!');
+                    var err = new Error('You are not authorized!');
+                    res.setHeader('WWW-Authenticate', 'Basic');
+                    res.status(401).send('You are not authorized!');
                 }
             } else {
-                var err = new Error('You are not authorized!');
-                res.setHeader('WWW-Authenticate', 'Basic');
-                err.status = 401;
-                res.send(err);
+                res.status(500).send('Task does not exist!');
             }
   
         } catch (e) {

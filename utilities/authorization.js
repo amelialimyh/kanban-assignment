@@ -35,11 +35,17 @@ exports.validate = async (req, res, next) => {
             
             // split the joint decoded username and password
             var [username, password] = text.split(':');
+
+            // get user's username in taskApi.js
             req.username = username;
 
             const results = await util.promisify(connection.query).bind(connection)( 
                 `SELECT * FROM accounts WHERE username = ?`, [username]
             );
+            
+            // get user's email in taskApi.js
+            req.email = results[0].email;
+
             // bcrypt.compare for password
             if (bcrypt.compareSync(password, results[0].password)){
                 const role = await util.promisify(connection.query).bind(connection)( 

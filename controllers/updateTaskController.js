@@ -1,6 +1,6 @@
 const db = require('../dbServer');
 const userController = require('../models/checkUser');
-const email = require('./emailController');
+const email = require('../utilities/transporter');
 
 exports.updatetask = async (req, res) => {
     const { task_id, task_id_btn, delete_task_btn, description, confirm_btn, state, new_note } = req.body;  
