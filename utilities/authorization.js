@@ -54,9 +54,12 @@ exports.validate = async (req, res, next) => {
                 // need to run middleware to save the roles
                 req.roles = role;
                 next();
+            } else {
+                res.status(500).send('You are not authorized to view this page!');
+                res.end();
             }
         }
     } catch (e) {
-        res.status(500).send({ e });
+        res.status(500).send('You are not authorized to view this page!');
     }
 }

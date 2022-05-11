@@ -24,7 +24,7 @@ module.exports = function(app) {
 
     
     // ---------------------------- DISPLAY ALL TASK (JSON) ---------------------------
-    app.get('/api/task', async (req, res) => {
+    app.get('/api/tasks', async (req, res) => {
         try {
             const results = await util.promisify(connection.query).bind(connection)(
                 `SELECT * FROM task`
@@ -33,45 +33,48 @@ module.exports = function(app) {
 
             res.json({ results });
         } catch (e) {
-            res.status(500).send({ e });
+            console.log(e);
+            res.status(500).send('Invalid username or password');
         }
     });
 
 
-    // --------------------- SELECT SPECIFIC TASK VIA STATE(GET) ----------------------
-    app.get('/api/selecttask/:id', async (req, res) => {
+    // // --------------------- SELECT SPECIFIC TASK VIA TASK_ID(GET) --------------------
+    // app.get('/api/selecttask/:id', async (req, res) => {
+    //     try {
+    //         const { id } = req.params
+    //         console.log('entered id >>>', id);
+
+    //         const results = await util.promisify(connection.query).bind(connection)(
+    //             `SELECT * FROM task WHERE task_id = ?`,
+    //             [id]
+    //         );
+    //         console.log('ALL TASKS >>>>>>', results);
+
+    //         res.json({ results });
+    //     } catch (e) {
+    //         res.status(500).send({ e });
+    //     }
+    // });
+
+
+    // --------------------- SELECT SPECIFIC TASK VIA STATE ---------------------------
+    app.get('/api/selecttask/:state', async (req, res) => {
         try {
-            const { id } = req.params
+            const { state } = req.params;
+            console.log('state >>>>', state)
 
             const results = await util.promisify(connection.query).bind(connection)(
-                `SELECT * FROM task WHERE task_id = ?`,
-                [id]
+                `SELECT * FROM task WHERE state = ?`,
+                [state]
             );
             console.log('ALL TASKS >>>>>>', results);
 
             res.json({ results });
         } catch (e) {
-            res.status(500).send({ e });
+            res.status(500).send('Invalid state');
         }
     });
-
-
-        // --------------------- SELECT SPECIFIC TASK VIA TASK_ID ----------------------
-        app.get('/api/selecttask/:state', async (req, res) => {
-            try {
-                const { state } = req.params
-    
-                const results = await util.promisify(connection.query).bind(connection)(
-                    `SELECT * FROM task WHERE state = ?`,
-                    [state]
-                );
-                console.log('ALL TASKS >>>>>>', results);
-    
-                res.json({ results });
-            } catch (e) {
-                res.status(500).send({ e });
-            }
-        });
 
     // --------------------------- CREATE TASK POST ROUTE --------------------------
     app.post("/api/task/new", async (req, res, next) => {
@@ -135,7 +138,7 @@ module.exports = function(app) {
 
 
     // ----------------------- UPDATE TASK STATE FROM DOING TO DONE -------------------
-    app.patch("/api/updatetaskstate/:task_id", async (req, res) => {
+    app.patch("/api/taskstate/:task_id", async (req, res) => {
         try {
             const { task_id } = req.params;
             const { state } = req.body;
