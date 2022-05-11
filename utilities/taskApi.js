@@ -39,27 +39,8 @@ module.exports = function(app) {
     });
 
 
-    // // --------------------- SELECT SPECIFIC TASK VIA TASK_ID(GET) --------------------
-    // app.get('/api/selecttask/:id', async (req, res) => {
-    //     try {
-    //         const { id } = req.params
-    //         console.log('entered id >>>', id);
-
-    //         const results = await util.promisify(connection.query).bind(connection)(
-    //             `SELECT * FROM task WHERE task_id = ?`,
-    //             [id]
-    //         );
-    //         console.log('ALL TASKS >>>>>>', results);
-
-    //         res.json({ results });
-    //     } catch (e) {
-    //         res.status(500).send({ e });
-    //     }
-    // });
-
-
-    // --------------------- SELECT SPECIFIC TASK VIA STATE ---------------------------
-    app.get('/api/selecttask/:state', async (req, res) => {
+    // ------------------------ DISPLAY TASKS BY STATE --------------------------------
+    app.get('/api/tasks/:state', async (req, res) => {
         try {
             const { state } = req.params;
             console.log('state >>>>', state)
@@ -72,11 +53,31 @@ module.exports = function(app) {
 
             res.json({ results });
         } catch (e) {
-            res.status(500).send('Invalid state');
+            res.status(500).send('Invalid task state');
         }
     });
 
-    // --------------------------- CREATE TASK POST ROUTE --------------------------
+
+    // --------------------- SELECT SPECIFIC TASK VIA TASK_ID(GET) ---------------------
+    app.get('/api/task/:id', async (req, res) => {
+        try {
+            const { id } = req.params
+            console.log('entered id >>>', id);
+
+            const results = await util.promisify(connection.query).bind(connection)(
+                `SELECT * FROM task WHERE task_id = ?`,
+                [id]
+            );
+            console.log('ALL TASKS >>>>>>', results);
+
+            res.json({ results });
+        } catch (e) {
+            res.status(500).send({ e });
+        }
+    });
+
+
+    // --------------------------- CREATE TASK POST ROUTE ------------------------------
     app.post("/api/task/new", async (req, res, next) => {
         try {
             const { name, description, notes, task_app_acronym, current_owner } = req.body;
@@ -134,10 +135,10 @@ module.exports = function(app) {
             console.log(e);
             res.status(500).send('Invalid application!');
         }
-        });
+    });
 
 
-    // ----------------------- UPDATE TASK STATE FROM DOING TO DONE -------------------
+    // ----------------------- UPDATE TASK STATE FROM DOING TO DONE --------------------
     app.patch("/api/taskstate/:task_id", async (req, res) => {
         try {
             const { task_id } = req.params;
@@ -201,6 +202,5 @@ module.exports = function(app) {
             console.log(e);
             res.status(500).send({ e });
         }
-      });
-    
+    });
 }
