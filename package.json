@@ -4,7 +4,8 @@
   "description": "An example app to learn about open redirect vulnerability",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "start": "node index.js"
   },
   "author": "Me",
   "license": "ISC",

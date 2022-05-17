@@ -9,6 +9,9 @@ require("dotenv").config();
 
 const app = express();
 
+// Constants
+const Host = '0.0.0.0'
+
 db.getConnection( (error) => {
   if(error) {
     console.log(error);
